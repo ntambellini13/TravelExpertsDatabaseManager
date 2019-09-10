@@ -13,7 +13,7 @@ namespace TravelExpertsDatabaseManager
 {
     public partial class MainForm : Form
     {
-        public List<Package> packages;
+        public FindableBindingList<Package> packages;
 
         public MainForm()
         {
@@ -23,36 +23,53 @@ namespace TravelExpertsDatabaseManager
         private void MainForm_Load(object sender, EventArgs e)
         {
             InitializePackageDataBinding();
+            InitializePackageNameSearchComboBox();
+        }
+
+        private void InitializePackageNameSearchComboBox()
+        {
+            foreach(Package package in packages)
+            {
+                searchByPackageNameComboBox.Items.Add(package.PackageName);
+            }
+            searchByPackageNameComboBox.SelectedIndex = 0;
         }
 
         private void InitializePackageDataBinding()
         {
-            packages = PackagesDB.GetPackages();
+            packages = new FindableBindingList<Package>(PackagesDB.GetPackages());
             packageBindingSource.DataSource = packages;
         }
 
         private void packageIdComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Package selectedPackage = null;
-            for(int i = 0 ; i< packages.Count() ; i++)
+
+        }
+
+        private void prevButton_Click(object sender, EventArgs e)
+        {
+            packageBindingSource.MovePrevious();
+            if (searchByPackageNameComboBox.SelectedIndex > 0)
             {
-                if(packages[i].PackageId == (int) packageIdComboBox.SelectedValue)
-                {
-                    selectedPackage = packages[i];
-                    break;
-                }
+                searchByPackageNameComboBox.SelectedIndex -= 1;
             }
-            if (selectedPackage != null)
+        }
+
+        private void nextButton_Click(object sender, EventArgs e)
+        {
+            packageBindingSource.MoveNext();
+            if (searchByPackageNameComboBox.SelectedIndex < searchByPackageNameComboBox.Items.Count-1)
             {
-                airfairInclusionCheckBox.Checked = selectedPackage.AirfairInclusion;
-                imagePathTextBox.Text = selectedPackage.ImagePath;
-                packageAgencyCommissionTextBox.Text = selectedPackage.PackageAgencyCommission.ToString("c2");
-                packageBasePriceTextBox.Text = selectedPackage.PackageBasePrice.ToString("c2");
-                packageDescriptionTextBox.Text = selectedPackage.PackageDescription;
-                packageEndDateDateTimePicker.Value = selectedPackage.PackageEndDate;
-                packageNameTextBox.Text = selectedPackage.PackageName;
-                packageStartDateDateTimePicker.Value = selectedPackage.PackageStartDate;
-                partnerURLTextBox.Text = selectedPackage.PartnerURL;
+                searchByPackageNameComboBox.SelectedIndex += 1;
+            }
+        }
+
+        private void searchByPackageNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int bsIndex = packageBindingSource.Find("PackageName", searchByPackageNameComboBox.SelectedItem.ToString());
+            if (bsIndex > -1)
+            {
+                packageBindingSource.Position = bsIndex;
             }
         }
     }

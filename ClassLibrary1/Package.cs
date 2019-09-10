@@ -92,6 +92,7 @@ namespace TravelExpertsData
         private string partnerURL;
         private string packageDescription;
 
+
         public Package(int packageId, string packageName, string imagePath, string partnerURL, bool airfairInclusion, DateTime packageStartDate, DateTime packageEndDate, string packageDescription, decimal packageBasePrice, decimal packageAgencyCommission)
         {
             PackageId = packageId;
