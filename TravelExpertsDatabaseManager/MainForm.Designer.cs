@@ -56,6 +56,9 @@
             this.packageStartDateDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.partnerURLTextBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.addButton = new System.Windows.Forms.Button();
+            this.editButton = new System.Windows.Forms.Button();
+            this.exitButton = new System.Windows.Forms.Button();
             airfairInclusionLabel = new System.Windows.Forms.Label();
             imagePathLabel = new System.Windows.Forms.Label();
             packageAgencyCommissionLabel = new System.Windows.Forms.Label();
@@ -171,6 +174,9 @@
             // 
             // packagesTabPage
             // 
+            this.packagesTabPage.Controls.Add(this.exitButton);
+            this.packagesTabPage.Controls.Add(this.editButton);
+            this.packagesTabPage.Controls.Add(this.addButton);
             this.packagesTabPage.Controls.Add(this.searchByPackageNameComboBox);
             this.packagesTabPage.Controls.Add(this.searchByPackageNameLabel);
             this.packagesTabPage.Controls.Add(this.nextButton);
@@ -222,7 +228,7 @@
             // 
             // nextButton
             // 
-            this.nextButton.Location = new System.Drawing.Point(473, 21);
+            this.nextButton.Location = new System.Drawing.Point(483, 20);
             this.nextButton.Name = "nextButton";
             this.nextButton.Size = new System.Drawing.Size(63, 23);
             this.nextButton.TabIndex = 21;
@@ -337,6 +343,36 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // addButton
+            // 
+            this.addButton.Location = new System.Drawing.Point(404, 270);
+            this.addButton.Name = "addButton";
+            this.addButton.Size = new System.Drawing.Size(63, 23);
+            this.addButton.TabIndex = 24;
+            this.addButton.Text = "Add";
+            this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
+            // 
+            // editButton
+            // 
+            this.editButton.Location = new System.Drawing.Point(483, 270);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(63, 23);
+            this.editButton.TabIndex = 25;
+            this.editButton.Text = "Edit";
+            this.editButton.UseVisualStyleBackColor = true;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
+            // 
+            // exitButton
+            // 
+            this.exitButton.Location = new System.Drawing.Point(483, 331);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(63, 23);
+            this.exitButton.TabIndex = 25;
+            this.exitButton.Text = "Exit";
+            this.exitButton.UseVisualStyleBackColor = true;
+            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -377,6 +413,9 @@
         private System.Windows.Forms.TextBox packageIdTextBox;
         private System.Windows.Forms.ComboBox searchByPackageNameComboBox;
         private System.Windows.Forms.Label searchByPackageNameLabel;
+        private System.Windows.Forms.Button exitButton;
+        private System.Windows.Forms.Button editButton;
+        private System.Windows.Forms.Button addButton;
     }
 }
 
