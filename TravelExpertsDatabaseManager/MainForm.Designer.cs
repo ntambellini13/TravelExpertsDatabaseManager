@@ -73,7 +73,7 @@
             // airfairInclusionLabel
             // 
             airfairInclusionLabel.AutoSize = true;
-            airfairInclusionLabel.Location = new System.Drawing.Point(27, 107);
+            airfairInclusionLabel.Location = new System.Drawing.Point(28, 206);
             airfairInclusionLabel.Name = "airfairInclusionLabel";
             airfairInclusionLabel.Size = new System.Drawing.Size(81, 13);
             airfairInclusionLabel.TabIndex = 0;
@@ -82,7 +82,7 @@
             // imagePathLabel
             // 
             imagePathLabel.AutoSize = true;
-            imagePathLabel.Location = new System.Drawing.Point(27, 135);
+            imagePathLabel.Location = new System.Drawing.Point(28, 305);
             imagePathLabel.Name = "imagePathLabel";
             imagePathLabel.Size = new System.Drawing.Size(64, 13);
             imagePathLabel.TabIndex = 2;
@@ -91,7 +91,7 @@
             // packageAgencyCommissionLabel
             // 
             packageAgencyCommissionLabel.AutoSize = true;
-            packageAgencyCommissionLabel.Location = new System.Drawing.Point(27, 161);
+            packageAgencyCommissionLabel.Location = new System.Drawing.Point(27, 178);
             packageAgencyCommissionLabel.Name = "packageAgencyCommissionLabel";
             packageAgencyCommissionLabel.Size = new System.Drawing.Size(150, 13);
             packageAgencyCommissionLabel.TabIndex = 4;
@@ -100,7 +100,7 @@
             // packageBasePriceLabel
             // 
             packageBasePriceLabel.AutoSize = true;
-            packageBasePriceLabel.Location = new System.Drawing.Point(27, 187);
+            packageBasePriceLabel.Location = new System.Drawing.Point(27, 152);
             packageBasePriceLabel.Name = "packageBasePriceLabel";
             packageBasePriceLabel.Size = new System.Drawing.Size(107, 13);
             packageBasePriceLabel.TabIndex = 6;
@@ -109,7 +109,7 @@
             // packageDescriptionLabel
             // 
             packageDescriptionLabel.AutoSize = true;
-            packageDescriptionLabel.Location = new System.Drawing.Point(27, 213);
+            packageDescriptionLabel.Location = new System.Drawing.Point(28, 234);
             packageDescriptionLabel.Name = "packageDescriptionLabel";
             packageDescriptionLabel.Size = new System.Drawing.Size(109, 13);
             packageDescriptionLabel.TabIndex = 8;
@@ -118,7 +118,7 @@
             // packageEndDateLabel
             // 
             packageEndDateLabel.AutoSize = true;
-            packageEndDateLabel.Location = new System.Drawing.Point(27, 240);
+            packageEndDateLabel.Location = new System.Drawing.Point(27, 112);
             packageEndDateLabel.Name = "packageEndDateLabel";
             packageEndDateLabel.Size = new System.Drawing.Size(101, 13);
             packageEndDateLabel.TabIndex = 10;
@@ -127,7 +127,7 @@
             // packageIdLabel
             // 
             packageIdLabel.AutoSize = true;
-            packageIdLabel.Location = new System.Drawing.Point(27, 79);
+            packageIdLabel.Location = new System.Drawing.Point(27, 62);
             packageIdLabel.Name = "packageIdLabel";
             packageIdLabel.Size = new System.Drawing.Size(65, 13);
             packageIdLabel.TabIndex = 12;
@@ -136,7 +136,7 @@
             // packageStartDateLabel
             // 
             packageStartDateLabel.AutoSize = true;
-            packageStartDateLabel.Location = new System.Drawing.Point(27, 268);
+            packageStartDateLabel.Location = new System.Drawing.Point(27, 85);
             packageStartDateLabel.Name = "packageStartDateLabel";
             packageStartDateLabel.Size = new System.Drawing.Size(104, 13);
             packageStartDateLabel.TabIndex = 16;
@@ -145,7 +145,7 @@
             // partnerURLLabel
             // 
             partnerURLLabel.AutoSize = true;
-            partnerURLLabel.Location = new System.Drawing.Point(27, 293);
+            partnerURLLabel.Location = new System.Drawing.Point(27, 331);
             partnerURLLabel.Name = "partnerURLLabel";
             partnerURLLabel.Size = new System.Drawing.Size(69, 13);
             partnerURLLabel.TabIndex = 18;
@@ -243,7 +243,7 @@
             // packageIdTextBox
             // 
             this.packageIdTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PackageId", true));
-            this.packageIdTextBox.Location = new System.Drawing.Point(183, 76);
+            this.packageIdTextBox.Location = new System.Drawing.Point(183, 55);
             this.packageIdTextBox.Name = "packageIdTextBox";
             this.packageIdTextBox.ReadOnly = true;
             this.packageIdTextBox.Size = new System.Drawing.Size(200, 20);
@@ -257,7 +257,7 @@
             // 
             this.airfairInclusionCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.packageBindingSource, "AirfairInclusion", true));
             this.airfairInclusionCheckBox.Enabled = false;
-            this.airfairInclusionCheckBox.Location = new System.Drawing.Point(183, 102);
+            this.airfairInclusionCheckBox.Location = new System.Drawing.Point(183, 201);
             this.airfairInclusionCheckBox.Name = "airfairInclusionCheckBox";
             this.airfairInclusionCheckBox.Size = new System.Drawing.Size(200, 24);
             this.airfairInclusionCheckBox.TabIndex = 1;
@@ -266,7 +266,7 @@
             // imagePathTextBox
             // 
             this.imagePathTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "ImagePath", true));
-            this.imagePathTextBox.Location = new System.Drawing.Point(183, 132);
+            this.imagePathTextBox.Location = new System.Drawing.Point(183, 302);
             this.imagePathTextBox.Name = "imagePathTextBox";
             this.imagePathTextBox.ReadOnly = true;
             this.imagePathTextBox.Size = new System.Drawing.Size(200, 20);
@@ -274,8 +274,8 @@
             // 
             // packageAgencyCommissionTextBox
             // 
-            this.packageAgencyCommissionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PackageAgencyCommission", true));
-            this.packageAgencyCommissionTextBox.Location = new System.Drawing.Point(183, 158);
+            this.packageAgencyCommissionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PackageAgencyCommission", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "C2"));
+            this.packageAgencyCommissionTextBox.Location = new System.Drawing.Point(183, 175);
             this.packageAgencyCommissionTextBox.Name = "packageAgencyCommissionTextBox";
             this.packageAgencyCommissionTextBox.ReadOnly = true;
             this.packageAgencyCommissionTextBox.Size = new System.Drawing.Size(200, 20);
@@ -283,8 +283,8 @@
             // 
             // packageBasePriceTextBox
             // 
-            this.packageBasePriceTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PackageBasePrice", true));
-            this.packageBasePriceTextBox.Location = new System.Drawing.Point(183, 184);
+            this.packageBasePriceTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PackageBasePrice", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "C2"));
+            this.packageBasePriceTextBox.Location = new System.Drawing.Point(183, 149);
             this.packageBasePriceTextBox.Name = "packageBasePriceTextBox";
             this.packageBasePriceTextBox.ReadOnly = true;
             this.packageBasePriceTextBox.Size = new System.Drawing.Size(200, 20);
@@ -293,17 +293,18 @@
             // packageDescriptionTextBox
             // 
             this.packageDescriptionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PackageDescription", true));
-            this.packageDescriptionTextBox.Location = new System.Drawing.Point(183, 210);
+            this.packageDescriptionTextBox.Location = new System.Drawing.Point(183, 231);
+            this.packageDescriptionTextBox.Multiline = true;
             this.packageDescriptionTextBox.Name = "packageDescriptionTextBox";
             this.packageDescriptionTextBox.ReadOnly = true;
-            this.packageDescriptionTextBox.Size = new System.Drawing.Size(200, 20);
+            this.packageDescriptionTextBox.Size = new System.Drawing.Size(200, 62);
             this.packageDescriptionTextBox.TabIndex = 9;
             // 
             // packageEndDateDateTimePicker
             // 
             this.packageEndDateDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.packageBindingSource, "PackageEndDate", true));
             this.packageEndDateDateTimePicker.Enabled = false;
-            this.packageEndDateDateTimePicker.Location = new System.Drawing.Point(183, 236);
+            this.packageEndDateDateTimePicker.Location = new System.Drawing.Point(183, 111);
             this.packageEndDateDateTimePicker.Name = "packageEndDateDateTimePicker";
             this.packageEndDateDateTimePicker.Size = new System.Drawing.Size(200, 20);
             this.packageEndDateDateTimePicker.TabIndex = 11;
@@ -312,7 +313,7 @@
             // 
             this.packageStartDateDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.packageBindingSource, "PackageStartDate", true));
             this.packageStartDateDateTimePicker.Enabled = false;
-            this.packageStartDateDateTimePicker.Location = new System.Drawing.Point(183, 264);
+            this.packageStartDateDateTimePicker.Location = new System.Drawing.Point(183, 85);
             this.packageStartDateDateTimePicker.Name = "packageStartDateDateTimePicker";
             this.packageStartDateDateTimePicker.Size = new System.Drawing.Size(200, 20);
             this.packageStartDateDateTimePicker.TabIndex = 17;
@@ -320,7 +321,7 @@
             // partnerURLTextBox
             // 
             this.partnerURLTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PartnerURL", true));
-            this.partnerURLTextBox.Location = new System.Drawing.Point(183, 290);
+            this.partnerURLTextBox.Location = new System.Drawing.Point(183, 328);
             this.partnerURLTextBox.Name = "partnerURLTextBox";
             this.partnerURLTextBox.ReadOnly = true;
             this.partnerURLTextBox.Size = new System.Drawing.Size(200, 20);
