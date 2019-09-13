@@ -16,7 +16,7 @@ namespace TravelExpertsDatabaseManager
     {
         public int PackageId { get; set; }
         public string PackageName { get; set; }
-        public string ImagePath { get; set; }
+        public byte[] Image { get; set; }
         public string PartnerURL { get; set; }
         public bool AirfairInclusion { get; set; }
         public DateTime PackageStartDate { get; set; }
@@ -28,7 +28,7 @@ namespace TravelExpertsDatabaseManager
         private bool editMode = false;
 
         private bool isValidPackageName = false;
-        private bool isValidImagePath = false;
+        private bool isValidImage = false;
         private bool isValidPartnerURL = false;
         private bool isValidPackageDates = false;
         private bool isValidDescription = false;
@@ -47,7 +47,7 @@ namespace TravelExpertsDatabaseManager
 
             idTextBox.Text = oldPackage.PackageId.ToString();
             nameTextBox.Text = oldPackage.PackageName;
-            imagePathTextBox.Text = oldPackage.ImagePath;
+            imagePathTextBox.Text = "";
             partnerURLTextBox.Text = oldPackage.PartnerURL;
             airfairInclusionCheckBox.Checked = oldPackage.AirfairInclusion;
             startDateTimePicker.Value = oldPackage.PackageStartDate;
@@ -56,10 +56,10 @@ namespace TravelExpertsDatabaseManager
             basePriceTextBox.Text = oldPackage.PackageBasePrice.ToString();
             agencyCommissionTextBox.Text = oldPackage.PackageAgencyCommission.ToString();
 
-            ImagePath = oldPackage.ImagePath;
+            Image = oldPackage.Image;
 
             isValidDescription = true;
-            isValidImagePath = true;
+            isValidImage = true;
             isValidPackageAgencyCommission = true;
             isValidPackageBasePrice = true;
             isValidPackageDates = true;
@@ -75,7 +75,7 @@ namespace TravelExpertsDatabaseManager
             {
                 message += "Must enter a package name.\n";
             }
-            if (!isValidImagePath)
+            if (!isValidImage)
             {
                 message += "Must select a path for the image.\n";
             }
@@ -126,13 +126,14 @@ namespace TravelExpertsDatabaseManager
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                ImagePath = openFileDialog.FileName;
-                isValidImagePath = true;
+                Image = File.ReadAllBytes(openFileDialog.FileName);
+                imagePathTextBox.Text = openFileDialog.FileName;
+                isValidImage = true;
                 return true;
             }
             else
             {
-                return false;
+                return (Image!=null);
             }
         }
 
@@ -173,7 +174,7 @@ namespace TravelExpertsDatabaseManager
 
         private void imagePathTextBox_TextChanged(object sender, EventArgs e)
         {
-            isValidImagePath = Validation.IsNotEmptyOrNull(imagePathTextBox);
+            isValidImage = Validation.IsNotEmptyOrNull(imagePathTextBox);
         }
 
         private void partnerURLTextBox_TextChanged(object sender, EventArgs e)
@@ -183,15 +184,7 @@ namespace TravelExpertsDatabaseManager
 
         private void chooseImageButton_Click(object sender, EventArgs e)
         {
-            isValidImagePath = OpenFilePathDialog();
-            if (isValidImagePath)
-            {
-                imagePathTextBox.Text = ImagePath;
-            }
-            else
-            {
-                imagePathTextBox.Text = "";
-            }
+            isValidImage = OpenFilePathDialog();           
         }
 
         private void addSaveButton_Click(object sender, EventArgs e)

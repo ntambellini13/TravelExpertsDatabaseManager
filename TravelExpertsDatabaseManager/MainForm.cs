@@ -82,7 +82,7 @@ namespace TravelExpertsDatabaseManager
                 Package package = new Package(
                     -1,
                     addForm.PackageName,
-                    addForm.ImagePath,
+                    addForm.Image,
                     addForm.PartnerURL,
                     addForm.AirfairInclusion,
                     addForm.PackageStartDate,
@@ -108,7 +108,7 @@ namespace TravelExpertsDatabaseManager
                 Package newPackage = new Package(
                     editForm.PackageId,
                     editForm.PackageName,
-                    editForm.ImagePath,
+                    editForm.Image,
                     editForm.PartnerURL,
                     editForm.AirfairInclusion,
                     editForm.PackageStartDate,
@@ -128,6 +128,28 @@ namespace TravelExpertsDatabaseManager
         private void exitButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you wold like to delete this package?", "Confirm delete", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                Package currentPackage = (Package) packageBindingSource.Current;
+                if(PackagesDB.DeletePackage(currentPackage))
+                {
+                    packages.Remove(currentPackage);
+                    packageBindingSource.MoveNext();
+                }
+                else
+                {
+                    MessageBox.Show("Error. Could not delete package. Please try again.");
+                }
+                Object selectedItem = searchByPackageNameComboBox.SelectedItem;
+                LoadPackageDataBinding();
+                LoadPackageNameSearchComboBox();
+                searchByPackageNameComboBox.SelectedItem = selectedItem;
+            }
         }
     }
 }
