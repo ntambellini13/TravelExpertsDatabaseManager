@@ -14,6 +14,7 @@ namespace TravelExpertsDatabaseManager
 {
     public partial class AddEditPackageForm : Form
     {
+        // Defines all parameters needed to create a package
         public int PackageId { get; set; }
         public string PackageName { get; set; }
         public byte[] Image { get; set; }
@@ -25,8 +26,7 @@ namespace TravelExpertsDatabaseManager
         public decimal PackageBasePrice { get; set; }
         public decimal PackageAgencyCommission { get; set; }
 
-        private bool editMode = false;
-
+        // Properties for validation
         private bool isValidPackageName = false;
         private bool isValidImage = false;
         private bool isValidPartnerURL = false;
@@ -35,16 +35,23 @@ namespace TravelExpertsDatabaseManager
         private bool isValidPackageBasePrice = false;
         private bool isValidPackageAgencyCommission = false;
 
+        /// <summary>
+        /// Creates empty form to add a new package
+        /// </summary>
         public AddEditPackageForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Creates a form to edit package
+        /// </summary>
+        /// <param name="oldPackage">Package to edit</param>
         public AddEditPackageForm(Package oldPackage) : this()
-        {
-            editMode = true;
-            this.addSaveButton.Text = "Save";
+        {            
+            this.addSaveButton.Text = "Save"; // Makes button say Save
 
+            // Populate all fields
             idTextBox.Text = oldPackage.PackageId.ToString();
             nameTextBox.Text = oldPackage.PackageName;
             imagePathTextBox.Text = "";
@@ -55,9 +62,9 @@ namespace TravelExpertsDatabaseManager
             descriptionTextBox.Text = oldPackage.PackageDescription;
             basePriceTextBox.Text = oldPackage.PackageBasePrice.ToString();
             agencyCommissionTextBox.Text = oldPackage.PackageAgencyCommission.ToString();
-
             Image = oldPackage.Image;
 
+            // Sets all validation to true
             isValidDescription = true;
             isValidImage = true;
             isValidPackageAgencyCommission = true;
@@ -67,10 +74,15 @@ namespace TravelExpertsDatabaseManager
             isValidPartnerURL = true;
         }
 
+        /// <summary>
+        /// Checks if form is valid. If its invalid, show a messagebox with error.
+        /// </summary>
+        /// <returns>Form valid?</returns>
         private bool isValidForm()
         {
-            String message = "";
+            String message = ""; // Empty string
 
+            // Goes through validation and adds message to string
             if (!isValidPackageName)
             {
                 message += "Must enter a package name.\n";
@@ -100,6 +112,7 @@ namespace TravelExpertsDatabaseManager
                 message += "Agency commission must be less than base price.\n";
             }
 
+            // If string is empty, all validation passed. Show error message otherwise.
             if (message != "")
             {
                 MessageBox.Show(message, "Form Error");
@@ -126,6 +139,7 @@ namespace TravelExpertsDatabaseManager
             DialogResult result = openFileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
+                // Reads image as byte[] and stores image path in text box
                 Image = File.ReadAllBytes(openFileDialog.FileName);
                 imagePathTextBox.Text = openFileDialog.FileName;
                 isValidImage = true;
@@ -133,20 +147,37 @@ namespace TravelExpertsDatabaseManager
             }
             else
             {
-                return (Image!=null);
+                // Sets valid image to false if no image was yet selected in app
+                isValidImage = (Image != null);
+                return false;
             }
         }
 
+        /// <summary>
+        /// Validates name text box on change. Colors it appropriately.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void nameTextBox_TextChanged(object sender, EventArgs e)
         {
             isValidPackageName = Validation.ColorTextBoxValidation(nameTextBox, Validation.IsNotEmptyOrNull);
         }
 
+        /// <summary>
+        /// Validates base price on change. Colors it appropriately.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void basePriceTextBox_TextChanged(object sender, EventArgs e)
         {
             isValidPackageBasePrice = Validation.ColorTextBoxValidation(basePriceTextBox, Validation.isValidPositiveDecimal);
         }
 
+        /// <summary>
+        /// Validates commission on change. Colors it appropriately.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void agencyCommissionTextBox_TextChanged(object sender, EventArgs e)
         {
             if (Validation.isValidPositiveDecimal(agencyCommissionTextBox) &&
@@ -162,33 +193,64 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// Validates date values on change.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dateTimePickers_ValueChanged(object sender, EventArgs e)
         {
             isValidPackageDates = Validation.IsFutureDateGreaterThanPastDate(startDateTimePicker, endDateTimePicker);                     
         }
 
+        /// <summary>
+        /// Validates description text box on change.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void descriptionTextBox_TextChanged(object sender, EventArgs e)
         {
             isValidDescription = Validation.IsNotEmptyOrNull(descriptionTextBox);
         }
 
+        /// <summary>
+        /// Validates imafe path on change. Valid if path supplied.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void imagePathTextBox_TextChanged(object sender, EventArgs e)
         {
             isValidImage = Validation.IsNotEmptyOrNull(imagePathTextBox);
         }
 
+        /// <summary>
+        /// Validates partner url on change. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void partnerURLTextBox_TextChanged(object sender, EventArgs e)
         {
             isValidPartnerURL = Validation.IsNotEmptyOrNull(partnerURLTextBox);
         }
 
+        /// <summary>
+        /// Opens dialog to choose the image
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void chooseImageButton_Click(object sender, EventArgs e)
         {
-            isValidImage = OpenFilePathDialog();           
+            OpenFilePathDialog();           
         }
 
+        /// <summary>
+        /// Processes add and save requests
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addSaveButton_Click(object sender, EventArgs e)
         {
+            // If the form is valid, set all public properties to the values in the form
             if (isValidForm())
             {
                 PackageName = nameTextBox.Text.Trim();
@@ -203,6 +265,11 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// Cancels form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancelButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;

@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace TravelExpertsDatabaseManager
 {
+    /// <summary>
+    /// Creates a binding list from any other list that supports BindingSources' Find Method
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class FindableBindingList<T>: BindingList<T>
     {
         public FindableBindingList() : base() { }
@@ -15,7 +19,7 @@ namespace TravelExpertsDatabaseManager
 
         protected override int FindCore(PropertyDescriptor prop, object key)
         {
-            // Simple iteration:
+            // Iterates through all list items and see if key matches value of requested property
             for (int i = 0 ; i < Count ; i++)
             {
                 T item = this[i];
