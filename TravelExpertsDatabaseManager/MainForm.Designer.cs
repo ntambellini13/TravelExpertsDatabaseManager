@@ -473,6 +473,7 @@
             this.productNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "ProductName", true));
             this.productNameTextBox.Location = new System.Drawing.Point(109, 87);
             this.productNameTextBox.Name = "productNameTextBox";
+            this.productNameTextBox.ReadOnly = true;
             this.productNameTextBox.Size = new System.Drawing.Size(100, 20);
             this.productNameTextBox.TabIndex = 3;
             // 
@@ -481,6 +482,7 @@
             this.productIdTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "ProductId", true));
             this.productIdTextBox.Location = new System.Drawing.Point(109, 61);
             this.productIdTextBox.Name = "productIdTextBox";
+            this.productIdTextBox.ReadOnly = true;
             this.productIdTextBox.Size = new System.Drawing.Size(100, 20);
             this.productIdTextBox.TabIndex = 1;
             // 
@@ -568,6 +570,7 @@
             this.supplierNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.supplierBindingSource, "SupplierName", true));
             this.supplierNameTextBox.Location = new System.Drawing.Point(109, 87);
             this.supplierNameTextBox.Name = "supplierNameTextBox";
+            this.supplierNameTextBox.ReadOnly = true;
             this.supplierNameTextBox.Size = new System.Drawing.Size(100, 20);
             this.supplierNameTextBox.TabIndex = 3;
             // 
@@ -576,6 +579,7 @@
             this.supplierIdTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.supplierBindingSource, "SupplierId", true));
             this.supplierIdTextBox.Location = new System.Drawing.Point(109, 61);
             this.supplierIdTextBox.Name = "supplierIdTextBox";
+            this.supplierIdTextBox.ReadOnly = true;
             this.supplierIdTextBox.Size = new System.Drawing.Size(100, 20);
             this.supplierIdTextBox.TabIndex = 1;
             // 

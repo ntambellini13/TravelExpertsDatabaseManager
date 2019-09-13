@@ -160,22 +160,58 @@ namespace TravelExpertsDatabaseManager
 
         private void ProductAddButton_Click(object sender, EventArgs e)
         {
-            ProductsDB.AddProducts("Test New Product");
+            AddEditForm addProduct = new AddEditForm("Product",true,false);//create instance of addeditform for product add
+
+            DialogResult result = addProduct.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
+
+            if (result == DialogResult.OK)
+            {
+                ProductsDB.AddProducts(addProduct.addedProductName);//ProductsDB class method call to add product
+                InitializeProductDataBinding();
+                InitializeProductNameSearchComboBox();
+            }
         }
 
         private void ProductEditButton_Click(object sender, EventArgs e)
         {
+            AddEditForm editProduct = new AddEditForm("Product",false,true, productNameTextBox.Text);//create instance of addeditform for product add
 
+            DialogResult result = editProduct.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
+
+            if (result == DialogResult.OK)
+            {
+                ProductsDB.EditProduct(editProduct.editedProductName, int.Parse(productIdTextBox.Text));
+                InitializeProductDataBinding();
+                InitializeProductNameSearchComboBox();
+            }
         }
 
         private void SupplierAddButton_Click(object sender, EventArgs e)
         {
-            SuppliersDB.AddSuppliers("Test New Supplier");
+            AddEditForm addSupplier = new AddEditForm("Supplier", true, false);//create instance of addeditform for product add
+
+            DialogResult result = addSupplier.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
+
+            if (result == DialogResult.OK)
+            {
+                SuppliersDB.AddSuppliers(addSupplier.addedSupplierName);//ProductsDB class method call to add product
+                InitializeSupplierDataBinding();
+                InitializeSupplierNameSearchComboBox();
+            }
         }
 
         private void SupplierEditButton_Click(object sender, EventArgs e)
         {
+            AddEditForm editSupplier = new AddEditForm("Supplier", true, false);//create instance of addeditform for product add
 
+            DialogResult result = editSupplier.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
+
+            if (result == DialogResult.OK)
+            {
+                SuppliersDB.EditSuppliers(editSupplier.editedSupplierName, int.Parse(supplierIdTextBox.Text));//ProductsDB class method call to add product
+                InitializeSupplierDataBinding();
+                InitializeSupplierNameSearchComboBox();
+            }
         }
 
         

@@ -90,9 +90,32 @@ namespace TravelExpertsData
             }// connection object recycled
         }
 
-        public static void EditSuppliers(string editSupplier)
+        public static void EditSuppliers(string editSupplier, int editSupplierId)
         {
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                string query = "UPDATE Suppliers " +
+                               "SET SupName = @supplierName " +
+                               "WHERE ProductId = @supplierId";
 
+                connection.Open();
+
+                SqlDataAdapter adapter = new SqlDataAdapter();
+
+                /*********
+                 * Add code here to take user input of product name
+                 * 
+                 * ********/
+
+                //associate the insert command
+                adapter.UpdateCommand = new SqlCommand(query, connection);
+
+                //add and declare sql parameters for the adapter update command
+                adapter.UpdateCommand.Parameters.Add(new SqlParameter("@supplierName", editSupplier));
+                adapter.UpdateCommand.Parameters.Add(new SqlParameter("@supplierId", editSupplierId));
+
+                adapter.UpdateCommand.ExecuteNonQuery();
+            }// connection object recycled
         }
     }
 }

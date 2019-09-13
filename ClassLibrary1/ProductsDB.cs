@@ -84,15 +84,39 @@ namespace TravelExpertsData
                 //associate the insert command
                 adapter.InsertCommand = new SqlCommand(query, connection);
 
+                //add parameters
                 adapter.InsertCommand.Parameters.Add(new SqlParameter("@productName", newProduct));
-
+                
                 adapter.InsertCommand.ExecuteNonQuery();//execute the insert
             }// connection object recycled
         }
 
-        public static void EditProduct(string editProduct)
+        public static void EditProduct(string editProduct, int editProductId)
         {
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                string query = "UPDATE Products " +
+                               "SET ProdName = @productName " +
+                               "WHERE ProductId = @productId";
 
+                connection.Open();
+
+                SqlDataAdapter adapter = new SqlDataAdapter();
+
+                /*********
+                 * Add code here to take user input of product name
+                 * 
+                 * ********/
+
+                //associate the insert command
+                adapter.UpdateCommand = new SqlCommand(query, connection);
+
+                //add and declare sql parameters for the adapter update command
+                adapter.UpdateCommand.Parameters.Add(new SqlParameter("@productName", editProduct));
+                adapter.UpdateCommand.Parameters.Add(new SqlParameter("@productId", editProductId));
+
+                adapter.UpdateCommand.ExecuteNonQuery();
+            }// connection object recycled
         }
     }
 }
