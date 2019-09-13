@@ -9,6 +9,10 @@ namespace TravelExpertsData
 {
     public static class TravelExpertsDB
     {
+        /// <summary>
+        /// Gets connection to Travel Experts DB
+        /// </summary>
+        /// <returns>SQLConnection object</returns>
         public static SqlConnection GetConnection()
         {
             String connectionString = "Data Source = localhost\\sqlexpress; Initial Catalog = TravelExperts; Integrated Security = True";

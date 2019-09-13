@@ -41,14 +41,15 @@
             this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.packagesTabPage = new System.Windows.Forms.TabPage();
+            this.exitButton = new System.Windows.Forms.Button();
+            this.editButton = new System.Windows.Forms.Button();
+            this.addButton = new System.Windows.Forms.Button();
             this.searchByPackageNameComboBox = new System.Windows.Forms.ComboBox();
             this.searchByPackageNameLabel = new System.Windows.Forms.Label();
             this.nextButton = new System.Windows.Forms.Button();
             this.prevButton = new System.Windows.Forms.Button();
             this.packageIdTextBox = new System.Windows.Forms.TextBox();
-            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.airfairInclusionCheckBox = new System.Windows.Forms.CheckBox();
-            this.imagePathTextBox = new System.Windows.Forms.TextBox();
             this.packageAgencyCommissionTextBox = new System.Windows.Forms.TextBox();
             this.packageBasePriceTextBox = new System.Windows.Forms.TextBox();
             this.packageDescriptionTextBox = new System.Windows.Forms.TextBox();
@@ -56,9 +57,9 @@
             this.packageStartDateDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.partnerURLTextBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.addButton = new System.Windows.Forms.Button();
-            this.editButton = new System.Windows.Forms.Button();
-            this.exitButton = new System.Windows.Forms.Button();
+            this.imageForPictureBoxPictureBox = new System.Windows.Forms.PictureBox();
+            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.deleteButton = new System.Windows.Forms.Button();
             airfairInclusionLabel = new System.Windows.Forms.Label();
             imagePathLabel = new System.Windows.Forms.Label();
             packageAgencyCommissionLabel = new System.Windows.Forms.Label();
@@ -70,6 +71,7 @@
             partnerURLLabel = new System.Windows.Forms.Label();
             this.mainTabControl.SuspendLayout();
             this.packagesTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageForPictureBoxPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -85,11 +87,11 @@
             // imagePathLabel
             // 
             imagePathLabel.AutoSize = true;
-            imagePathLabel.Location = new System.Drawing.Point(28, 305);
+            imagePathLabel.Location = new System.Drawing.Point(28, 364);
             imagePathLabel.Name = "imagePathLabel";
-            imagePathLabel.Size = new System.Drawing.Size(64, 13);
+            imagePathLabel.Size = new System.Drawing.Size(39, 13);
             imagePathLabel.TabIndex = 2;
-            imagePathLabel.Text = "Image Path:";
+            imagePathLabel.Text = "Image:";
             // 
             // packageAgencyCommissionLabel
             // 
@@ -148,7 +150,7 @@
             // partnerURLLabel
             // 
             partnerURLLabel.AutoSize = true;
-            partnerURLLabel.Location = new System.Drawing.Point(27, 331);
+            partnerURLLabel.Location = new System.Drawing.Point(27, 390);
             partnerURLLabel.Name = "partnerURLLabel";
             partnerURLLabel.Size = new System.Drawing.Size(69, 13);
             partnerURLLabel.TabIndex = 18;
@@ -158,23 +160,29 @@
             // 
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(595, 24);
+            this.mainMenuStrip.Size = new System.Drawing.Size(608, 24);
             this.mainMenuStrip.TabIndex = 0;
             this.mainMenuStrip.Text = "menuStrip1";
             // 
             // mainTabControl
             // 
+            this.mainTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mainTabControl.Controls.Add(this.packagesTabPage);
             this.mainTabControl.Controls.Add(this.tabPage2);
             this.mainTabControl.Location = new System.Drawing.Point(12, 39);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(571, 399);
+            this.mainTabControl.Size = new System.Drawing.Size(571, 451);
             this.mainTabControl.TabIndex = 1;
             // 
             // packagesTabPage
             // 
+            this.packagesTabPage.AutoScroll = true;
+            this.packagesTabPage.Controls.Add(this.imageForPictureBoxPictureBox);
             this.packagesTabPage.Controls.Add(this.exitButton);
+            this.packagesTabPage.Controls.Add(this.deleteButton);
             this.packagesTabPage.Controls.Add(this.editButton);
             this.packagesTabPage.Controls.Add(this.addButton);
             this.packagesTabPage.Controls.Add(this.searchByPackageNameComboBox);
@@ -185,7 +193,6 @@
             this.packagesTabPage.Controls.Add(airfairInclusionLabel);
             this.packagesTabPage.Controls.Add(this.airfairInclusionCheckBox);
             this.packagesTabPage.Controls.Add(imagePathLabel);
-            this.packagesTabPage.Controls.Add(this.imagePathTextBox);
             this.packagesTabPage.Controls.Add(packageAgencyCommissionLabel);
             this.packagesTabPage.Controls.Add(this.packageAgencyCommissionTextBox);
             this.packagesTabPage.Controls.Add(packageBasePriceLabel);
@@ -202,10 +209,40 @@
             this.packagesTabPage.Location = new System.Drawing.Point(4, 22);
             this.packagesTabPage.Name = "packagesTabPage";
             this.packagesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.packagesTabPage.Size = new System.Drawing.Size(563, 373);
+            this.packagesTabPage.Size = new System.Drawing.Size(563, 425);
             this.packagesTabPage.TabIndex = 0;
             this.packagesTabPage.Text = "Packages";
             this.packagesTabPage.UseVisualStyleBackColor = true;
+            // 
+            // exitButton
+            // 
+            this.exitButton.Location = new System.Drawing.Point(483, 390);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(63, 23);
+            this.exitButton.TabIndex = 25;
+            this.exitButton.Text = "Exit";
+            this.exitButton.UseVisualStyleBackColor = true;
+            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            // 
+            // editButton
+            // 
+            this.editButton.Location = new System.Drawing.Point(483, 299);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(63, 23);
+            this.editButton.TabIndex = 25;
+            this.editButton.Text = "Edit";
+            this.editButton.UseVisualStyleBackColor = true;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
+            // 
+            // addButton
+            // 
+            this.addButton.Location = new System.Drawing.Point(404, 299);
+            this.addButton.Name = "addButton";
+            this.addButton.Size = new System.Drawing.Size(63, 23);
+            this.addButton.TabIndex = 24;
+            this.addButton.Text = "Add";
+            this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
             // searchByPackageNameComboBox
             // 
@@ -255,10 +292,6 @@
             this.packageIdTextBox.Size = new System.Drawing.Size(200, 20);
             this.packageIdTextBox.TabIndex = 20;
             // 
-            // packageBindingSource
-            // 
-            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
-            // 
             // airfairInclusionCheckBox
             // 
             this.airfairInclusionCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.packageBindingSource, "AirfairInclusion", true));
@@ -268,15 +301,6 @@
             this.airfairInclusionCheckBox.Size = new System.Drawing.Size(200, 24);
             this.airfairInclusionCheckBox.TabIndex = 1;
             this.airfairInclusionCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // imagePathTextBox
-            // 
-            this.imagePathTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "ImagePath", true));
-            this.imagePathTextBox.Location = new System.Drawing.Point(183, 302);
-            this.imagePathTextBox.Name = "imagePathTextBox";
-            this.imagePathTextBox.ReadOnly = true;
-            this.imagePathTextBox.Size = new System.Drawing.Size(200, 20);
-            this.imagePathTextBox.TabIndex = 3;
             // 
             // packageAgencyCommissionTextBox
             // 
@@ -327,7 +351,7 @@
             // partnerURLTextBox
             // 
             this.partnerURLTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PartnerURL", true));
-            this.partnerURLTextBox.Location = new System.Drawing.Point(183, 328);
+            this.partnerURLTextBox.Location = new System.Drawing.Point(183, 387);
             this.partnerURLTextBox.Name = "partnerURLTextBox";
             this.partnerURLTextBox.ReadOnly = true;
             this.partnerURLTextBox.Size = new System.Drawing.Size(200, 20);
@@ -338,46 +362,40 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(563, 373);
+            this.tabPage2.Size = new System.Drawing.Size(563, 425);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // addButton
+            // imageForPictureBoxPictureBox
             // 
-            this.addButton.Location = new System.Drawing.Point(404, 270);
-            this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(63, 23);
-            this.addButton.TabIndex = 24;
-            this.addButton.Text = "Add";
-            this.addButton.UseVisualStyleBackColor = true;
-            this.addButton.Click += new System.EventHandler(this.addButton_Click);
+            this.imageForPictureBoxPictureBox.DataBindings.Add(new System.Windows.Forms.Binding("Image", this.packageBindingSource, "ImageForPictureBox", true));
+            this.imageForPictureBoxPictureBox.Location = new System.Drawing.Point(183, 299);
+            this.imageForPictureBoxPictureBox.Name = "imageForPictureBoxPictureBox";
+            this.imageForPictureBoxPictureBox.Size = new System.Drawing.Size(200, 82);
+            this.imageForPictureBoxPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.imageForPictureBoxPictureBox.TabIndex = 26;
+            this.imageForPictureBoxPictureBox.TabStop = false;
             // 
-            // editButton
+            // packageBindingSource
             // 
-            this.editButton.Location = new System.Drawing.Point(483, 270);
-            this.editButton.Name = "editButton";
-            this.editButton.Size = new System.Drawing.Size(63, 23);
-            this.editButton.TabIndex = 25;
-            this.editButton.Text = "Edit";
-            this.editButton.UseVisualStyleBackColor = true;
-            this.editButton.Click += new System.EventHandler(this.editButton_Click);
+            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
             // 
-            // exitButton
+            // deleteButton
             // 
-            this.exitButton.Location = new System.Drawing.Point(483, 331);
-            this.exitButton.Name = "exitButton";
-            this.exitButton.Size = new System.Drawing.Size(63, 23);
-            this.exitButton.TabIndex = 25;
-            this.exitButton.Text = "Exit";
-            this.exitButton.UseVisualStyleBackColor = true;
-            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            this.deleteButton.Location = new System.Drawing.Point(483, 341);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(63, 23);
+            this.deleteButton.TabIndex = 25;
+            this.deleteButton.Text = "Delete";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(595, 450);
+            this.ClientSize = new System.Drawing.Size(608, 502);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.mainMenuStrip);
             this.MainMenuStrip = this.mainMenuStrip;
@@ -387,6 +405,7 @@
             this.mainTabControl.ResumeLayout(false);
             this.packagesTabPage.ResumeLayout(false);
             this.packagesTabPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageForPictureBoxPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -401,7 +420,6 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.CheckBox airfairInclusionCheckBox;
         private System.Windows.Forms.BindingSource packageBindingSource;
-        private System.Windows.Forms.TextBox imagePathTextBox;
         private System.Windows.Forms.TextBox packageAgencyCommissionTextBox;
         private System.Windows.Forms.TextBox packageBasePriceTextBox;
         private System.Windows.Forms.TextBox packageDescriptionTextBox;
@@ -416,6 +434,8 @@
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.Button editButton;
         private System.Windows.Forms.Button addButton;
+        private System.Windows.Forms.PictureBox imageForPictureBoxPictureBox;
+        private System.Windows.Forms.Button deleteButton;
     }
 }
 
