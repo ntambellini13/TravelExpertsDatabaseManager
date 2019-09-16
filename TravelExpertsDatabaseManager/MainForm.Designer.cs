@@ -84,8 +84,8 @@
             this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.supplierBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.addSupplierButton = new System.Windows.Forms.Button();
+            this.removeSupplierButton = new System.Windows.Forms.Button();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.suppliersNotAssociatedLabel = new System.Windows.Forms.Label();
             this.suppliersAssociatedLabel = new System.Windows.Forms.Label();
@@ -456,8 +456,8 @@
             this.productsTabPage.Controls.Add(this.suppliersAssociatedLabel);
             this.productsTabPage.Controls.Add(this.suppliersNotAssociatedLabel);
             this.productsTabPage.Controls.Add(this.listBox2);
-            this.productsTabPage.Controls.Add(this.button2);
-            this.productsTabPage.Controls.Add(this.button1);
+            this.productsTabPage.Controls.Add(this.removeSupplierButton);
+            this.productsTabPage.Controls.Add(this.addSupplierButton);
             this.productsTabPage.Controls.Add(this.listBox1);
             this.productsTabPage.Controls.Add(this.productComboBox);
             this.productsTabPage.Controls.Add(this.searchProductLabel);
@@ -665,33 +665,33 @@
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(327, 161);
+            this.listBox1.Location = new System.Drawing.Point(347, 167);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(120, 95);
             this.listBox1.TabIndex = 29;
             // 
-            // button1
+            // addSupplierButton
             // 
-            this.button1.Location = new System.Drawing.Point(109, 279);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 30;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.addSupplierButton.Location = new System.Drawing.Point(119, 268);
+            this.addSupplierButton.Name = "addSupplierButton";
+            this.addSupplierButton.Size = new System.Drawing.Size(101, 23);
+            this.addSupplierButton.TabIndex = 30;
+            this.addSupplierButton.Text = "Add Supplier";
+            this.addSupplierButton.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // removeSupplierButton
             // 
-            this.button2.Location = new System.Drawing.Point(372, 279);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 31;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            this.removeSupplierButton.Location = new System.Drawing.Point(356, 268);
+            this.removeSupplierButton.Name = "removeSupplierButton";
+            this.removeSupplierButton.Size = new System.Drawing.Size(101, 23);
+            this.removeSupplierButton.TabIndex = 31;
+            this.removeSupplierButton.Text = "Remove Supplier";
+            this.removeSupplierButton.UseVisualStyleBackColor = true;
             // 
             // listBox2
             // 
             this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(89, 161);
+            this.listBox2.Location = new System.Drawing.Point(109, 167);
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(120, 95);
             this.listBox2.TabIndex = 32;
@@ -699,7 +699,7 @@
             // suppliersNotAssociatedLabel
             // 
             this.suppliersNotAssociatedLabel.AutoSize = true;
-            this.suppliersNotAssociatedLabel.Location = new System.Drawing.Point(105, 133);
+            this.suppliersNotAssociatedLabel.Location = new System.Drawing.Point(125, 139);
             this.suppliersNotAssociatedLabel.Name = "suppliersNotAssociatedLabel";
             this.suppliersNotAssociatedLabel.Size = new System.Drawing.Size(79, 13);
             this.suppliersNotAssociatedLabel.TabIndex = 33;
@@ -708,7 +708,7 @@
             // suppliersAssociatedLabel
             // 
             this.suppliersAssociatedLabel.AutoSize = true;
-            this.suppliersAssociatedLabel.Location = new System.Drawing.Point(350, 133);
+            this.suppliersAssociatedLabel.Location = new System.Drawing.Point(370, 139);
             this.suppliersAssociatedLabel.Name = "suppliersAssociatedLabel";
             this.suppliersAssociatedLabel.Size = new System.Drawing.Size(59, 13);
             this.suppliersAssociatedLabel.TabIndex = 33;
@@ -789,8 +789,8 @@
         private System.Windows.Forms.Label suppliersAssociatedLabel;
         private System.Windows.Forms.Label suppliersNotAssociatedLabel;
         private System.Windows.Forms.ListBox listBox2;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button removeSupplierButton;
+        private System.Windows.Forms.Button addSupplierButton;
         private System.Windows.Forms.ListBox listBox1;
     }
 }
