@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{09C72662-4B41-4AB8-8EC4-AF8C0FD905B9}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{37C5540B-CD9A-4836-B247-EAE2D0089B1C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TravelExpertsData</RootNamespace>
     <AssemblyName>TravelExpertsData</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -35,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,12 +43,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Package.cs" />
+    <Compile Include="PackageProductSupplier.cs" />
     <Compile Include="PackagesDB.cs" />
+    <Compile Include="Product.cs" />
+    <Compile Include="ProductsDB.cs" />
+    <Compile Include="ProductSupplier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Supplier.cs" />
+    <Compile Include="SuppliersDB.cs" />
     <Compile Include="TravelExpertsDB.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Properties\DataSources\TravelExpertsData.Package.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
