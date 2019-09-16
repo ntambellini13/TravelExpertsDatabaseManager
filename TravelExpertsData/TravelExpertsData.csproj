@@ -54,7 +54,6 @@
     <Compile Include="TravelExpertsDB.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\DataSources\TravelExpertsData.Package.datasource" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

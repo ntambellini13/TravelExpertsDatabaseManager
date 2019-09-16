@@ -53,6 +53,11 @@ namespace TravelExpertsData
                         cmd.ExecuteReader(CommandBehavior.CloseConnection);
                     while (reader.Read())
                     {
+                        int productId = (int)reader["ProductId"]; // get product ID
+                        // Run subquery on product id to get list of suppliers
+                        
+                        
+
                         // Create new product with current row information
                         product = new Product((int)reader["ProductId"],reader["ProdName"].ToString());
 
@@ -60,6 +65,31 @@ namespace TravelExpertsData
                     }
                 } // cmd object recycled
             }// connection object recycled
+            SqlConnection connection2 = TravelExpertsDB.GetConnection();
+            
+            
+            for (int i = 0; i < products.Count(); i++)
+            {
+                String subQuery = "SELECT s.SupplierId, s.SupName " +
+                            "FROM Suppliers s JOIN Products_Suppliers ps " +
+                            "ON s.SupplierId = ps.SupplierId " +
+                            "WHERE ps.ProductId = @ProductId; ";
+
+                products[i].Suppliers.Clear();
+                using (SqlCommand subCmd = new SqlCommand(subQuery, connection2))
+                {
+                    connection2.Open();
+                    subCmd.Parameters.AddWithValue("@ProductId", products[i].ProductId);
+                    SqlDataReader subReader =
+                        subCmd.ExecuteReader(CommandBehavior.CloseConnection);
+                    while (subReader.Read())
+                    {
+                        products[i].Suppliers.Add(new Supplier((int) subReader["SupplierId"],subReader["SupName"].ToString()));
+                    }
+                    connection2.Close();
+                }
+            }
+            
             return products;
         }
 

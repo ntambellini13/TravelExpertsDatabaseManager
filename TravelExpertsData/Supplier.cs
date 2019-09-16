@@ -31,10 +31,19 @@ namespace TravelExpertsData
             }
         }
 
+        public List<Product> Products;
+
         public Supplier(int supplierId, string supplierName)
         {
             SupplierId = supplierId;
             this.supplierName = supplierName ?? throw new ArgumentNullException(nameof(supplierName));
+        }
+
+        public Supplier(int supplierId, string supplierName, List<Product> products)
+        {
+            SupplierId = supplierId;
+            this.supplierName = supplierName ?? throw new ArgumentNullException(nameof(supplierName));
+            Products = products;
         }
     }
 }
