@@ -84,7 +84,6 @@
             this.supplierBindingSource = new System.Windows.Forms.BindingSource(this.components);
 
             this.imageForPictureBoxPictureBox = new System.Windows.Forms.PictureBox();
-            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.deleteButton = new System.Windows.Forms.Button();
 
             airfairInclusionLabel = new System.Windows.Forms.Label();
@@ -649,9 +648,6 @@
             this.imageForPictureBoxPictureBox.TabIndex = 26;
             this.imageForPictureBoxPictureBox.TabStop = false;
             // 
-            // packageBindingSource
-            // 
-            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
             // 
             // deleteButton
             // 
