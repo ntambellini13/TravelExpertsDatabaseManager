@@ -67,7 +67,7 @@
     </Compile>
     <Compile Include="AddEditForm.Designer.cs">
       <DependentUpon>AddEditForm.cs</DependentUpon>
-
+    </Compile>
     <Compile Include="AddEditPackageForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,7 +87,7 @@
 
     <EmbeddedResource Include="AddEditForm.resx">
       <DependentUpon>AddEditForm.cs</DependentUpon>
-
+    </EmbeddedResource>
     <Compile Include="Validation.cs" />
     <EmbeddedResource Include="AddEditPackageForm.resx">
       <DependentUpon>AddEditPackageForm.cs</DependentUpon>
@@ -133,7 +133,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="sql\customTravelExpertsDBv3.sql" />
-
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
