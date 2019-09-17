@@ -19,6 +19,7 @@ namespace TravelExpertsDatabaseManager
 
         public FindableBindingList<Package> packages; // Holds all packages from database
 
+        
 
         public MainForm()
         {
@@ -75,7 +76,6 @@ namespace TravelExpertsDatabaseManager
             {
                 productComboBox.Items.Add(product.ProductName);
             }
-            productComboBox.SelectedIndex = 0;
         }
 
         private void InitializeProductDataBinding()
@@ -90,7 +90,6 @@ namespace TravelExpertsDatabaseManager
             {
                 supplierComboBox.Items.Add(supplier.SupplierName);
             }
-            supplierComboBox.SelectedIndex = 0;
         }
         
         private void InitializeSupplierDataBinding()
@@ -137,6 +136,7 @@ namespace TravelExpertsDatabaseManager
             if (productComboBox.SelectedIndex > 0)
             {
                 productComboBox.SelectedIndex -= 1;
+                populateSupplierListBoxes(productComboBox.SelectedIndex);
             }
         }
 
@@ -146,6 +146,7 @@ namespace TravelExpertsDatabaseManager
             if (productComboBox.SelectedIndex < productComboBox.Items.Count - 1)
             {
                 productComboBox.SelectedIndex += 1;
+                populateSupplierListBoxes(productComboBox.SelectedIndex);
             }
         }
 
@@ -189,8 +190,48 @@ namespace TravelExpertsDatabaseManager
             if (bsIndex > -1)
             {
                 productBindingSource.Position = bsIndex;
+                populateSupplierListBoxes(bsIndex);
+               
             }
         }
+
+      
+
+        private void populateSupplierListBoxes(int index)
+        {
+            associatedSuppliersListBox.Items.Clear();
+            nonAssociatedSuppliersListBox.Items.Clear();
+            
+            BindingList<Product> currentProducts = (BindingList<Product>)productBindingSource.DataSource;//grab current products list
+            List<Supplier> associatedSupplier = currentProducts[index].Suppliers;//select associated suppliers for the current product
+
+            //BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.List;
+
+            List<Supplier> allSuppliers = suppliers.ToList();
+
+            foreach (Supplier supplier in allSuppliers)
+            {
+                bool isAssociatedSupplier = false;
+                foreach(Supplier associated in associatedSupplier)
+                {
+                    if (supplier.Equals(associated))
+                    {
+                        isAssociatedSupplier = true;
+                        break;
+                    }
+                }
+                if(isAssociatedSupplier)
+                {
+                    associatedSuppliersListBox.Items.Add(supplier);
+                }
+                else
+                {
+                    nonAssociatedSuppliersListBox.Items.Add(supplier);
+                }
+            }
+
+        }
+
 
         private void supplierComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -198,9 +239,47 @@ namespace TravelExpertsDatabaseManager
             if (bsIndex > -1)
             {
                 supplierBindingSource.Position = bsIndex;
+                populateProductListBoxes(supplierComboBox.SelectedIndex);
+                
+            }
+           
+        }
+
+        private void populateProductListBoxes(int selectedIndex)
+        {
+            associatedProductsListBox.Items.Clear();
+            nonAssociatedProductsListBox.Items.Clear();
+
+            BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.DataSource;//grab current products list
+            List<Product> associatedProduct = currentSuppliers[selectedIndex].Products;//select associated suppliers for the current product
+
+            //BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.List;
+
+            List<Product> allProducts = products.ToList();
+
+            foreach (Product product in allProducts)
+            {
+                bool isAssociatedProduct = false;
+                foreach (Product associated in associatedProduct)
+                {
+                    if (product.Equals(associated))
+                    {
+                        isAssociatedProduct = true;
+                        break;
+                    }
+                }
+                if (isAssociatedProduct)
+                {
+                    associatedProductsListBox.Items.Add(product);
+                }
+                else
+                {
+                    nonAssociatedProductsListBox.Items.Add(product);
+                }
             }
         }
 
+ 
         private void ProductAddButton_Click(object sender, EventArgs e)
         {
             AddEditForm addProduct = new AddEditForm("Product",true,false);//create instance of addeditform for product add
@@ -368,6 +447,168 @@ namespace TravelExpertsDatabaseManager
                 }
                 LoadPackageDataBinding();
                 LoadPackageNameSearchComboBox();
+            }
+        }
+
+        private void addSupplierButton_Click(object sender, EventArgs e)
+        {
+            int index = nonAssociatedSuppliersListBox.SelectedIndex;
+
+            if(index != -1)
+            {
+                int productId=-1;
+                foreach (Product product in products)
+                {
+                    if(product.ProductName== productComboBox.SelectedItem.ToString())
+                    {
+                        productId = product.ProductId;
+                        break;
+                    }
+                }
+                if (productId == -1)
+                {
+                    return;
+                }
+                //add selected item from non associated items list box to the associated items listbox
+                //then remove the selected item from the non associated items list box
+                if (ProductSupplierDB.addProductSupplier(productId, ((Supplier)nonAssociatedSuppliersListBox.Items[index]).SupplierId))
+                {
+                    associatedSuppliersListBox.Items.Add(nonAssociatedSuppliersListBox.Items[index]);
+                    nonAssociatedSuppliersListBox.Items.RemoveAt(index);
+                    associatedSuppliersListBox.SelectedIndex = associatedSuppliersListBox.Items.Count - 1;
+                }
+                else
+                {
+                    MessageBox.Show("Error in updating database. Application data will be refreshed");
+                    // reload data
+                }
+
+            }
+
+
+            
+        }
+
+        private void removeSupplierButton_Click(object sender, EventArgs e)
+        {
+            int index = associatedSuppliersListBox.SelectedIndex;
+
+            if (index != -1)
+            {
+                int productId = -1;
+                foreach (Product product in products)
+                {
+                    if (product.ProductName == productComboBox.SelectedItem.ToString())
+                    {
+                        productId = product.ProductId;
+                        break;
+                    }
+                }
+                if (productId == -1)
+                {
+                    return;
+                }
+                //add selected item from non associated items list box to the associated items listbox
+                //then remove the selected item from the non associated items list box
+                if (ProductSupplierDB.removeProductSupplier(productId, ((Supplier)associatedSuppliersListBox.Items[index]).SupplierId))
+                {
+                    nonAssociatedSuppliersListBox.Items.Add(associatedSuppliersListBox.Items[index]);
+                    associatedSuppliersListBox.Items.RemoveAt(index);
+                    nonAssociatedSuppliersListBox.SelectedIndex = nonAssociatedSuppliersListBox.Items.Count - 1;
+                }
+                else
+                {
+                    MessageBox.Show("Error in updating database. Application data will be refreshed");
+                    // reload data
+                }
+                
+            }
+
+
+        }
+
+        private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (mainTabControl.SelectedIndex == 1)
+            {
+                productComboBox.SelectedIndex = 0;
+            }
+
+            if (mainTabControl.SelectedIndex == 2)
+            {
+                supplierComboBox.SelectedIndex = 0;
+            }
+        }
+
+        private void addProductButton_Click(object sender, EventArgs e)
+        {
+            int index = nonAssociatedProductsListBox.SelectedIndex;
+
+            if (index != -1)
+            {
+                int supplierId = -1;
+                foreach (Supplier supplier in suppliers)
+                {
+                    if (supplier.SupplierName == supplierComboBox.SelectedItem.ToString())
+                    {
+                        supplierId = supplier.SupplierId;
+                        break;
+                    }
+                }
+                if (supplierId == -1)
+                {
+                    return;
+                }
+                //add selected item from non associated items list box to the associated items listbox
+                //then remove the selected item from the non associated items list box
+                if (ProductSupplierDB.addProductSupplier(((Product)nonAssociatedProductsListBox.Items[index]).ProductId, supplierId))
+                {
+                    associatedProductsListBox.Items.Add(nonAssociatedProductsListBox.Items[index]);
+                    nonAssociatedProductsListBox.Items.RemoveAt(index);
+                    associatedProductsListBox.SelectedIndex = associatedProductsListBox.Items.Count - 1;
+                }
+                else
+                {
+                    MessageBox.Show("Error in updating database. Application data will be refreshed");
+                    // reload data
+                }
+
+            }
+        }
+
+        private void removeProductButton_Click(object sender, EventArgs e)
+        {
+            int index = associatedProductsListBox.SelectedIndex;
+
+            if (index != -1)
+            {
+                int supplierId = -1;
+                foreach (Supplier supplier in suppliers)
+                {
+                    if (supplier.SupplierName == supplierComboBox.SelectedItem.ToString())
+                    {
+                        supplierId = supplier.SupplierId;
+                        break;
+                    }
+                }
+                if (supplierId == -1)
+                {
+                    return;
+                }
+                //add selected item from non associated items list box to the associated items listbox
+                //then remove the selected item from the non associated items list box
+                if (ProductSupplierDB.removeProductSupplier(((Product)associatedProductsListBox.Items[index]).ProductId, supplierId))
+                {
+                    nonAssociatedProductsListBox.Items.Add(associatedProductsListBox.Items[index]);
+                    associatedProductsListBox.Items.RemoveAt(index);
+                    nonAssociatedProductsListBox.SelectedIndex = nonAssociatedProductsListBox.Items.Count - 1;
+                }
+                else
+                {
+                    MessageBox.Show("Error in updating database. Application data will be refreshed");
+                    // reload data
+                }
+
             }
         }
     }

@@ -46,5 +46,15 @@ namespace TravelExpertsData
             this.productName = productName ?? throw new ArgumentNullException(nameof(productName));
             this.Suppliers = suppliers;
         }
+
+        public bool Equals(Product other)
+        {
+            return (other.ProductId == this.ProductId && other.ProductName == this.ProductName);
+        }
+
+        public override string ToString()
+        {
+            return $" {ProductId} | {ProductName}";
+        }
     }
 }

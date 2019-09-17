@@ -46,6 +46,7 @@
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.packagesTabPage = new System.Windows.Forms.TabPage();
             this.imageForPictureBoxPictureBox = new System.Windows.Forms.PictureBox();
+            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.exitButton = new System.Windows.Forms.Button();
             this.deleteButton = new System.Windows.Forms.Button();
             this.editButton = new System.Windows.Forms.Button();
@@ -63,6 +64,12 @@
             this.packageStartDateDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.partnerURLTextBox = new System.Windows.Forms.TextBox();
             this.productsTabPage = new System.Windows.Forms.TabPage();
+            this.suppliersAssociatedLabel = new System.Windows.Forms.Label();
+            this.suppliersNotAssociatedLabel = new System.Windows.Forms.Label();
+            this.nonAssociatedSuppliersListBox = new System.Windows.Forms.ListBox();
+            this.removeSupplierButton = new System.Windows.Forms.Button();
+            this.addSupplierButton = new System.Windows.Forms.Button();
+            this.associatedSuppliersListBox = new System.Windows.Forms.ListBox();
             this.productComboBox = new System.Windows.Forms.ComboBox();
             this.searchProductLabel = new System.Windows.Forms.Label();
             this.productNextButton = new System.Windows.Forms.Button();
@@ -70,8 +77,15 @@
             this.productEditButton = new System.Windows.Forms.Button();
             this.productAddButton = new System.Windows.Forms.Button();
             this.productNameTextBox = new System.Windows.Forms.TextBox();
+            this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.productIdTextBox = new System.Windows.Forms.TextBox();
             this.suppliersTabPage = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.nonAssociatedProductsListBox = new System.Windows.Forms.ListBox();
+            this.removeProductButton = new System.Windows.Forms.Button();
+            this.addProductButton = new System.Windows.Forms.Button();
+            this.associatedProductsListBox = new System.Windows.Forms.ListBox();
             this.supplierComboBox = new System.Windows.Forms.ComboBox();
             this.searchSupplierLabel = new System.Windows.Forms.Label();
             this.supplierNextButton = new System.Windows.Forms.Button();
@@ -79,16 +93,8 @@
             this.supplierEditButton = new System.Windows.Forms.Button();
             this.supplierAddButton = new System.Windows.Forms.Button();
             this.supplierNameTextBox = new System.Windows.Forms.TextBox();
-            this.supplierIdTextBox = new System.Windows.Forms.TextBox();
-            this.packageBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.supplierBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.addSupplierButton = new System.Windows.Forms.Button();
-            this.removeSupplierButton = new System.Windows.Forms.Button();
-            this.listBox2 = new System.Windows.Forms.ListBox();
-            this.suppliersNotAssociatedLabel = new System.Windows.Forms.Label();
-            this.suppliersAssociatedLabel = new System.Windows.Forms.Label();
+            this.supplierIdTextBox = new System.Windows.Forms.TextBox();
             airfairInclusionLabel = new System.Windows.Forms.Label();
             imagePathLabel = new System.Windows.Forms.Label();
             packageAgencyCommissionLabel = new System.Windows.Forms.Label();
@@ -105,10 +111,10 @@
             this.mainTabControl.SuspendLayout();
             this.packagesTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageForPictureBoxPictureBox)).BeginInit();
-            this.productsTabPage.SuspendLayout();
-            this.suppliersTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).BeginInit();
+            this.productsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).BeginInit();
+            this.suppliersTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.supplierBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -250,6 +256,7 @@
             this.mainTabControl.SelectedIndex = 0;
             this.mainTabControl.Size = new System.Drawing.Size(571, 451);
             this.mainTabControl.TabIndex = 1;
+            this.mainTabControl.SelectedIndexChanged += new System.EventHandler(this.mainTabControl_SelectedIndexChanged);
             // 
             // packagesTabPage
             // 
@@ -297,6 +304,10 @@
             this.imageForPictureBoxPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.imageForPictureBoxPictureBox.TabIndex = 26;
             this.imageForPictureBoxPictureBox.TabStop = false;
+            // 
+            // packageBindingSource
+            // 
+            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
             // 
             // exitButton
             // 
@@ -455,10 +466,10 @@
             // 
             this.productsTabPage.Controls.Add(this.suppliersAssociatedLabel);
             this.productsTabPage.Controls.Add(this.suppliersNotAssociatedLabel);
-            this.productsTabPage.Controls.Add(this.listBox2);
+            this.productsTabPage.Controls.Add(this.nonAssociatedSuppliersListBox);
             this.productsTabPage.Controls.Add(this.removeSupplierButton);
             this.productsTabPage.Controls.Add(this.addSupplierButton);
-            this.productsTabPage.Controls.Add(this.listBox1);
+            this.productsTabPage.Controls.Add(this.associatedSuppliersListBox);
             this.productsTabPage.Controls.Add(this.productComboBox);
             this.productsTabPage.Controls.Add(this.searchProductLabel);
             this.productsTabPage.Controls.Add(this.productNextButton);
@@ -475,6 +486,60 @@
             this.productsTabPage.TabIndex = 2;
             this.productsTabPage.Text = "Products";
             this.productsTabPage.UseVisualStyleBackColor = true;
+            // 
+            // suppliersAssociatedLabel
+            // 
+            this.suppliersAssociatedLabel.AutoSize = true;
+            this.suppliersAssociatedLabel.Location = new System.Drawing.Point(370, 139);
+            this.suppliersAssociatedLabel.Name = "suppliersAssociatedLabel";
+            this.suppliersAssociatedLabel.Size = new System.Drawing.Size(59, 13);
+            this.suppliersAssociatedLabel.TabIndex = 33;
+            this.suppliersAssociatedLabel.Text = "Associated";
+            // 
+            // suppliersNotAssociatedLabel
+            // 
+            this.suppliersNotAssociatedLabel.AutoSize = true;
+            this.suppliersNotAssociatedLabel.Location = new System.Drawing.Point(125, 139);
+            this.suppliersNotAssociatedLabel.Name = "suppliersNotAssociatedLabel";
+            this.suppliersNotAssociatedLabel.Size = new System.Drawing.Size(79, 13);
+            this.suppliersNotAssociatedLabel.TabIndex = 33;
+            this.suppliersNotAssociatedLabel.Text = "Not Associated";
+            // 
+            // nonAssociatedSuppliersListBox
+            // 
+            this.nonAssociatedSuppliersListBox.FormattingEnabled = true;
+            this.nonAssociatedSuppliersListBox.Location = new System.Drawing.Point(36, 167);
+            this.nonAssociatedSuppliersListBox.Name = "nonAssociatedSuppliersListBox";
+            this.nonAssociatedSuppliersListBox.Size = new System.Drawing.Size(202, 95);
+            this.nonAssociatedSuppliersListBox.TabIndex = 32;
+            // 
+            // removeSupplierButton
+            // 
+            this.removeSupplierButton.Location = new System.Drawing.Point(356, 268);
+            this.removeSupplierButton.Name = "removeSupplierButton";
+            this.removeSupplierButton.Size = new System.Drawing.Size(101, 23);
+            this.removeSupplierButton.TabIndex = 31;
+            this.removeSupplierButton.Text = "Remove Supplier";
+            this.removeSupplierButton.UseVisualStyleBackColor = true;
+            this.removeSupplierButton.Click += new System.EventHandler(this.removeSupplierButton_Click);
+            // 
+            // addSupplierButton
+            // 
+            this.addSupplierButton.Location = new System.Drawing.Point(119, 268);
+            this.addSupplierButton.Name = "addSupplierButton";
+            this.addSupplierButton.Size = new System.Drawing.Size(101, 23);
+            this.addSupplierButton.TabIndex = 30;
+            this.addSupplierButton.Text = "Add Supplier";
+            this.addSupplierButton.UseVisualStyleBackColor = true;
+            this.addSupplierButton.Click += new System.EventHandler(this.addSupplierButton_Click);
+            // 
+            // associatedSuppliersListBox
+            // 
+            this.associatedSuppliersListBox.FormattingEnabled = true;
+            this.associatedSuppliersListBox.Location = new System.Drawing.Point(321, 167);
+            this.associatedSuppliersListBox.Name = "associatedSuppliersListBox";
+            this.associatedSuppliersListBox.Size = new System.Drawing.Size(202, 95);
+            this.associatedSuppliersListBox.TabIndex = 29;
             // 
             // productComboBox
             // 
@@ -544,6 +609,10 @@
             this.productNameTextBox.Size = new System.Drawing.Size(100, 20);
             this.productNameTextBox.TabIndex = 3;
             // 
+            // productBindingSource
+            // 
+            this.productBindingSource.DataSource = typeof(TravelExpertsData.Product);
+            // 
             // productIdTextBox
             // 
             this.productIdTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "ProductId", true));
@@ -555,6 +624,12 @@
             // 
             // suppliersTabPage
             // 
+            this.suppliersTabPage.Controls.Add(this.label1);
+            this.suppliersTabPage.Controls.Add(this.label2);
+            this.suppliersTabPage.Controls.Add(this.nonAssociatedProductsListBox);
+            this.suppliersTabPage.Controls.Add(this.removeProductButton);
+            this.suppliersTabPage.Controls.Add(this.addProductButton);
+            this.suppliersTabPage.Controls.Add(this.associatedProductsListBox);
             this.suppliersTabPage.Controls.Add(this.supplierComboBox);
             this.suppliersTabPage.Controls.Add(this.searchSupplierLabel);
             this.suppliersTabPage.Controls.Add(this.supplierNextButton);
@@ -572,6 +647,60 @@
             this.suppliersTabPage.TabIndex = 1;
             this.suppliersTabPage.Text = "Suppliers";
             this.suppliersTabPage.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(366, 152);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(59, 13);
+            this.label1.TabIndex = 38;
+            this.label1.Text = "Associated";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(121, 152);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(79, 13);
+            this.label2.TabIndex = 39;
+            this.label2.Text = "Not Associated";
+            // 
+            // nonAssociatedProductsListBox
+            // 
+            this.nonAssociatedProductsListBox.FormattingEnabled = true;
+            this.nonAssociatedProductsListBox.Location = new System.Drawing.Point(32, 180);
+            this.nonAssociatedProductsListBox.Name = "nonAssociatedProductsListBox";
+            this.nonAssociatedProductsListBox.Size = new System.Drawing.Size(202, 95);
+            this.nonAssociatedProductsListBox.TabIndex = 37;
+            // 
+            // removeProductButton
+            // 
+            this.removeProductButton.Location = new System.Drawing.Point(352, 281);
+            this.removeProductButton.Name = "removeProductButton";
+            this.removeProductButton.Size = new System.Drawing.Size(101, 23);
+            this.removeProductButton.TabIndex = 36;
+            this.removeProductButton.Text = "Remove Product";
+            this.removeProductButton.UseVisualStyleBackColor = true;
+            this.removeProductButton.Click += new System.EventHandler(this.removeProductButton_Click);
+            // 
+            // addProductButton
+            // 
+            this.addProductButton.Location = new System.Drawing.Point(115, 281);
+            this.addProductButton.Name = "addProductButton";
+            this.addProductButton.Size = new System.Drawing.Size(101, 23);
+            this.addProductButton.TabIndex = 35;
+            this.addProductButton.Text = "Add Product";
+            this.addProductButton.UseVisualStyleBackColor = true;
+            this.addProductButton.Click += new System.EventHandler(this.addProductButton_Click);
+            // 
+            // associatedProductsListBox
+            // 
+            this.associatedProductsListBox.FormattingEnabled = true;
+            this.associatedProductsListBox.Location = new System.Drawing.Point(317, 180);
+            this.associatedProductsListBox.Name = "associatedProductsListBox";
+            this.associatedProductsListBox.Size = new System.Drawing.Size(202, 95);
+            this.associatedProductsListBox.TabIndex = 34;
             // 
             // supplierComboBox
             // 
@@ -641,6 +770,10 @@
             this.supplierNameTextBox.Size = new System.Drawing.Size(100, 20);
             this.supplierNameTextBox.TabIndex = 3;
             // 
+            // supplierBindingSource
+            // 
+            this.supplierBindingSource.DataSource = typeof(TravelExpertsData.Supplier);
+            // 
             // supplierIdTextBox
             // 
             this.supplierIdTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.supplierBindingSource, "SupplierId", true));
@@ -649,70 +782,6 @@
             this.supplierIdTextBox.ReadOnly = true;
             this.supplierIdTextBox.Size = new System.Drawing.Size(100, 20);
             this.supplierIdTextBox.TabIndex = 1;
-            // 
-            // packageBindingSource
-            // 
-            this.packageBindingSource.DataSource = typeof(TravelExpertsData.Package);
-            // 
-            // productBindingSource
-            // 
-            this.productBindingSource.DataSource = typeof(TravelExpertsData.Product);
-            // 
-            // supplierBindingSource
-            // 
-            this.supplierBindingSource.DataSource = typeof(TravelExpertsData.Supplier);
-            // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(347, 167);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 95);
-            this.listBox1.TabIndex = 29;
-            // 
-            // addSupplierButton
-            // 
-            this.addSupplierButton.Location = new System.Drawing.Point(119, 268);
-            this.addSupplierButton.Name = "addSupplierButton";
-            this.addSupplierButton.Size = new System.Drawing.Size(101, 23);
-            this.addSupplierButton.TabIndex = 30;
-            this.addSupplierButton.Text = "Add Supplier";
-            this.addSupplierButton.UseVisualStyleBackColor = true;
-            // 
-            // removeSupplierButton
-            // 
-            this.removeSupplierButton.Location = new System.Drawing.Point(356, 268);
-            this.removeSupplierButton.Name = "removeSupplierButton";
-            this.removeSupplierButton.Size = new System.Drawing.Size(101, 23);
-            this.removeSupplierButton.TabIndex = 31;
-            this.removeSupplierButton.Text = "Remove Supplier";
-            this.removeSupplierButton.UseVisualStyleBackColor = true;
-            // 
-            // listBox2
-            // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(109, 167);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(120, 95);
-            this.listBox2.TabIndex = 32;
-            // 
-            // suppliersNotAssociatedLabel
-            // 
-            this.suppliersNotAssociatedLabel.AutoSize = true;
-            this.suppliersNotAssociatedLabel.Location = new System.Drawing.Point(125, 139);
-            this.suppliersNotAssociatedLabel.Name = "suppliersNotAssociatedLabel";
-            this.suppliersNotAssociatedLabel.Size = new System.Drawing.Size(79, 13);
-            this.suppliersNotAssociatedLabel.TabIndex = 33;
-            this.suppliersNotAssociatedLabel.Text = "Not Associated";
-            // 
-            // suppliersAssociatedLabel
-            // 
-            this.suppliersAssociatedLabel.AutoSize = true;
-            this.suppliersAssociatedLabel.Location = new System.Drawing.Point(370, 139);
-            this.suppliersAssociatedLabel.Name = "suppliersAssociatedLabel";
-            this.suppliersAssociatedLabel.Size = new System.Drawing.Size(59, 13);
-            this.suppliersAssociatedLabel.TabIndex = 33;
-            this.suppliersAssociatedLabel.Text = "Associated";
             // 
             // MainForm
             // 
@@ -729,12 +798,12 @@
             this.packagesTabPage.ResumeLayout(false);
             this.packagesTabPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageForPictureBoxPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).EndInit();
             this.productsTabPage.ResumeLayout(false);
             this.productsTabPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).EndInit();
             this.suppliersTabPage.ResumeLayout(false);
             this.suppliersTabPage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.packageBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.supplierBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -788,10 +857,16 @@
         private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Label suppliersAssociatedLabel;
         private System.Windows.Forms.Label suppliersNotAssociatedLabel;
-        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.ListBox nonAssociatedSuppliersListBox;
         private System.Windows.Forms.Button removeSupplierButton;
         private System.Windows.Forms.Button addSupplierButton;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox associatedSuppliersListBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ListBox nonAssociatedProductsListBox;
+        private System.Windows.Forms.Button removeProductButton;
+        private System.Windows.Forms.Button addProductButton;
+        private System.Windows.Forms.ListBox associatedProductsListBox;
     }
 }
 

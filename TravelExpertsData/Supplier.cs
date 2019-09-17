@@ -37,6 +37,7 @@ namespace TravelExpertsData
         {
             SupplierId = supplierId;
             this.supplierName = supplierName ?? throw new ArgumentNullException(nameof(supplierName));
+            this.Products = new List<Product>();
         }
 
         public Supplier(int supplierId, string supplierName, List<Product> products)
@@ -44,6 +45,16 @@ namespace TravelExpertsData
             SupplierId = supplierId;
             this.supplierName = supplierName ?? throw new ArgumentNullException(nameof(supplierName));
             Products = products;
+        }
+
+        public bool Equals(Supplier other)
+        {
+            return (other.SupplierId == this.SupplierId && other.SupplierName == this.SupplierName) ;
+        }
+
+        public override string ToString()
+        {
+            return $" {this.SupplierId} | {this.SupplierName}";
         }
     }
 }
