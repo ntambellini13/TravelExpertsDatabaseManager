@@ -61,7 +61,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-
     <Compile Include="AddEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,7 +72,6 @@
     </Compile>
     <Compile Include="AddEditPackageForm.Designer.cs">
       <DependentUpon>AddEditPackageForm.cs</DependentUpon>
-
     </Compile>
     <Compile Include="FindableBindingList.cs" />
     <Compile Include="MainForm.cs">
@@ -84,14 +82,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-
     <EmbeddedResource Include="AddEditForm.resx">
       <DependentUpon>AddEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Validation.cs" />
     <EmbeddedResource Include="AddEditPackageForm.resx">
       <DependentUpon>AddEditPackageForm.cs</DependentUpon>
-
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -129,7 +125,6 @@
       <Name>TravelExpertsData</Name>
     </ProjectReference>
   </ItemGroup>
-
   <ItemGroup />
   <ItemGroup>
     <Content Include="sql\customTravelExpertsDBv3.sql" />
@@ -145,7 +140,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

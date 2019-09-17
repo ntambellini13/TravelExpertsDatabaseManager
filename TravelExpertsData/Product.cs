@@ -31,10 +31,30 @@ namespace TravelExpertsData
             }
         }
 
+        public List<Supplier> Suppliers;
+
         public Product(int productId, string productName)
         {
             ProductId = productId;
             this.productName = productName ?? throw new ArgumentNullException(nameof(productName));
+            this.Suppliers = new List<Supplier>();
+        }
+
+        public Product(int productId, string productName, List<Supplier> suppliers)
+        {
+            ProductId = productId;
+            this.productName = productName ?? throw new ArgumentNullException(nameof(productName));
+            this.Suppliers = suppliers;
+        }
+
+        public bool Equals(Product other)
+        {
+            return (other.ProductId == this.ProductId && other.ProductName == this.ProductName);
+        }
+
+        public override string ToString()
+        {
+            return $" {ProductId} | {ProductName}";
         }
     }
 }

@@ -61,6 +61,7 @@ namespace TravelExpertsData
                 string query = "SELECT * " +
                                "FROM Packages " +
                                "ORDER BY PackageId";
+
                 // Creates command
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
