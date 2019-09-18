@@ -147,6 +147,8 @@ namespace TravelExpertsData
             }
         }
 
+        public SortedList<int,String> ProductSuppliers; // key is id, string is list box readable string
+
         private string packageName;
         private string partnerURL;
         private string packageDescription;
@@ -180,6 +182,35 @@ namespace TravelExpertsData
             PackageDescription = packageDescription ?? throw new ArgumentNullException(nameof(packageDescription));
             PackageBasePrice = packageBasePrice;
             PackageAgencyCommission = packageAgencyCommission;
+            ProductSuppliers = new SortedList<int, string>();
+        }
+
+        /// <summary>
+        /// Creates package
+        /// </summary>
+        /// <param name="packageId">id</param>
+        /// <param name="packageName">name</param>
+        /// <param name="image">byte array of image data</param>
+        /// <param name="partnerURL">partner url</param>
+        /// <param name="airfairInclusion">is airfair included?</param>
+        /// <param name="packageStartDate">pkg start date. should be before end date.</param>
+        /// <param name="packageEndDate">package end date. should be after start date.</param>
+        /// <param name="packageDescription">package description</param>
+        /// <param name="packageBasePrice">base price</param>
+        /// <param name="packageAgencyCommission">agency commission. should be less than base price.</param>
+        /// <param name="productsSuppliers">Sorted list where key is product supplier id and value is list box string</param>
+        public Package(int packageId, string packageName, byte[] image, string partnerURL, bool airfairInclusion, DateTime packageStartDate, DateTime packageEndDate, string packageDescription, decimal packageBasePrice, decimal packageAgencyCommission, SortedList<int,String> productsSuppliers)
+        {
+            PackageId = packageId;
+            this.packageName = packageName ?? throw new ArgumentNullException(nameof(packageName));
+            Image = image ?? throw new ArgumentNullException(nameof(image));
+            PartnerURL = partnerURL ?? throw new ArgumentNullException(nameof(partnerURL));
+            AirfairInclusion = airfairInclusion;
+            setPackageDates(packageStartDate, packageEndDate);
+            PackageDescription = packageDescription ?? throw new ArgumentNullException(nameof(packageDescription));
+            PackageBasePrice = packageBasePrice;
+            PackageAgencyCommission = packageAgencyCommission;
+            ProductSuppliers = productsSuppliers;
         }
 
         /// <summary>

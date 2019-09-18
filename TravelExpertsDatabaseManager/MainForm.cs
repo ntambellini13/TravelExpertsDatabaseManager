@@ -112,6 +112,7 @@ namespace TravelExpertsDatabaseManager
             {
                 searchByPackageNameComboBox.SelectedIndex -= 1;
             }
+            populateProductSupplierListBoxes(searchByPackageNameComboBox.SelectedIndex);
         }
 
         /// <summary>
@@ -156,6 +157,7 @@ namespace TravelExpertsDatabaseManager
             if (supplierComboBox.SelectedIndex > 0)
             {
                 supplierComboBox.SelectedIndex -= 1;
+                populateSupplierListBoxes(supplierComboBox.SelectedIndex);
             }
         }
 
@@ -165,6 +167,7 @@ namespace TravelExpertsDatabaseManager
             if (supplierComboBox.SelectedIndex < supplierComboBox.Items.Count - 1)
             {
                 supplierComboBox.SelectedIndex += 1;
+                populateSupplierListBoxes(supplierComboBox.SelectedIndex);
             }
         }
 
@@ -181,6 +184,8 @@ namespace TravelExpertsDatabaseManager
             if (bsIndex > -1)
             {
                 packageBindingSource.Position = bsIndex;
+                populateProductSupplierListBoxes(bsIndex);               
+                
             }
         }
 
@@ -191,7 +196,7 @@ namespace TravelExpertsDatabaseManager
             {
                 productBindingSource.Position = bsIndex;
                 populateSupplierListBoxes(bsIndex);
-               
+                
             }
         }
 
@@ -471,7 +476,7 @@ namespace TravelExpertsDatabaseManager
                 }
                 //add selected item from non associated items list box to the associated items listbox
                 //then remove the selected item from the non associated items list box
-                if (ProductSupplierDB.addProductSupplier(productId, ((Supplier)nonAssociatedSuppliersListBox.Items[index]).SupplierId))
+                if (ProductsSuppliersDB.addProductSupplier(productId, ((Supplier)nonAssociatedSuppliersListBox.Items[index]).SupplierId))
                 {
                     associatedSuppliersListBox.Items.Add(nonAssociatedSuppliersListBox.Items[index]);
                     nonAssociatedSuppliersListBox.Items.RemoveAt(index);
@@ -510,7 +515,7 @@ namespace TravelExpertsDatabaseManager
                 }
                 //add selected item from non associated items list box to the associated items listbox
                 //then remove the selected item from the non associated items list box
-                if (ProductSupplierDB.removeProductSupplier(productId, ((Supplier)associatedSuppliersListBox.Items[index]).SupplierId))
+                if (ProductsSuppliersDB.removeProductSupplier(productId, ((Supplier)associatedSuppliersListBox.Items[index]).SupplierId))
                 {
                     nonAssociatedSuppliersListBox.Items.Add(associatedSuppliersListBox.Items[index]);
                     associatedSuppliersListBox.Items.RemoveAt(index);
@@ -561,7 +566,7 @@ namespace TravelExpertsDatabaseManager
                 }
                 //add selected item from non associated items list box to the associated items listbox
                 //then remove the selected item from the non associated items list box
-                if (ProductSupplierDB.addProductSupplier(((Product)nonAssociatedProductsListBox.Items[index]).ProductId, supplierId))
+                if (ProductsSuppliersDB.addProductSupplier(((Product)nonAssociatedProductsListBox.Items[index]).ProductId, supplierId))
                 {
                     associatedProductsListBox.Items.Add(nonAssociatedProductsListBox.Items[index]);
                     nonAssociatedProductsListBox.Items.RemoveAt(index);
@@ -597,11 +602,89 @@ namespace TravelExpertsDatabaseManager
                 }
                 //add selected item from non associated items list box to the associated items listbox
                 //then remove the selected item from the non associated items list box
-                if (ProductSupplierDB.removeProductSupplier(((Product)associatedProductsListBox.Items[index]).ProductId, supplierId))
+                if (ProductsSuppliersDB.removeProductSupplier(((Product)associatedProductsListBox.Items[index]).ProductId, supplierId))
                 {
                     nonAssociatedProductsListBox.Items.Add(associatedProductsListBox.Items[index]);
                     associatedProductsListBox.Items.RemoveAt(index);
                     nonAssociatedProductsListBox.SelectedIndex = nonAssociatedProductsListBox.Items.Count - 1;
+                }
+                else
+                {
+                    MessageBox.Show("Error in updating database. Application data will be refreshed");
+                    // reload data
+                }
+
+            }
+        }
+
+        private void populateProductSupplierListBoxes(int selectedIndex)
+        {
+            associatedProductSuppliersListBox.Items.Clear();
+            nonAssociatedProductSuppliersListBox.Items.Clear();
+
+            BindingList<Package> currentPackages = (BindingList<Package>) packageBindingSource.DataSource;//grab current packages list
+            SortedList<int, string> associatedProductSuppliers = currentPackages[selectedIndex].ProductSuppliers;//select associated product suppliers for the current package
+
+            SortedList<int, string> allProductSuppliers = ProductsSuppliersDB.getProductsSuppliersIdAndString();
+
+            foreach (KeyValuePair<int, string> entry in allProductSuppliers)
+            {
+                if (associatedProductSuppliers.ContainsKey(entry.Key))
+                {
+                    associatedProductSuppliersListBox.Items.Add(entry.Key +" | " + entry.Value);
+                }
+                else
+                {
+                    nonAssociatedProductSuppliersListBox.Items.Add(entry.Key + " | " + entry.Value);
+                }
+                
+            }
+        }
+
+        private void addProductSupplierButton_Click(object sender, EventArgs e)
+        {
+            int selectedProductSupplier = nonAssociatedProductSuppliersListBox.SelectedIndex;
+            int packageId = ((Package) packageBindingSource.Current).PackageId;
+
+            if (selectedProductSupplier != -1 && packageId!=-1)
+            {
+                //add selected item from non associated items list box to the associated items listbox
+                //then remove the selected item from the non associated items list box
+                if (PackagesProductsSuppliersDB.addPackageProductSupplier(packageId, Convert.ToInt32(nonAssociatedProductSuppliersListBox.Items[selectedProductSupplier].ToString().Split('|').First())))
+                {
+                    associatedProductSuppliersListBox.Items.Add(nonAssociatedProductSuppliersListBox.Items[selectedProductSupplier]);
+                    nonAssociatedProductSuppliersListBox.Items.RemoveAt(selectedProductSupplier);
+                    associatedProductSuppliersListBox.SelectedIndex = associatedProductSuppliersListBox.Items.Count - 1;
+
+                    Package currentPackage = (Package) packageBindingSource.Current;
+                    currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
+                }
+                else
+                {
+                    MessageBox.Show("Error in updating database. Application data will be refreshed");
+                    // reload data
+                }
+
+            }
+        }
+
+        private void removeProductSupplierButton_Click(object sender, EventArgs e)
+        {
+            int selectedProductSupplier = associatedProductSuppliersListBox.SelectedIndex;
+            int packageId = ((Package) packageBindingSource.Current).PackageId;
+
+            if (selectedProductSupplier != -1 && packageId != -1)
+            {
+                //add selected item from non associated items list box to the associated items listbox
+                //then remove the selected item from the non associated items list box
+                if (PackagesProductsSuppliersDB.removePackageProductSupplier(packageId, Convert.ToInt32(associatedProductSuppliersListBox.Items[selectedProductSupplier].ToString().Split('|').First())))
+                {
+                    nonAssociatedProductSuppliersListBox.Items.Add(associatedProductSuppliersListBox.Items[selectedProductSupplier]);
+                    associatedProductSuppliersListBox.Items.RemoveAt(selectedProductSupplier);
+                    nonAssociatedProductSuppliersListBox.SelectedIndex = nonAssociatedProductSuppliersListBox.Items.Count - 1;
+
+                    Package currentPackage = (Package) packageBindingSource.Current;
+                    currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
                 }
                 else
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -7,8 +8,40 @@ using System.Threading.Tasks;
 
 namespace TravelExpertsData
 {
-    public static class ProductSupplierDB
+    public static class ProductsSuppliersDB
     {
+        
+
+        public static SortedList<int, string> getProductsSuppliersIdAndString()
+        {
+            SortedList<int, string> productsSuppliers = new SortedList<int, string>();
+            SqlConnection connection = TravelExpertsDB.GetConnection();
+
+            
+            String query = "SELECT ProductSupplierId, ProdName, SupName " +
+                                "FROM " +
+                                "Products_Suppliers ps " +
+                                "JOIN Products pr " +
+                                "ON ps.ProductId = pr.ProductId " +
+                                "JOIN Suppliers s " +
+                                "ON ps.SupplierId = s.SupplierId ; ";
+
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                connection.Open();
+                SqlDataReader reader =
+                    command.ExecuteReader(CommandBehavior.CloseConnection);
+                while (reader.Read())
+                {
+                    productsSuppliers.Add((int) reader["ProductSupplierId"], reader["ProdName"].ToString() + " from " + reader["SupName"].ToString());
+                }
+                connection.Close();
+            }
+            
+            return productsSuppliers;
+        }
+
         public static bool addProductSupplier(int productId, int supplierId)
         {
             bool success = false;

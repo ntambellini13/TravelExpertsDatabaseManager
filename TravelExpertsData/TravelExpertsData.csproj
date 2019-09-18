@@ -44,11 +44,12 @@
   <ItemGroup>
     <Compile Include="Package.cs" />
     <Compile Include="PackageProductSupplier.cs" />
+    <Compile Include="PackagesProductsSuppliersDB.cs" />
     <Compile Include="PackagesDB.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="ProductsDB.cs" />
     <Compile Include="ProductSupplier.cs" />
-    <Compile Include="ProductSupplierDB.cs" />
+    <Compile Include="ProductsSuppliersDB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Supplier.cs" />
     <Compile Include="SuppliersDB.cs" />
