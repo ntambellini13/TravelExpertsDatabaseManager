@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TravelExpertsData;
@@ -98,7 +100,6 @@ namespace TravelExpertsDatabaseManager
             supplierBindingSource.DataSource = suppliers;
         }
 
-
         /// <summary>
         /// Moves to previous package
         /// </summary>
@@ -128,7 +129,6 @@ namespace TravelExpertsDatabaseManager
                 searchByPackageNameComboBox.SelectedIndex += 1;
             }
         }
-
 
         private void productPrevButton_Click(object sender, EventArgs e)
         {
@@ -195,8 +195,6 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
-      
-
         private void populateSupplierListBoxes(int index)
         {
             associatedSuppliersListBox.Items.Clear();
@@ -240,9 +238,7 @@ namespace TravelExpertsDatabaseManager
             {
                 supplierBindingSource.Position = bsIndex;
                 populateProductListBoxes(supplierComboBox.SelectedIndex);
-                
             }
-           
         }
 
         private void populateProductListBoxes(int selectedIndex)
@@ -282,61 +278,94 @@ namespace TravelExpertsDatabaseManager
  
         private void ProductAddButton_Click(object sender, EventArgs e)
         {
-            AddEditForm addProduct = new AddEditForm("Product",true,false);//create instance of addeditform for product add
-
-            DialogResult result = addProduct.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
-
-            if (result == DialogResult.OK)
+            try
             {
-                ProductsDB.AddProducts(addProduct.addedProductName);//ProductsDB class method call to add product
-                InitializeProductDataBinding();
-                InitializeProductNameSearchComboBox();
+                AddEditForm addProduct = new AddEditForm("Product", true, false);//create instance of addeditform for product add
+
+                DialogResult result = addProduct.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
+
+                if (result == DialogResult.OK)
+                {
+                    ProductsDB.AddProducts(addProduct.addedProductName);//ProductsDB class method call to add product
+                    InitializeProductDataBinding();
+                    InitializeProductNameSearchComboBox();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
             }
         }
 
         private void ProductEditButton_Click(object sender, EventArgs e)
         {
-            AddEditForm editProduct = new AddEditForm("Product",false,true, productNameTextBox.Text);//create instance of addeditform for product add
-
-            DialogResult result = editProduct.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
-
-            if (result == DialogResult.OK)
+            try
             {
-                ProductsDB.EditProduct(editProduct.editedProductName, int.Parse(productIdTextBox.Text));
-                InitializeProductDataBinding();
-                InitializeProductNameSearchComboBox();
+                AddEditForm editProduct = new AddEditForm("Product", false, true, productNameTextBox.Text);//create instance of addeditform for product add
+
+                DialogResult result = editProduct.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
+
+                if (result == DialogResult.OK)
+                {
+                    ProductsDB.EditProduct(editProduct.editedProductName, int.Parse(productIdTextBox.Text));
+                    InitializeProductDataBinding();
+                    InitializeProductNameSearchComboBox();
+                }
             }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
+            }
+
         }
 
         private void SupplierAddButton_Click(object sender, EventArgs e)
         {
-            AddEditForm addSupplier = new AddEditForm("Supplier", true, false);//create instance of addeditform for product add
-
-            DialogResult result = addSupplier.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
-
-            if (result == DialogResult.OK)
+            try
             {
-                SuppliersDB.AddSuppliers(addSupplier.addedSupplierName);//ProductsDB class method call to add product
-                InitializeSupplierDataBinding();
-                InitializeSupplierNameSearchComboBox();
+                AddEditForm addSupplier = new AddEditForm("Supplier", true, false);//create instance of addeditform for product add
+
+                DialogResult result = addSupplier.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
+
+                if (result == DialogResult.OK)
+                {
+                    SuppliersDB.AddSuppliers(addSupplier.addedSupplierName);//ProductsDB class method call to add product
+                    InitializeSupplierDataBinding();
+                    InitializeSupplierNameSearchComboBox();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
             }
         }
 
         private void SupplierEditButton_Click(object sender, EventArgs e)
         {
-            AddEditForm editSupplier = new AddEditForm("Supplier", true, false);//create instance of addeditform for product add
-
-            DialogResult result = editSupplier.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
-
-            if (result == DialogResult.OK)
+            try
             {
-                SuppliersDB.EditSuppliers(editSupplier.editedSupplierName, int.Parse(supplierIdTextBox.Text));//ProductsDB class method call to add product
-                InitializeSupplierDataBinding();
-                InitializeSupplierNameSearchComboBox();
+                AddEditForm editSupplier = new AddEditForm("Supplier", true, false);//create instance of addeditform for product add
+
+                DialogResult result = editSupplier.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
+
+                if (result == DialogResult.OK)
+                {
+                    SuppliersDB.EditSuppliers(editSupplier.editedSupplierName, int.Parse(supplierIdTextBox.Text));//ProductsDB class method call to add product
+                    InitializeSupplierDataBinding();
+                    InitializeSupplierNameSearchComboBox();
+                }
             }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
+            }
+
         }
 
-        
         /// <summary>
         /// Opens a form to add package and adds to db
         /// </summary>
@@ -450,83 +479,114 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addSupplierButton_Click(object sender, EventArgs e)
         {
-            int index = nonAssociatedSuppliersListBox.SelectedIndex;
-
-            if(index != -1)
+            try
             {
-                int productId=-1;
-                foreach (Product product in products)
+                int index = nonAssociatedSuppliersListBox.SelectedIndex;
+
+                if (index != -1)
                 {
-                    if(product.ProductName== productComboBox.SelectedItem.ToString())
+                    int productId = -1;
+                    foreach (Product product in products)
                     {
-                        productId = product.ProductId;
-                        break;
+                        if (product.ProductName == productComboBox.SelectedItem.ToString())
+                        {
+                            productId = product.ProductId;
+                            break;
+                        }
+                    }
+                    if (productId == -1)
+                    {
+                        return;
+                    }
+                    //add selected item from non associated items list box to the associated items listbox
+                    //then remove the selected item from the non associated items list box
+                    if (ProductSupplierDB.addProductSupplier(productId, ((Supplier)nonAssociatedSuppliersListBox.Items[index]).SupplierId))
+                    {
+                        associatedSuppliersListBox.Items.Add(nonAssociatedSuppliersListBox.Items[index]);
+                        nonAssociatedSuppliersListBox.Items.RemoveAt(index);
+                        associatedSuppliersListBox.SelectedIndex = associatedSuppliersListBox.Items.Count - 1;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error in updating database. Application data will be refreshed");
+                        // reload data
                     }
                 }
-                if (productId == -1)
-                {
-                    return;
-                }
-                //add selected item from non associated items list box to the associated items listbox
-                //then remove the selected item from the non associated items list box
-                if (ProductSupplierDB.addProductSupplier(productId, ((Supplier)nonAssociatedSuppliersListBox.Items[index]).SupplierId))
-                {
-                    associatedSuppliersListBox.Items.Add(nonAssociatedSuppliersListBox.Items[index]);
-                    nonAssociatedSuppliersListBox.Items.RemoveAt(index);
-                    associatedSuppliersListBox.SelectedIndex = associatedSuppliersListBox.Items.Count - 1;
-                }
-                else
-                {
-                    MessageBox.Show("Error in updating database. Application data will be refreshed");
-                    // reload data
-                }
-
             }
-
-
-            
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
+            }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void removeSupplierButton_Click(object sender, EventArgs e)
         {
-            int index = associatedSuppliersListBox.SelectedIndex;
-
-            if (index != -1)
+            try
             {
-                int productId = -1;
-                foreach (Product product in products)
+                int index = associatedSuppliersListBox.SelectedIndex;
+
+                if (index != -1)
                 {
-                    if (product.ProductName == productComboBox.SelectedItem.ToString())
+                    int productId = -1;
+                    foreach (Product product in products)
                     {
-                        productId = product.ProductId;
-                        break;
+                        if (product.ProductName == productComboBox.SelectedItem.ToString())
+                        {
+                            productId = product.ProductId;
+                            break;
+                        }
+                    }
+                    if (productId == -1)
+                    {
+                        return;
+                    }
+                    //add selected item from non associated items list box to the associated items listbox
+                    //then remove the selected item from the non associated items list box
+                    if (ProductSupplierDB.removeProductSupplier(productId, ((Supplier)associatedSuppliersListBox.Items[index]).SupplierId))
+                    {
+                        nonAssociatedSuppliersListBox.Items.Add(associatedSuppliersListBox.Items[index]);
+                        associatedSuppliersListBox.Items.RemoveAt(index);
+                        nonAssociatedSuppliersListBox.SelectedIndex = nonAssociatedSuppliersListBox.Items.Count - 1;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error in updating database. Application data will be refreshed");
+                        // reload data
                     }
                 }
-                if (productId == -1)
-                {
-                    return;
-                }
-                //add selected item from non associated items list box to the associated items listbox
-                //then remove the selected item from the non associated items list box
-                if (ProductSupplierDB.removeProductSupplier(productId, ((Supplier)associatedSuppliersListBox.Items[index]).SupplierId))
-                {
-                    nonAssociatedSuppliersListBox.Items.Add(associatedSuppliersListBox.Items[index]);
-                    associatedSuppliersListBox.Items.RemoveAt(index);
-                    nonAssociatedSuppliersListBox.SelectedIndex = nonAssociatedSuppliersListBox.Items.Count - 1;
-                }
-                else
-                {
-                    MessageBox.Show("Error in updating database. Application data will be refreshed");
-                    // reload data
-                }
-                
             }
+            catch (SqlException ex)
+            {
+                //create a regex match option that searches the exception message string for the table that caused the foreign key constraint
+                Match match = Regex.Match(ex.Message, "\"dbo.+\"", RegexOptions.IgnoreCase);
 
+                //split the returned string by the '.' character name, then grab the second string out of the two and assign it to a variable
+                String tableName = match.Value.Split('.').Last();
 
+                //remove the last '\' character from the string AKA get the table name
+                tableName = tableName.Substring(0, tableName.Count() - 1);
+                MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
+            }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (mainTabControl.SelectedIndex == 1)
@@ -542,73 +602,100 @@ namespace TravelExpertsDatabaseManager
 
         private void addProductButton_Click(object sender, EventArgs e)
         {
-            int index = nonAssociatedProductsListBox.SelectedIndex;
-
-            if (index != -1)
+            try
             {
-                int supplierId = -1;
-                foreach (Supplier supplier in suppliers)
+                int index = nonAssociatedProductsListBox.SelectedIndex;
+
+                if (index != -1)
                 {
-                    if (supplier.SupplierName == supplierComboBox.SelectedItem.ToString())
+                    int supplierId = -1;
+                    foreach (Supplier supplier in suppliers)
                     {
-                        supplierId = supplier.SupplierId;
-                        break;
+                        if (supplier.SupplierName == supplierComboBox.SelectedItem.ToString())
+                        {
+                            supplierId = supplier.SupplierId;
+                            break;
+                        }
+                    }
+                    if (supplierId == -1)
+                    {
+                        return;
+                    }
+                    //add selected item from non associated items list box to the associated items listbox
+                    //then remove the selected item from the non associated items list box
+                    if (ProductSupplierDB.addProductSupplier(((Product)nonAssociatedProductsListBox.Items[index]).ProductId, supplierId))
+                    {
+                        associatedProductsListBox.Items.Add(nonAssociatedProductsListBox.Items[index]);
+                        nonAssociatedProductsListBox.Items.RemoveAt(index);
+                        associatedProductsListBox.SelectedIndex = associatedProductsListBox.Items.Count - 1;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error in updating database. Application data will be refreshed");
+                        // reload data
                     }
                 }
-                if (supplierId == -1)
-                {
-                    return;
-                }
-                //add selected item from non associated items list box to the associated items listbox
-                //then remove the selected item from the non associated items list box
-                if (ProductSupplierDB.addProductSupplier(((Product)nonAssociatedProductsListBox.Items[index]).ProductId, supplierId))
-                {
-                    associatedProductsListBox.Items.Add(nonAssociatedProductsListBox.Items[index]);
-                    nonAssociatedProductsListBox.Items.RemoveAt(index);
-                    associatedProductsListBox.SelectedIndex = associatedProductsListBox.Items.Count - 1;
-                }
-                else
-                {
-                    MessageBox.Show("Error in updating database. Application data will be refreshed");
-                    // reload data
-                }
-
             }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
+            }
+
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void removeProductButton_Click(object sender, EventArgs e)
         {
-            int index = associatedProductsListBox.SelectedIndex;
-
-            if (index != -1)
+            try
             {
-                int supplierId = -1;
-                foreach (Supplier supplier in suppliers)
+                int index = associatedProductsListBox.SelectedIndex;
+
+                if (index != -1)
                 {
-                    if (supplier.SupplierName == supplierComboBox.SelectedItem.ToString())
+                    int supplierId = -1;
+                    foreach (Supplier supplier in suppliers)
                     {
-                        supplierId = supplier.SupplierId;
-                        break;
+                        if (supplier.SupplierName == supplierComboBox.SelectedItem.ToString())
+                        {
+                            supplierId = supplier.SupplierId;
+                            break;
+                        }
+                    }
+                    if (supplierId == -1)
+                    {
+                        return;
+                    }
+                    //add selected item from non associated items list box to the associated items listbox
+                    //then remove the selected item from the non associated items list box
+                    if (ProductSupplierDB.removeProductSupplier(((Product)associatedProductsListBox.Items[index]).ProductId, supplierId))
+                    {
+                        nonAssociatedProductsListBox.Items.Add(associatedProductsListBox.Items[index]);
+                        associatedProductsListBox.Items.RemoveAt(index);
+                        nonAssociatedProductsListBox.SelectedIndex = nonAssociatedProductsListBox.Items.Count - 1;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error in updating database. Application data will be refreshed");
+                        // reload data
                     }
                 }
-                if (supplierId == -1)
-                {
-                    return;
-                }
-                //add selected item from non associated items list box to the associated items listbox
-                //then remove the selected item from the non associated items list box
-                if (ProductSupplierDB.removeProductSupplier(((Product)associatedProductsListBox.Items[index]).ProductId, supplierId))
-                {
-                    nonAssociatedProductsListBox.Items.Add(associatedProductsListBox.Items[index]);
-                    associatedProductsListBox.Items.RemoveAt(index);
-                    nonAssociatedProductsListBox.SelectedIndex = nonAssociatedProductsListBox.Items.Count - 1;
-                }
-                else
-                {
-                    MessageBox.Show("Error in updating database. Application data will be refreshed");
-                    // reload data
-                }
+            }
+            catch (SqlException ex)
+            {
+                //create a regex match option that searches the exception message string for the table that caused the foreign key constraint
+                Match match = Regex.Match(ex.Message, "\"dbo.+\"", RegexOptions.IgnoreCase);
 
+                //split the returned string by the '.' character name, then grab the second string out of the two and assign it to a variable
+                String tableName = match.Value.Split('.').Last();
+
+                //remove the last '\' character from the string AKA get the table name
+                tableName = tableName.Substring(0, tableName.Count() - 1);
+                MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
             }
         }
     }

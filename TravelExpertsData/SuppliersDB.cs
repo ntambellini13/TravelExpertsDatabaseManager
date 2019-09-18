@@ -7,6 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+ * Purpose: Class for creating Supplier Objects
+ * Author: Product
+ * Date: September 18, 2019
+ * 
+ * */
+
 namespace TravelExpertsData
 {
     public static class SuppliersDB
