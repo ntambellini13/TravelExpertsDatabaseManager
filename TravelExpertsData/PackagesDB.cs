@@ -88,6 +88,38 @@ namespace TravelExpertsData
                     }
                 } // cmd object recycled
             }// connection object recycled
+
+            SqlConnection connection2 = TravelExpertsDB.GetConnection();
+            
+            for (int i = 0 ; i < packages.Count() ; i++)
+            {
+                String subQuery = "SELECT pps.ProductSupplierId, ProdName, SupName "+
+                                    "FROM Packages p "+
+                                    "JOIN Packages_Products_Suppliers pps "+
+                                    "ON p.PackageId = pps.PackageId "+
+                                    "JOIN Products_Suppliers ps "+
+                                    "ON pps.PackageId = ps.ProductSupplierId "+
+                                    "JOIN Products pr "+
+                                    "ON ps.ProductId = pr.ProductId "+
+                                    "JOIN Suppliers s "+
+                                    "ON ps.SupplierId = s.SupplierId " +
+                                    "WHERE p.PackageId=@PackageId ; ";
+
+                packages[i].ProductSuppliers.Clear();
+                using (SqlCommand subCmd = new SqlCommand(subQuery, connection2))
+                {
+                    connection2.Open();
+                    subCmd.Parameters.AddWithValue("@PackageId", packages[i].PackageId);
+                    SqlDataReader subReader =
+                        subCmd.ExecuteReader(CommandBehavior.CloseConnection);
+                    while (subReader.Read())
+                    {
+                        packages[i].ProductSuppliers.Add((int) subReader["ProductSupplierId"],subReader["ProdName"].ToString() + " from " + subReader["SupName"].ToString());
+                    }
+                    connection2.Close();
+                }
+            }
+
             return packages;
         }
 
