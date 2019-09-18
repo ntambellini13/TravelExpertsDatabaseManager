@@ -10,12 +10,17 @@ namespace TravelExpertsData
 {
     public static class PackagesProductsSuppliersDB
     {
+        /// <summary>
+        /// Gets the associated productsuppliers for the selected package
+        /// </summary>
+        /// <param name="packageId">Package id</param>
+        /// <returns>A sorted list with productsupplierId as key and formatted string as value</returns>
         public static SortedList<int, string> getProductsSuppliersIdAndString_ByPackageId(int packageId)
         {
             SortedList<int, string> productsSuppliers = new SortedList<int, string>();
             SqlConnection connection = TravelExpertsDB.GetConnection();
 
-
+            // Gets all associated productsuppliers
             String query = "SELECT pps.ProductSupplierId, ProdName, SupName " +
                                     "FROM Packages p " +
                                     "JOIN Packages_Products_Suppliers pps " +
@@ -35,6 +40,7 @@ namespace TravelExpertsData
                 command.Parameters.AddWithValue("@PackageId", packageId);
                 SqlDataReader reader =
                     command.ExecuteReader(CommandBehavior.CloseConnection);
+                // Adds each to sorted list
                 while (reader.Read())
                 {
                     productsSuppliers.Add((int) reader["ProductSupplierId"], reader["ProdName"].ToString() + " from " + reader["SupName"].ToString());
@@ -45,6 +51,12 @@ namespace TravelExpertsData
             return productsSuppliers;
         }
 
+        /// <summary>
+        /// Inserts package id and product supplier id into packages product suppliers table
+        /// </summary>
+        /// <param name="packageId">Package Id</param>
+        /// <param name="productSupplierId">ProductSupplier Id</param>
+        /// <returns>Successful?</returns>
         public static bool addPackageProductSupplier(int packageId, int productSupplierId)
         {
             bool success = false;
@@ -71,6 +83,12 @@ namespace TravelExpertsData
             return success;
         }
 
+        /// <summary>
+        /// Deletes package product supplier entry from table
+        /// </summary>
+        /// <param name="packageId">Package id</param>
+        /// <param name="productSupplierId">Product supplier id</param>
+        /// <returns>Successful?</returns>
         public static bool removePackageProductSupplier(int packageId, int productSupplierId)
         {
             bool success = false;

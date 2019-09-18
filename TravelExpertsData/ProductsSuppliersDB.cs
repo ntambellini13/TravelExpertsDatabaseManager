@@ -11,7 +11,10 @@ namespace TravelExpertsData
     public static class ProductsSuppliersDB
     {
         
-
+        /// <summary>
+        /// Gets sorted list of all product suppliers in DB. Key is prodsupplier id. Value is formatted string describing the pair.
+        /// </summary>
+        /// <returns>sorted list</returns>
         public static SortedList<int, string> getProductsSuppliersIdAndString()
         {
             SortedList<int, string> productsSuppliers = new SortedList<int, string>();
@@ -42,6 +45,12 @@ namespace TravelExpertsData
             return productsSuppliers;
         }
 
+        /// <summary>
+        /// Adds product supplier pair to DB
+        /// </summary>
+        /// <param name="productId">Product ID</param>
+        /// <param name="supplierId">Supplier ID</param>
+        /// <returns>Successful?</returns>
         public static bool addProductSupplier(int productId, int supplierId)
         {
             bool success = false;
@@ -68,6 +77,12 @@ namespace TravelExpertsData
             return success;
         }
 
+        /// <summary>
+        /// Removes product supplier pair to DB
+        /// </summary>
+        /// <param name="productId">Product ID</param>
+        /// <param name="supplierId">Supplier ID</param>
+        /// <returns>Successful?</returns>
         public static bool removeProductSupplier(int productId, int supplierId)
         {
             bool success = false;
