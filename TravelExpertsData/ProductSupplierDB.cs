@@ -5,14 +5,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+ * Purpose: Class for creating ProductSupplier Database Objects
+ * Author: Tawico
+ * Date: September 18, 2019
+ * 
+ * */
+
 namespace TravelExpertsData
 {
     public static class ProductSupplierDB
     {
+        /// <summary>
+        /// Public static class method for adding product supplier
+        /// </summary>
+        /// <param name="productId">int productId</param>
+        /// <param name="supplierId">int supplierId</param>
+        /// <returns>bool success</returns>
         public static bool addProductSupplier(int productId, int supplierId)
         {
-            bool success = false;
-            // Opens connection
+            bool success = false;//bool success value returned to tell if query successful
+
+            //Sql connection block to connect to TravelExpertsDB; closes connection at end of block
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
                 string query =
@@ -24,6 +38,7 @@ namespace TravelExpertsData
                 {
                     connection.Open();
 
+                    // Adds all parameters to new SQL Command
                     cmd.Parameters.AddWithValue("@ProductId", productId);
                     cmd.Parameters.AddWithValue("@SupplierId", supplierId);
 
@@ -35,10 +50,17 @@ namespace TravelExpertsData
             return success;
         }
 
+        /// <summary>
+        /// Public static class method for removing product supplier
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="supplierId"></param>
+        /// <returns></returns>
         public static bool removeProductSupplier(int productId, int supplierId)
         {
-            bool success = false;
-            // Opens connection
+            bool success = false;//bool success value returned to tell if query successful
+
+            //Sql connection block to connect to TravelExpertsDB; closes connection at end of block
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
                 string query =
@@ -46,11 +68,13 @@ namespace TravelExpertsData
                     "WHERE " +
                     "ProductId = @ProductId AND " +
                     "SupplierId = @SupplierId ; ";
-                // Adds all parameters to new SQL Command
+                
+                //sql command block; disposes command at end of block
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
                     connection.Open();
 
+                    //Adds all parameters to new SQL Command
                     cmd.Parameters.AddWithValue("@ProductId", productId);
                     cmd.Parameters.AddWithValue("@SupplierId", supplierId);
 

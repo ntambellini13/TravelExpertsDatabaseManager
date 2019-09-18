@@ -11,17 +11,22 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TravelExpertsData;
 
+/*
+ * Purpose: Main Form Class loads and runs main program functions
+ * Author: Tawico
+ * Date: September 18, 2019
+ * 
+ * */
+
 namespace TravelExpertsDatabaseManager
 {
     public partial class MainForm : Form
     {
 
-        public FindableBindingList<Product> products;
-        public FindableBindingList<Supplier> suppliers;
+        public FindableBindingList<Product> products;// Holds all products from database
+        public FindableBindingList<Supplier> suppliers;// Holds all suppliers from database
 
         public FindableBindingList<Package> packages; // Holds all packages from database
-
-        
 
         public MainForm()
         {
@@ -35,7 +40,7 @@ namespace TravelExpertsDatabaseManager
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
-
+            //Initialize and load data for main form components
             InitializeProductDataBinding();
             InitializeProductNameSearchComboBox();
             InitializeSupplierDataBinding();
@@ -43,7 +48,6 @@ namespace TravelExpertsDatabaseManager
 
             LoadPackageDataBinding();
             LoadPackageNameSearchComboBox();
-
         }
 
 
@@ -71,33 +75,46 @@ namespace TravelExpertsDatabaseManager
             packageBindingSource.DataSource = packages;
         }
 
-
+        /// <summary>
+        /// Private form class method initializes component
+        /// </summary>
         private void InitializeProductNameSearchComboBox()
         {
-            foreach(Product product in products)
+            //iterate through products list from database and populate product combo box with name property of each Product class object
+            foreach (Product product in products)
             {
                 productComboBox.Items.Add(product.ProductName);
             }
         }
 
+        /// <summary>
+        /// Private form class method initializes component
+        /// </summary>
         private void InitializeProductDataBinding()
         {
-            products = new FindableBindingList<Product>(ProductsDB.GetProducts());
-            productBindingSource.DataSource = products;
+            products = new FindableBindingList<Product>(ProductsDB.GetProducts());//populates list with data retrieved from database
+            productBindingSource.DataSource = products;//adds list data to binding source's datasource 
         }
-        
+
+        /// <summary>
+        /// Private form class method initializes component
+        /// </summary>
         private void InitializeSupplierNameSearchComboBox()
         {
+            //iterate through suppliers list from database and populate supplier combo box with name property of each Supplier class object
             foreach (Supplier supplier in suppliers)
             {
                 supplierComboBox.Items.Add(supplier.SupplierName);
             }
         }
-        
+
+        /// <summary>
+        /// Private form class method initializes component
+        /// </summary>
         private void InitializeSupplierDataBinding()
         {
-            suppliers = new FindableBindingList<Supplier>(SuppliersDB.GetSuppliers());
-            supplierBindingSource.DataSource = suppliers;
+            suppliers = new FindableBindingList<Supplier>(SuppliersDB.GetSuppliers());//populates list with data retrieved from database
+            supplierBindingSource.DataSource = suppliers;//adds list data to binding source's datasource
         }
 
         /// <summary>
@@ -130,8 +147,14 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// Moves to previous product
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void productPrevButton_Click(object sender, EventArgs e)
         {
+            // Moves the binding source and product name combo box to previous item
             productBindingSource.MovePrevious();
             if (productComboBox.SelectedIndex > 0)
             {
@@ -140,8 +163,14 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// Moves to next product
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void productNextButton_Click(object sender, EventArgs e)
         {
+            // Moves the binding source and product name combo box to next item
             productBindingSource.MoveNext();
             if (productComboBox.SelectedIndex < productComboBox.Items.Count - 1)
             {
@@ -150,8 +179,14 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// Moves to previous supplier
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void supplierPrevButton_Click(object sender, EventArgs e)
         {
+            // Moves the binding source and supplier name combo box to previous item
             supplierBindingSource.MovePrevious();
             if (supplierComboBox.SelectedIndex > 0)
             {
@@ -159,8 +194,14 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// Moves to next supplier
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void supplierNextButton_Click(object sender, EventArgs e)
         {
+            // Moves the binding source and supplier name combo box to next item
             supplierBindingSource.MoveNext();
             if (supplierComboBox.SelectedIndex < supplierComboBox.Items.Count - 1)
             {
@@ -184,9 +225,18 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// combobox selectedindexchanged event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void productComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //grab the selected product's index and assign to a variable
             int bsIndex = productBindingSource.Find("ProductName", productComboBox.SelectedItem.ToString());
+
+            //if we have selected a product set the binding source position to match that of the selected ones index
+            //populate associated and non associated supplier list boxes
             if (bsIndex > -1)
             {
                 productBindingSource.Position = bsIndex;
@@ -195,6 +245,10 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// Populates suppliers associated and notassociated with a product listBoxes 
+        /// </summary>
+        /// <param name="index"></param>
         private void populateSupplierListBoxes(int index)
         {
             associatedSuppliersListBox.Items.Clear();
@@ -203,15 +257,17 @@ namespace TravelExpertsDatabaseManager
             BindingList<Product> currentProducts = (BindingList<Product>)productBindingSource.DataSource;//grab current products list
             List<Supplier> associatedSupplier = currentProducts[index].Suppliers;//select associated suppliers for the current product
 
-            //BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.List;
+            List<Supplier> allSuppliers = suppliers.ToList();//converts bindable list to list and assigns the suppliers to another list
 
-            List<Supplier> allSuppliers = suppliers.ToList();
-
+            //iterate through each supplier object in our list of all suppliers
             foreach (Supplier supplier in allSuppliers)
             {
-                bool isAssociatedSupplier = false;
+                bool isAssociatedSupplier = false;//bool variable used to check if a supplier is associated with a product
+
+                //iterate through each supplier object in the known associated suppliers 
                 foreach(Supplier associated in associatedSupplier)
                 {
+                    //call class method to verify if suppler is associated, set association bool to true if they are
                     if (supplier.Equals(associated))
                     {
                         isAssociatedSupplier = true;
@@ -220,20 +276,28 @@ namespace TravelExpertsDatabaseManager
                 }
                 if(isAssociatedSupplier)
                 {
-                    associatedSuppliersListBox.Items.Add(supplier);
+                    associatedSuppliersListBox.Items.Add(supplier);//add the confirmed associated suppliers to the associated list
                 }
                 else
                 {
-                    nonAssociatedSuppliersListBox.Items.Add(supplier);
+                    nonAssociatedSuppliersListBox.Items.Add(supplier);//add all other suppliers to the non associated list
                 }
             }
 
         }
 
-
+        /// <summary>
+        /// combobox selectedindexchanged event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void supplierComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //grab the selected supplier's index and assign to a variable
             int bsIndex = supplierBindingSource.Find("SupplierName", supplierComboBox.SelectedItem.ToString());
+
+            //if we have selected a supplier set the binding source position to match that of the selected ones index
+            //populate associated and non associated product list boxes
             if (bsIndex > -1)
             {
                 supplierBindingSource.Position = bsIndex;
@@ -241,6 +305,10 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// Populates products associated and notassociated with a supplier listBoxes 
+        /// </summary>
+        /// <param name="index"></param>
         private void populateProductListBoxes(int selectedIndex)
         {
             associatedProductsListBox.Items.Clear();
@@ -251,13 +319,17 @@ namespace TravelExpertsDatabaseManager
 
             //BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.List;
 
-            List<Product> allProducts = products.ToList();
+            List<Product> allProducts = products.ToList();//converts bindable list to list and assigns the products to another list
 
+            //iterate through each product object in our list of all products
             foreach (Product product in allProducts)
             {
-                bool isAssociatedProduct = false;
+                bool isAssociatedProduct = false;//bool variable used to check if a product is associated with a supplier
+
+                //iterate through each product object in the known associated products
                 foreach (Product associated in associatedProduct)
                 {
+                    //call class method to verify if product is associated, set association bool to true if they are
                     if (product.Equals(associated))
                     {
                         isAssociatedProduct = true;
@@ -266,16 +338,20 @@ namespace TravelExpertsDatabaseManager
                 }
                 if (isAssociatedProduct)
                 {
-                    associatedProductsListBox.Items.Add(product);
+                    associatedProductsListBox.Items.Add(product);//add the confirmed associated products to the associated list
                 }
                 else
                 {
-                    nonAssociatedProductsListBox.Items.Add(product);
+                    nonAssociatedProductsListBox.Items.Add(product);//add all other products to the non associated list
                 }
             }
         }
 
- 
+        /// <summary>
+        /// Opens dialog box to all adding a product in Product tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ProductAddButton_Click(object sender, EventArgs e)
         {
             try
@@ -298,6 +374,11 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// Opens dialog box to all editing a product in Product tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ProductEditButton_Click(object sender, EventArgs e)
         {
             try
@@ -321,6 +402,11 @@ namespace TravelExpertsDatabaseManager
 
         }
 
+        /// <summary>
+        /// Opens dialog box to all adding a supplier in Supplier tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SupplierAddButton_Click(object sender, EventArgs e)
         {
             try
@@ -343,6 +429,11 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// Opens dialog box to all editing a supplier in Supplier tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SupplierEditButton_Click(object sender, EventArgs e)
         {
             try
@@ -480,7 +571,7 @@ namespace TravelExpertsDatabaseManager
         }
 
         /// <summary>
-        /// 
+        /// Adds a supplier to a products associated supplier list box
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -488,13 +579,16 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
-                int index = nonAssociatedSuppliersListBox.SelectedIndex;
+                int index = nonAssociatedSuppliersListBox.SelectedIndex;//assign selected index from nonassociated list box to variable
 
                 if (index != -1)
                 {
                     int productId = -1;
+
+                    //iterate through each item in the list 
                     foreach (Product product in products)
                     {
+                        //if the combobox selected value matches an item in our master list assign its id to a variable
                         if (product.ProductName == productComboBox.SelectedItem.ToString())
                         {
                             productId = product.ProductId;
@@ -505,12 +599,17 @@ namespace TravelExpertsDatabaseManager
                     {
                         return;
                     }
-                    //add selected item from non associated items list box to the associated items listbox
-                    //then remove the selected item from the non associated items list box
+
+                    //if the item was succesfully added to the database
                     if (ProductSupplierDB.addProductSupplier(productId, ((Supplier)nonAssociatedSuppliersListBox.Items[index]).SupplierId))
                     {
+                        //add selected item from non associated items list box to the associated items listbox
                         associatedSuppliersListBox.Items.Add(nonAssociatedSuppliersListBox.Items[index]);
+
+                        //remove the selected item from the non associated items list box
                         nonAssociatedSuppliersListBox.Items.RemoveAt(index);
+
+                        //select the item just added to the list
                         associatedSuppliersListBox.SelectedIndex = associatedSuppliersListBox.Items.Count - 1;
                     }
                     else
@@ -528,7 +627,7 @@ namespace TravelExpertsDatabaseManager
         }
 
         /// <summary>
-        /// 
+        /// Removes a supplier from a products nonassociated supplier list box
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -536,13 +635,16 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
-                int index = associatedSuppliersListBox.SelectedIndex;
+                int index = associatedSuppliersListBox.SelectedIndex;//assign selected index from associated list box to variable
 
                 if (index != -1)
                 {
                     int productId = -1;
+
+                    //iterate through each item in the list
                     foreach (Product product in products)
                     {
+                        //if the combobox selected value matches an item in our master list assign its id to a variable
                         if (product.ProductName == productComboBox.SelectedItem.ToString())
                         {
                             productId = product.ProductId;
@@ -553,12 +655,17 @@ namespace TravelExpertsDatabaseManager
                     {
                         return;
                     }
-                    //add selected item from non associated items list box to the associated items listbox
-                    //then remove the selected item from the non associated items list box
+
+                    //if the item was succesfully removed from the database
                     if (ProductSupplierDB.removeProductSupplier(productId, ((Supplier)associatedSuppliersListBox.Items[index]).SupplierId))
                     {
+                        //add selected item from non associated items list box to the associated items listbox
                         nonAssociatedSuppliersListBox.Items.Add(associatedSuppliersListBox.Items[index]);
+
+                        //remove the selected item from the non associated items list box
                         associatedSuppliersListBox.Items.RemoveAt(index);
+
+                        //select the last item in list
                         nonAssociatedSuppliersListBox.SelectedIndex = nonAssociatedSuppliersListBox.Items.Count - 1;
                     }
                     else
@@ -583,34 +690,24 @@ namespace TravelExpertsDatabaseManager
         }
 
         /// <summary>
-        /// 
+        /// Adds a product to a suppliers associated product list box
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (mainTabControl.SelectedIndex == 1)
-            {
-                productComboBox.SelectedIndex = 0;
-            }
-
-            if (mainTabControl.SelectedIndex == 2)
-            {
-                supplierComboBox.SelectedIndex = 0;
-            }
-        }
-
         private void addProductButton_Click(object sender, EventArgs e)
         {
             try
             {
-                int index = nonAssociatedProductsListBox.SelectedIndex;
+                int index = nonAssociatedProductsListBox.SelectedIndex;//assign selected index from non associated list box to variable
 
                 if (index != -1)
                 {
                     int supplierId = -1;
+
+                    //iterate through each item in the list
                     foreach (Supplier supplier in suppliers)
                     {
+                        //if the combobox selected value matches an item in our master list assign its id to a variable
                         if (supplier.SupplierName == supplierComboBox.SelectedItem.ToString())
                         {
                             supplierId = supplier.SupplierId;
@@ -621,12 +718,17 @@ namespace TravelExpertsDatabaseManager
                     {
                         return;
                     }
-                    //add selected item from non associated items list box to the associated items listbox
-                    //then remove the selected item from the non associated items list box
+
+                    //if the item was succesfully added to the database
                     if (ProductSupplierDB.addProductSupplier(((Product)nonAssociatedProductsListBox.Items[index]).ProductId, supplierId))
                     {
+                        //add selected item from non associated items list box to the associated items listbox
                         associatedProductsListBox.Items.Add(nonAssociatedProductsListBox.Items[index]);
+
+                        //remove the selected item from the non associated items list box
                         nonAssociatedProductsListBox.Items.RemoveAt(index);
+
+                        //select the item just added to the list
                         associatedProductsListBox.SelectedIndex = associatedProductsListBox.Items.Count - 1;
                     }
                     else
@@ -645,7 +747,7 @@ namespace TravelExpertsDatabaseManager
         }
 
         /// <summary>
-        /// 
+        /// Removes a product from a suppliers associated product list box
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -653,13 +755,16 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
-                int index = associatedProductsListBox.SelectedIndex;
+                int index = associatedProductsListBox.SelectedIndex;//assign selected index from associated list box to variable
 
                 if (index != -1)
                 {
                     int supplierId = -1;
+
+                    //iterate through each item in the list
                     foreach (Supplier supplier in suppliers)
                     {
+                        //if the combobox selected value matches an item in our master list assign its id to a variable
                         if (supplier.SupplierName == supplierComboBox.SelectedItem.ToString())
                         {
                             supplierId = supplier.SupplierId;
@@ -670,12 +775,17 @@ namespace TravelExpertsDatabaseManager
                     {
                         return;
                     }
-                    //add selected item from non associated items list box to the associated items listbox
-                    //then remove the selected item from the non associated items list box
+
+                    //if the item was succesfully removed from the database
                     if (ProductSupplierDB.removeProductSupplier(((Product)associatedProductsListBox.Items[index]).ProductId, supplierId))
                     {
+                        //add selected item from non associated items list box to the associated items listbox
                         nonAssociatedProductsListBox.Items.Add(associatedProductsListBox.Items[index]);
+
+                        //remove the selected item from the non associated items list box
                         associatedProductsListBox.Items.RemoveAt(index);
+
+                        //select the last item in the list
                         nonAssociatedProductsListBox.SelectedIndex = nonAssociatedProductsListBox.Items.Count - 1;
                     }
                     else
@@ -696,6 +806,25 @@ namespace TravelExpertsDatabaseManager
                 //remove the last '\' character from the string AKA get the table name
                 tableName = tableName.Substring(0, tableName.Count() - 1);
                 MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
+            }
+        }
+
+        /// <summary>
+        /// Main tab control selected index changed
+        /// initializes data on each tabs controls by setting index when a tab is first selected by setting combo box selected index
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (mainTabControl.SelectedIndex == 1)
+            {
+                productComboBox.SelectedIndex = 0;
+            }
+
+            if (mainTabControl.SelectedIndex == 2)
+            {
+                supplierComboBox.SelectedIndex = 0;
             }
         }
     }
