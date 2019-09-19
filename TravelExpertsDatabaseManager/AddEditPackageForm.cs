@@ -250,18 +250,25 @@ namespace TravelExpertsDatabaseManager
         /// <param name="e"></param>
         private void addSaveButton_Click(object sender, EventArgs e)
         {
-            // If the form is valid, set all public properties to the values in the form
-            if (isValidForm())
+            try
             {
-                PackageName = nameTextBox.Text.Trim();
-                PartnerURL = partnerURLTextBox.Text.Trim();
-                PackageStartDate = startDateTimePicker.Value;
-                PackageEndDate = endDateTimePicker.Value;
-                PackageBasePrice = decimal.Parse(basePriceTextBox.Text.Trim());
-                PackageAgencyCommission = decimal.Parse(agencyCommissionTextBox.Text.Trim());
-                AirfairInclusion = airfairInclusionCheckBox.Checked;
-                PackageDescription = descriptionTextBox.Text.Trim();
-                DialogResult = DialogResult.OK;
+                // If the form is valid, set all public properties to the values in the form
+                if (isValidForm())
+                {
+                    PackageName = nameTextBox.Text.Trim();
+                    PartnerURL = partnerURLTextBox.Text.Trim();
+                    PackageStartDate = startDateTimePicker.Value;
+                    PackageEndDate = endDateTimePicker.Value;
+                    PackageBasePrice = decimal.Parse(basePriceTextBox.Text.Trim());
+                    PackageAgencyCommission = decimal.Parse(agencyCommissionTextBox.Text.Trim());
+                    AirfairInclusion = airfairInclusionCheckBox.Checked;
+                    PackageDescription = descriptionTextBox.Text.Trim();
+                    DialogResult = DialogResult.OK;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography;
@@ -37,23 +38,31 @@ namespace TravelExpertsDatabaseManager
         /// <param name="e"></param>
         private void loginButton_Click(object sender, EventArgs e)
         {
-            String username = usernameTextBox.Text;
-            String password = passwordTextBox.Text;
-            if(String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
+            try
             {
-                MessageBox.Show("Must show password and username");
-            }
-            else
-            {
-                bool loggedIn = AgentDB.loginRequest(username,password);
-                if (loggedIn)
+                String username = usernameTextBox.Text;
+                String password = passwordTextBox.Text;
+                if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
                 {
-                    DialogResult = DialogResult.OK;
+                    MessageBox.Show("Must show password and username");
                 }
                 else
                 {
-                    MessageBox.Show("Your username or password are incorrect");
+                    bool loggedIn = AgentDB.loginRequest(username, password);
+                    if (loggedIn)
+                    {
+                        DialogResult = DialogResult.OK;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Your username or password are incorrect");
+                    }
                 }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
             }
         }
 
