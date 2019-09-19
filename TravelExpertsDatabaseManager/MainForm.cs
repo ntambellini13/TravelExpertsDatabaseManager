@@ -615,7 +615,7 @@ namespace TravelExpertsDatabaseManager
                     }
 
                     //if the item was succesfully added to the database
-                    if (ProductSupplierDB.addProductSupplier(productId, ((Supplier)nonAssociatedSuppliersListBox.Items[index]).SupplierId))
+                    if (ProductsSuppliersDB.addProductSupplier(productId, ((Supplier)nonAssociatedSuppliersListBox.Items[index]).SupplierId))
                     {
                         //add selected item from non associated items list box to the associated items listbox
                         associatedSuppliersListBox.Items.Add(nonAssociatedSuppliersListBox.Items[index]);
@@ -671,7 +671,7 @@ namespace TravelExpertsDatabaseManager
                     }
 
                     //if the item was succesfully removed from the database
-                    if (ProductSupplierDB.removeProductSupplier(productId, ((Supplier)associatedSuppliersListBox.Items[index]).SupplierId))
+                    if (ProductsSuppliersDB.removeProductSupplier(productId, ((Supplier)associatedSuppliersListBox.Items[index]).SupplierId))
                     {
                         //add selected item from non associated items list box to the associated items listbox
                         nonAssociatedSuppliersListBox.Items.Add(associatedSuppliersListBox.Items[index]);
@@ -734,7 +734,7 @@ namespace TravelExpertsDatabaseManager
                     }
 
                     //if the item was succesfully added to the database
-                    if (ProductSupplierDB.addProductSupplier(((Product)nonAssociatedProductsListBox.Items[index]).ProductId, supplierId))
+                    if (ProductsSuppliersDB.addProductSupplier(((Product)nonAssociatedProductsListBox.Items[index]).ProductId, supplierId))
                     {
                         //add selected item from non associated items list box to the associated items listbox
                         associatedProductsListBox.Items.Add(nonAssociatedProductsListBox.Items[index]);
@@ -791,7 +791,7 @@ namespace TravelExpertsDatabaseManager
                     }
 
                     //if the item was succesfully removed from the database
-                    if (ProductSupplierDB.removeProductSupplier(((Product)associatedProductsListBox.Items[index]).ProductId, supplierId))
+                    if (ProductsSuppliersDB.removeProductSupplier(((Product)associatedProductsListBox.Items[index]).ProductId, supplierId))
                     {
                         //add selected item from non associated items list box to the associated items listbox
                         nonAssociatedProductsListBox.Items.Add(associatedProductsListBox.Items[index]);
