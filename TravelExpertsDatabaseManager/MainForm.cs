@@ -33,14 +33,22 @@ namespace TravelExpertsDatabaseManager
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
+            LoginForm loginForm = new LoginForm(); 
+            // Ensure agent logs in before using the form. If did not login, close application
+            if (loginForm.ShowDialog() == DialogResult.OK)
+            {
+                InitializeProductDataBinding();
+                InitializeProductNameSearchComboBox();
+                InitializeSupplierDataBinding();
+                InitializeSupplierNameSearchComboBox();
 
-            InitializeProductDataBinding();
-            InitializeProductNameSearchComboBox();
-            InitializeSupplierDataBinding();
-            InitializeSupplierNameSearchComboBox();
-
-            LoadPackageDataBinding();
-            LoadPackageNameSearchComboBox();
+                LoadPackageDataBinding();
+                LoadPackageNameSearchComboBox();
+            }
+            else
+            {
+                Application.Exit();
+            }
 
         }
 
