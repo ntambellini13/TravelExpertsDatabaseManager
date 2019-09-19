@@ -104,7 +104,7 @@ namespace TravelExpertsDatabaseManager
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void prevButton_Click(object sender, EventArgs e)
+        private void packagePrevButton_Click(object sender, EventArgs e)
         {
             // Moves the binding source and package name combo box to previous item
             packageBindingSource.MovePrevious();
@@ -120,7 +120,7 @@ namespace TravelExpertsDatabaseManager
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void nextButton_Click(object sender, EventArgs e)
+        private void packageNextButton_Click(object sender, EventArgs e)
         {
             // Moves the binding source and package name combo box to next item
             packageBindingSource.MoveNext();
@@ -617,6 +617,11 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+
+        /// <summary>
+        /// Populates the product suppliers in the list boxes for the selected package
+        /// </summary>
+        /// <param name="selectedIndex">Package index</param>
         private void populateProductSupplierListBoxes(int selectedIndex)
         {
             associatedProductSuppliersListBox.Items.Clear();
@@ -625,8 +630,9 @@ namespace TravelExpertsDatabaseManager
             BindingList<Package> currentPackages = (BindingList<Package>) packageBindingSource.DataSource;//grab current packages list
             SortedList<int, string> associatedProductSuppliers = currentPackages[selectedIndex].ProductSuppliers;//select associated product suppliers for the current package
 
-            SortedList<int, string> allProductSuppliers = ProductsSuppliersDB.getProductsSuppliersIdAndString();
+            SortedList<int, string> allProductSuppliers = ProductsSuppliersDB.getProductsSuppliersIdAndString(); // Grabs all product suppliers
 
+            // Go through all product suppliers. Add to associated or non associated product suppliers depending on if the sorted list contains the key
             foreach (KeyValuePair<int, string> entry in allProductSuppliers)
             {
                 if (associatedProductSuppliers.ContainsKey(entry.Key))
@@ -641,21 +647,31 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// Adds the selected product supplier to the package (and DB)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addProductSupplierButton_Click(object sender, EventArgs e)
         {
-            int selectedProductSupplier = nonAssociatedProductSuppliersListBox.SelectedIndex;
+            // Get the selected index and package Id
+            int selectedProductSupplierIndex = nonAssociatedProductSuppliersListBox.SelectedIndex;
             int packageId = ((Package) packageBindingSource.Current).PackageId;
 
-            if (selectedProductSupplier != -1 && packageId!=-1)
+            // Ensure proper indices are chosen
+            if (selectedProductSupplierIndex != -1 && packageId!=-1)
             {
-                //add selected item from non associated items list box to the associated items listbox
-                //then remove the selected item from the non associated items list box
-                if (PackagesProductsSuppliersDB.addPackageProductSupplier(packageId, Convert.ToInt32(nonAssociatedProductSuppliersListBox.Items[selectedProductSupplier].ToString().Split('|').First())))
+                // Gets product supplier Id from list box string and attempts to add package product supplier pair to DB
+                if (PackagesProductsSuppliersDB.addPackageProductSupplier(packageId, Convert.ToInt32(nonAssociatedProductSuppliersListBox.Items[selectedProductSupplierIndex].ToString().Split('|').First())))
                 {
-                    associatedProductSuppliersListBox.Items.Add(nonAssociatedProductSuppliersListBox.Items[selectedProductSupplier]);
-                    nonAssociatedProductSuppliersListBox.Items.RemoveAt(selectedProductSupplier);
+                    // On success
+                    //add selected item from non associated items list box to the associated items listbox
+                    //then remove the selected item from the non associated items list box
+                    associatedProductSuppliersListBox.Items.Add(nonAssociatedProductSuppliersListBox.Items[selectedProductSupplierIndex]);
+                    nonAssociatedProductSuppliersListBox.Items.RemoveAt(selectedProductSupplierIndex);
                     associatedProductSuppliersListBox.SelectedIndex = associatedProductSuppliersListBox.Items.Count - 1;
 
+                    // Attach new product suppliers list to current package
                     Package currentPackage = (Package) packageBindingSource.Current;
                     currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
                 }
@@ -663,6 +679,9 @@ namespace TravelExpertsDatabaseManager
                 {
                     MessageBox.Show("Error in updating database. Application data will be refreshed");
                     // reload data
+                    Package currentPackage = (Package)packageBindingSource.Current;
+                    currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
+                    populateProductSupplierListBoxes(packageBindingSource.Position);
                 }
 
             }
@@ -670,19 +689,23 @@ namespace TravelExpertsDatabaseManager
 
         private void removeProductSupplierButton_Click(object sender, EventArgs e)
         {
-            int selectedProductSupplier = associatedProductSuppliersListBox.SelectedIndex;
+            // Get the selected index and package Id
+            int selectedProductSupplierIndex = associatedProductSuppliersListBox.SelectedIndex;
             int packageId = ((Package) packageBindingSource.Current).PackageId;
 
-            if (selectedProductSupplier != -1 && packageId != -1)
+            // Ensure proper indices are chosen
+            if (selectedProductSupplierIndex != -1 && packageId != -1)
             {
-                //add selected item from non associated items list box to the associated items listbox
-                //then remove the selected item from the non associated items list box
-                if (PackagesProductsSuppliersDB.removePackageProductSupplier(packageId, Convert.ToInt32(associatedProductSuppliersListBox.Items[selectedProductSupplier].ToString().Split('|').First())))
+                // Get product supplier Id from list box string and attempt to remove the package product supplier pair
+                if (PackagesProductsSuppliersDB.removePackageProductSupplier(packageId, Convert.ToInt32(associatedProductSuppliersListBox.Items[selectedProductSupplierIndex].ToString().Split('|').First())))
                 {
-                    nonAssociatedProductSuppliersListBox.Items.Add(associatedProductSuppliersListBox.Items[selectedProductSupplier]);
-                    associatedProductSuppliersListBox.Items.RemoveAt(selectedProductSupplier);
+                    //add selected item from associated items list box to the non associated items listbox
+                    //then remove the selected item from the associated items list box
+                    nonAssociatedProductSuppliersListBox.Items.Add(associatedProductSuppliersListBox.Items[selectedProductSupplierIndex]);
+                    associatedProductSuppliersListBox.Items.RemoveAt(selectedProductSupplierIndex);
                     nonAssociatedProductSuppliersListBox.SelectedIndex = nonAssociatedProductSuppliersListBox.Items.Count - 1;
 
+                    // Attach new product suppliers list to current package
                     Package currentPackage = (Package) packageBindingSource.Current;
                     currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
                 }
@@ -690,6 +713,9 @@ namespace TravelExpertsDatabaseManager
                 {
                     MessageBox.Show("Error in updating database. Application data will be refreshed");
                     // reload data
+                    Package currentPackage = (Package)packageBindingSource.Current;
+                    currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
+                    populateProductSupplierListBoxes(packageBindingSource.Position);
                 }
 
             }
