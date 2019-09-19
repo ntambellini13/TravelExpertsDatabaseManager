@@ -440,7 +440,7 @@
             this.nextButton.TabIndex = 21;
             this.nextButton.Text = "Next";
             this.nextButton.UseVisualStyleBackColor = true;
-            this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
+            this.nextButton.Click += new System.EventHandler(this.packageNextButton_Click);
             // 
             // prevButton
             // 
@@ -450,7 +450,7 @@
             this.prevButton.TabIndex = 21;
             this.prevButton.Text = "Prev";
             this.prevButton.UseVisualStyleBackColor = true;
-            this.prevButton.Click += new System.EventHandler(this.prevButton_Click);
+            this.prevButton.Click += new System.EventHandler(this.packagePrevButton_Click);
             // 
             // packageIdTextBox
             // 

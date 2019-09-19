@@ -91,6 +91,8 @@ namespace TravelExpertsData
 
             SqlConnection connection2 = TravelExpertsDB.GetConnection();
             
+            // Go through every package and select the productSuppliers associated with the package.
+            // Store the product supplier id and a formatted string in package sorted list
             for (int i = 0 ; i < packages.Count() ; i++)
             {
                 String subQuery = "SELECT pps.ProductSupplierId, ProdName, SupName "+
@@ -110,8 +112,10 @@ namespace TravelExpertsData
                 {
                     connection2.Open();
                     subCmd.Parameters.AddWithValue("@PackageId", packages[i].PackageId);
+
                     SqlDataReader subReader =
                         subCmd.ExecuteReader(CommandBehavior.CloseConnection);
+                    // Adds product supplier id, and formatted string identifying product supplier to package
                     while (subReader.Read())
                     {
                         packages[i].ProductSuppliers.Add((int) subReader["ProductSupplierId"],subReader["ProdName"].ToString() + " from " + subReader["SupName"].ToString());

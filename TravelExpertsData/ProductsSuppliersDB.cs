@@ -18,7 +18,10 @@ namespace TravelExpertsData
     public static class ProductsSuppliersDB
     {
         
-
+        /// <summary>
+        /// Gets sorted list of all product suppliers in DB. Key is prodsupplier id. Value is formatted string describing the pair.
+        /// </summary>
+        /// <returns>sorted list</returns>
         public static SortedList<int, string> getProductsSuppliersIdAndString()
         {
             SortedList<int, string> productsSuppliers = new SortedList<int, string>();
@@ -50,11 +53,11 @@ namespace TravelExpertsData
         }
 
         /// <summary>
-        /// Public static class method for adding product supplier
+        /// Adds product supplier pair to DB
         /// </summary>
-        /// <param name="productId">int productId</param>
-        /// <param name="supplierId">int supplierId</param>
-        /// <returns>bool success</returns>
+        /// <param name="productId">Product ID</param>
+        /// <param name="supplierId">Supplier ID</param>
+        /// <returns>Successful?</returns>
         public static bool addProductSupplier(int productId, int supplierId)
         {
             bool success = false;//bool success value returned to tell if query successful
@@ -84,11 +87,11 @@ namespace TravelExpertsData
         }
 
         /// <summary>
-        /// Public static class method for removing product supplier
+        /// Removes product supplier pair to DB
         /// </summary>
-        /// <param name="productId"></param>
-        /// <param name="supplierId"></param>
-        /// <returns></returns>
+        /// <param name="productId">Product ID</param>
+        /// <param name="supplierId">Supplier ID</param>
+        /// <returns>Successful?</returns>
         public static bool removeProductSupplier(int productId, int supplierId)
         {
             bool success = false;//bool success value returned to tell if query successful
