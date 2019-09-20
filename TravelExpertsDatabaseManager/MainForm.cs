@@ -180,7 +180,7 @@ namespace TravelExpertsDatabaseManager
                 searchByPackageNameComboBox.SelectedIndex += 1;
             }
         }
-
+        
         /// <summary>
         /// Moves to previous product
         /// </summary>
@@ -225,7 +225,7 @@ namespace TravelExpertsDatabaseManager
             if (supplierComboBox.SelectedIndex > 0)
             {
                 supplierComboBox.SelectedIndex -= 1;
-                populateSupplierListBoxes(supplierComboBox.SelectedIndex);
+                populateProductListBoxes(supplierComboBox.SelectedIndex);
             }
         }
 
@@ -237,11 +237,11 @@ namespace TravelExpertsDatabaseManager
         private void supplierNextButton_Click(object sender, EventArgs e)
         {
             // Moves the binding source and supplier name combo box to next item
-            supplierBindingSource.MoveNext();
+                supplierBindingSource.MoveNext();
             if (supplierComboBox.SelectedIndex < supplierComboBox.Items.Count - 1)
             {
                 supplierComboBox.SelectedIndex += 1;
-                populateSupplierListBoxes(supplierComboBox.SelectedIndex);
+                populateProductListBoxes(supplierComboBox.SelectedIndex);
             }
         }
 
@@ -289,38 +289,46 @@ namespace TravelExpertsDatabaseManager
         /// <param name="index"></param>
         private void populateSupplierListBoxes(int index)
         {
-            associatedSuppliersListBox.Items.Clear();
-            nonAssociatedSuppliersListBox.Items.Clear();
-            
-            BindingList<Product> currentProducts = (BindingList<Product>)productBindingSource.DataSource;//grab current products list
-            List<Supplier> associatedSupplier = currentProducts[index].Suppliers;//select associated suppliers for the current product
-
-            List<Supplier> allSuppliers = suppliers.ToList();//converts bindable list to list and assigns the suppliers to another list
-
-            //iterate through each supplier object in our list of all suppliers
-            foreach (Supplier supplier in allSuppliers)
+            try
             {
-                bool isAssociatedSupplier = false;//bool variable used to check if a supplier is associated with a product
+                associatedSuppliersListBox.Items.Clear();
+                nonAssociatedSuppliersListBox.Items.Clear();
 
-                //iterate through each supplier object in the known associated suppliers 
-                foreach(Supplier associated in associatedSupplier)
+                BindingList<Product> currentProducts = (BindingList<Product>)productBindingSource.DataSource;//grab current products list
+                List<Supplier> associatedSupplier = currentProducts[index].Suppliers;//select associated suppliers for the current product
+
+                List<Supplier> allSuppliers = suppliers.ToList();//converts bindable list to list and assigns the suppliers to another list
+
+                //iterate through each supplier object in our list of all suppliers
+                foreach (Supplier supplier in allSuppliers)
                 {
-                    //call class method to verify if suppler is associated, set association bool to true if they are
-                    if (supplier.Equals(associated))
+                    bool isAssociatedSupplier = false;//bool variable used to check if a supplier is associated with a product
+
+                    //iterate through each supplier object in the known associated suppliers 
+                    foreach (Supplier associated in associatedSupplier)
                     {
-                        isAssociatedSupplier = true;
-                        break;
+                        //call class method to verify if suppler is associated, set association bool to true if they are
+                        if (supplier.Equals(associated))
+                        {
+                            isAssociatedSupplier = true;
+                            break;
+                        }
+                    }
+                    if (isAssociatedSupplier)
+                    {
+                        associatedSuppliersListBox.Items.Add(supplier);//add the confirmed associated suppliers to the associated list
+                    }
+                    else
+                    {
+                        nonAssociatedSuppliersListBox.Items.Add(supplier);//add all other suppliers to the non associated list
                     }
                 }
-                if(isAssociatedSupplier)
-                {
-                    associatedSuppliersListBox.Items.Add(supplier);//add the confirmed associated suppliers to the associated list
-                }
-                else
-                {
-                    nonAssociatedSuppliersListBox.Items.Add(supplier);//add all other suppliers to the non associated list
-                }
             }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                return;
+            }
+
 
         }
 
@@ -476,7 +484,7 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
-                AddEditForm editSupplier = new AddEditForm("Supplier", true, false);//create instance of addeditform for product add
+                AddEditForm editSupplier = new AddEditForm("Supplier", false, true);//create instance of addeditform for product add
 
                 DialogResult result = editSupplier.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
 
@@ -648,6 +656,11 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
+                if (nonAssociatedSuppliersListBox.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please select a supplier to add!", "Supplier Add Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 int index = nonAssociatedSuppliersListBox.SelectedIndex;//assign selected index from nonassociated list box to variable
 
                 if (index != -1)
@@ -704,6 +717,11 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
+                if (associatedSuppliersListBox.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please select a supplier to remove!", "Supplier Remove Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 int index = associatedSuppliersListBox.SelectedIndex;//assign selected index from associated list box to variable
 
                 if (index != -1)
@@ -734,8 +752,11 @@ namespace TravelExpertsDatabaseManager
                         //remove the selected item from the non associated items list box
                         associatedSuppliersListBox.Items.RemoveAt(index);
 
-                        //select the last item in list
-                        nonAssociatedSuppliersListBox.SelectedIndex = nonAssociatedSuppliersListBox.Items.Count - 1;
+                        int currentProductIndex = productComboBox.SelectedIndex;//capture current products combo box index
+
+                        //change product combo box index then set back to current product to refresh list
+                        productComboBox.SelectedIndex = currentProductIndex - 1;
+                        productComboBox.SelectedIndex = currentProductIndex;
                     }
                     else
                     {
@@ -767,6 +788,11 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
+                if(nonAssociatedProductsListBox.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please select a product to add!", "Product Add Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 int index = nonAssociatedProductsListBox.SelectedIndex;//assign selected index from non associated list box to variable
 
                 if (index != -1)
@@ -824,6 +850,11 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
+                if (associatedProductsListBox.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please select a product to remove!", "Product Remove Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 int index = associatedProductsListBox.SelectedIndex;//assign selected index from associated list box to variable
 
                 if (index != -1)
