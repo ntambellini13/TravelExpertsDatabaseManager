@@ -155,8 +155,9 @@ namespace TravelExpertsData
             }// connection object recycled
         }
 
-        public static void EditProduct(string editProduct, int editProductId)
+        public static bool EditProduct(string editProduct, int editProductId)
         {
+            bool success;
             //Sql connection block to connect to TravelExpertsDB; closes connection at end of block
             //Executes query to edit products
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
@@ -176,8 +177,9 @@ namespace TravelExpertsData
                 adapter.UpdateCommand.Parameters.Add(new SqlParameter("@productName", editProduct));
                 adapter.UpdateCommand.Parameters.Add(new SqlParameter("@productId", editProductId));
 
-                adapter.UpdateCommand.ExecuteNonQuery();
+                success = adapter.UpdateCommand.ExecuteNonQuery() > 0; // Success if rows have been updated
             }// connection object recycled
+            return success;
         }
     }
 }

@@ -157,15 +157,16 @@ namespace TravelExpertsData
         /// </summary>
         /// <param name="editSupplier">string name of supplier to be edited</param>
         /// <param name="editSupplierId">int id of supplier to be edited</param>
-        public static void EditSuppliers(string editSupplier, int editSupplierId)
+        public static bool EditSuppliers(string editSupplier, int editSupplierId)
         {
+            bool success;
             //Sql connection block to connect to TravelExpertsDB; closes connection at end of block
             //Executes query to edit suppliers
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
                 string query = "UPDATE Suppliers " +
                                "SET SupName = @supplierName " +
-                               "WHERE ProductId = @supplierId";
+                               "WHERE SupplierId = @supplierId";
 
                 connection.Open();
 
@@ -178,8 +179,9 @@ namespace TravelExpertsData
                 adapter.UpdateCommand.Parameters.Add(new SqlParameter("@supplierName", editSupplier));
                 adapter.UpdateCommand.Parameters.Add(new SqlParameter("@supplierId", editSupplierId));
 
-                adapter.UpdateCommand.ExecuteNonQuery();
+                success = adapter.UpdateCommand.ExecuteNonQuery() > 0; // Success if rows have been updated
             }// connection object recycled
+            return success;
         }
     }
 }

@@ -25,7 +25,6 @@ namespace TravelExpertsDatabaseManager
 
         public FindableBindingList<Product> products;// Holds all products from database
         public FindableBindingList<Supplier> suppliers;// Holds all suppliers from database
-
         public FindableBindingList<Package> packages; // Holds all packages from database
 
         public MainForm()
@@ -58,7 +57,6 @@ namespace TravelExpertsDatabaseManager
             }
 
         }
-
 
         /// <summary>
         /// Sets up the load by package name combo box
@@ -193,8 +191,8 @@ namespace TravelExpertsDatabaseManager
             if (productComboBox.SelectedIndex > 0)
             {
                 productComboBox.SelectedIndex -= 1;
-                populateSupplierListBoxes(productComboBox.SelectedIndex);
             }
+            populateSupplierListBoxes(productComboBox.SelectedIndex);
         }
 
         /// <summary>
@@ -209,7 +207,6 @@ namespace TravelExpertsDatabaseManager
             if (productComboBox.SelectedIndex < productComboBox.Items.Count - 1)
             {
                 productComboBox.SelectedIndex += 1;
-                populateSupplierListBoxes(productComboBox.SelectedIndex);
             }
         }
 
@@ -225,8 +222,8 @@ namespace TravelExpertsDatabaseManager
             if (supplierComboBox.SelectedIndex > 0)
             {
                 supplierComboBox.SelectedIndex -= 1;
-                populateProductListBoxes(supplierComboBox.SelectedIndex);
             }
+            populateProductListBoxes(supplierComboBox.SelectedIndex);
         }
 
         /// <summary>
@@ -237,11 +234,10 @@ namespace TravelExpertsDatabaseManager
         private void supplierNextButton_Click(object sender, EventArgs e)
         {
             // Moves the binding source and supplier name combo box to next item
-                supplierBindingSource.MoveNext();
+            supplierBindingSource.MoveNext();
             if (supplierComboBox.SelectedIndex < supplierComboBox.Items.Count - 1)
             {
                 supplierComboBox.SelectedIndex += 1;
-                populateProductListBoxes(supplierComboBox.SelectedIndex);
             }
         }
 
@@ -289,8 +285,7 @@ namespace TravelExpertsDatabaseManager
         /// <param name="index"></param>
         private void populateSupplierListBoxes(int index)
         {
-            try
-            {
+            
                 associatedSuppliersListBox.Items.Clear();
                 nonAssociatedSuppliersListBox.Items.Clear();
 
@@ -323,13 +318,6 @@ namespace TravelExpertsDatabaseManager
                         nonAssociatedSuppliersListBox.Items.Add(supplier);//add all other suppliers to the non associated list
                     }
                 }
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                return;
-            }
-
-
         }
 
         /// <summary>
@@ -347,7 +335,7 @@ namespace TravelExpertsDatabaseManager
             if (bsIndex > -1)
             {
                 supplierBindingSource.Position = bsIndex;
-                populateProductListBoxes(supplierComboBox.SelectedIndex);
+                populateProductListBoxes(bsIndex);
             }
         }
 
@@ -355,15 +343,13 @@ namespace TravelExpertsDatabaseManager
         /// Populates products associated and notassociated with a supplier listBoxes 
         /// </summary>
         /// <param name="index"></param>
-        private void populateProductListBoxes(int selectedIndex)
+        private void populateProductListBoxes(int index)
         {
             associatedProductsListBox.Items.Clear();
             nonAssociatedProductsListBox.Items.Clear();
 
-            BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.DataSource;//grab current products list
-            List<Product> associatedProduct = currentSuppliers[selectedIndex].Products;//select associated suppliers for the current product
-
-            //BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.List;
+            BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.DataSource;//grab current suppliers list
+            List<Product> associatedProduct = currentSuppliers[index].Products;//select associated products for the current supplier
 
             List<Product> allProducts = products.ToList();//converts bindable list to list and assigns the products to another list
 
@@ -429,15 +415,27 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
-                AddEditForm editProduct = new AddEditForm("Product", false, true, productNameTextBox.Text);//create instance of addeditform for product add
+                string currentProductName = productNameTextBox.Text;
+                AddEditForm editProduct = new AddEditForm("Product", false, true, currentProductName);//create instance of addeditform for product add
 
                 DialogResult result = editProduct.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
+                int updatedProductId = int.Parse(productIdTextBox.Text);
 
                 if (result == DialogResult.OK)
                 {
-                    ProductsDB.EditProduct(editProduct.editedProductName, int.Parse(productIdTextBox.Text));
-                    InitializeProductDataBinding();
-                    InitializeProductNameSearchComboBox();
+                    if (ProductsDB.EditProduct(editProduct.editedProductName, int.Parse(productIdTextBox.Text)))
+                    {
+                        InitializeProductDataBinding();
+                        InitializeProductNameSearchComboBox();
+                        productComboBox.SelectedItem = editProduct.editedProductName;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error. Could not update product. Please try again.");
+                        InitializeProductDataBinding();
+                        InitializeProductNameSearchComboBox();
+                        productComboBox.SelectedItem = currentProductName;
+                    }
                 }
             }
             catch (SqlException ex)
@@ -484,15 +482,28 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
-                AddEditForm editSupplier = new AddEditForm("Supplier", false, true);//create instance of addeditform for product add
+                string currentSupplierName = supplierNameTextBox.Text;
+                AddEditForm editSupplier = new AddEditForm("Supplier", false, true, currentSupplierName);//create instance of addeditform for product add
 
                 DialogResult result = editSupplier.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
 
                 if (result == DialogResult.OK)
                 {
-                    SuppliersDB.EditSuppliers(editSupplier.editedSupplierName, int.Parse(supplierIdTextBox.Text));//ProductsDB class method call to add product
-                    InitializeSupplierDataBinding();
-                    InitializeSupplierNameSearchComboBox();
+                    //SupplierDB class method call to edit supplier
+                    if (SuppliersDB.EditSuppliers(editSupplier.editedSupplierName, int.Parse(supplierIdTextBox.Text)))
+                    {
+                        InitializeSupplierDataBinding();
+                        InitializeSupplierNameSearchComboBox();
+                        supplierComboBox.SelectedItem = editSupplier.editedSupplierName;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error. Could not update supplier. Please try again.");
+                        InitializeSupplierDataBinding();
+                        InitializeSupplierNameSearchComboBox();
+                        supplierComboBox.SelectedItem = currentSupplierName;
+                    }
+
                 }
             }
             catch (SqlException ex)
