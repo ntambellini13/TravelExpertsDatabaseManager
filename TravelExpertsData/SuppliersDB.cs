@@ -157,30 +157,38 @@ namespace TravelExpertsData
         /// </summary>
         /// <param name="editSupplier">string name of supplier to be edited</param>
         /// <param name="editSupplierId">int id of supplier to be edited</param>
-        public static bool EditSuppliers(string editSupplier, int editSupplierId)
+        public static bool UpdateSuppliers(Supplier oldSupplier, Supplier newSupplier)
         {
             bool success;
-            //Sql connection block to connect to TravelExpertsDB; closes connection at end of block
-            //Executes query to edit suppliers
+            // Opens connection
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
-                string query = "UPDATE Suppliers " +
-                               "SET SupName = @supplierName " +
-                               "WHERE SupplierId = @supplierId";
+                string query =
+                    "UPDATE Suppliers " +
+                    "SET " +
+                    "SupName = @NewSupplierName " +
 
-                connection.Open();
+                    "WHERE " +
+                    "SupplierId = @OldSupplierId AND " +
+                    "SupName = @OldSupName ; ";
 
-                SqlDataAdapter adapter = new SqlDataAdapter();//new sql adapter for modifying db
 
-                //associate the insert command
-                adapter.UpdateCommand = new SqlCommand(query, connection);
+                // Creates command and adds all proper parameters
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    connection.Open();
 
-                //add and declare sql parameters for the adapter update command
-                adapter.UpdateCommand.Parameters.Add(new SqlParameter("@supplierName", editSupplier));
-                adapter.UpdateCommand.Parameters.Add(new SqlParameter("@supplierId", editSupplierId));
+                    cmd.Parameters.AddWithValue("@NewSupplierName", newSupplier.SupplierName);
 
-                success = adapter.UpdateCommand.ExecuteNonQuery() > 0; // Success if rows have been updated
+                    cmd.Parameters.AddWithValue("@OldSupplierId", oldSupplier.SupplierId);
+                    cmd.Parameters.AddWithValue("@OldSupName", oldSupplier.SupplierName);
+
+                    success = cmd.ExecuteNonQuery() > 0; // Success if rows changed
+
+                } // cmd object recycled
             }// connection object recycled
+
+
             return success;
         }
     }

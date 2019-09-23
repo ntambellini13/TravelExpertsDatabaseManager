@@ -155,30 +155,38 @@ namespace TravelExpertsData
             }// connection object recycled
         }
 
-        public static bool EditProduct(string editProduct, int editProductId)
+        public static bool UpdateProduct(Product oldProduct, Product newProduct)
         {
             bool success;
-            //Sql connection block to connect to TravelExpertsDB; closes connection at end of block
-            //Executes query to edit products
+            // Opens connection
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
-                string query = "UPDATE Products " +
-                               "SET ProdName = @productName " +
-                               "WHERE ProductId = @productId";
+                string query =
+                    "UPDATE Products " +
+                    "SET " +
+                    "ProdName = @NewProductName " +
+                    
+                    "WHERE " +
+                    "ProductId = @OldProductId AND " +
+                    "ProdName = @OldProdName ; ";
+                    
 
-                connection.Open();
+                // Creates command and adds all proper parameters
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    connection.Open();
 
-                SqlDataAdapter adapter = new SqlDataAdapter();//new sql adapter for modifying db
+                    cmd.Parameters.AddWithValue("@NewProductName", newProduct.ProductName);
 
-                //associate the insert command
-                adapter.UpdateCommand = new SqlCommand(query, connection);
+                    cmd.Parameters.AddWithValue("@OldProductId", oldProduct.ProductId);
+                    cmd.Parameters.AddWithValue("@OldProdName", oldProduct.ProductName);
 
-                //add and declare sql parameters for the adapter update command
-                adapter.UpdateCommand.Parameters.Add(new SqlParameter("@productName", editProduct));
-                adapter.UpdateCommand.Parameters.Add(new SqlParameter("@productId", editProductId));
+                    success = cmd.ExecuteNonQuery() > 0; // Success if rows changed
 
-                success = adapter.UpdateCommand.ExecuteNonQuery() > 0; // Success if rows have been updated
+                } // cmd object recycled
             }// connection object recycled
+
+
             return success;
         }
     }
