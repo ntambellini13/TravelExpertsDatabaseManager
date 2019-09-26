@@ -155,29 +155,80 @@ namespace TravelExpertsData
             }// connection object recycled
         }
 
-        public static void EditProduct(string editProduct, int editProductId)
+        /// <summary>
+        /// Public static class method for editing products
+        /// </summary>
+        /// <param name="oldProduct">Product class object for getting old values</param>
+        /// <param name="newProduct">Product class object for getting new values</param>
+        /// <returns></returns>
+        public static bool UpdateProduct(Product oldProduct, Product newProduct)
         {
-            //Sql connection block to connect to TravelExpertsDB; closes connection at end of block
-            //Executes query to edit products
+            bool success;
+            // Opens connection
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
-                string query = "UPDATE Products " +
-                               "SET ProdName = @productName " +
-                               "WHERE ProductId = @productId";
+                string query =
+                    "UPDATE Products " +
+                    "SET " +
+                    "ProdName = @NewProductName " +
+                    
+                    "WHERE " +
+                    "ProductId = @OldProductId AND " +
+                    "ProdName = @OldProdName ; ";
+                    
 
-                connection.Open();
+                // Creates command and adds all proper parameters
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    connection.Open();
 
-                SqlDataAdapter adapter = new SqlDataAdapter();//new sql adapter for modifying db
+                    //Add parameters for sql query
+                    cmd.Parameters.AddWithValue("@NewProductName", newProduct.ProductName);
+                    cmd.Parameters.AddWithValue("@OldProductId", oldProduct.ProductId);
+                    cmd.Parameters.AddWithValue("@OldProdName", oldProduct.ProductName);
 
-                //associate the insert command
-                adapter.UpdateCommand = new SqlCommand(query, connection);
+                    success = cmd.ExecuteNonQuery() > 0; // Success if rows changed
 
-                //add and declare sql parameters for the adapter update command
-                adapter.UpdateCommand.Parameters.Add(new SqlParameter("@productName", editProduct));
-                adapter.UpdateCommand.Parameters.Add(new SqlParameter("@productId", editProductId));
-
-                adapter.UpdateCommand.ExecuteNonQuery();
+                } // cmd object recycled
             }// connection object recycled
+
+
+            return success;
+        }
+
+        /// <summary>
+        /// Public static class method for deleting products
+        /// </summary>
+        /// <param name="oldProduct">Product class object for products being deleted</param>
+        /// <returns></returns>
+        public static bool DeleteProduct(Product oldProduct)
+        {
+            bool success = false;
+            // Opens connection
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                string query =
+                    "DELETE FROM Products " +
+                    "WHERE " +
+                    "ProductId = @OldProductId AND " +
+                    "ProdName = @OldProductName ; ";
+                // Adds all parameters to new SQL Command
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    connection.Open();
+
+                    //Add parameters for sql query
+                    cmd.Parameters.AddWithValue("@OldProductId", oldProduct.ProductId);
+                    cmd.Parameters.AddWithValue("@OldProductName", oldProduct.ProductName);
+                    
+
+                    success = cmd.ExecuteNonQuery() > 0; // Success if rows have been deleted
+
+                } // cmd object recycled
+            }// connection object recycled
+
+
+            return success;
         }
     }
 }

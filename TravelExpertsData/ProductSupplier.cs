@@ -15,9 +15,19 @@ namespace TravelExpertsData
 {
     public class ProductSupplier
     {
-        //Class public properties
+        /// <summary>
+        /// Public property for ProductSupplierId
+        /// </summary>
         public int ProductSupplierId { get; set; }
+
+        /// <summary>
+        /// Public property for ProductId
+        /// </summary>
         public int ProductId { get; set; }
+
+        /// <summary>
+        /// Public property for SupplierId
+        /// </summary>
         public int SupplierId { get; set; }
 
         /// <summary>

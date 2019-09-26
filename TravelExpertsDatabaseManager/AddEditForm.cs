@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TravelExpertsData;
 
 /*
  * Purpose: Form for adding or editing suppliers and products
@@ -23,7 +24,9 @@ namespace TravelExpertsDatabaseManager
         public string addedProductName;
         public string addedSupplierName;
         public string editedProductName;
+        public int editedProductId;
         public string editedSupplierName;
+        public int editedSupplierId;
 
         public string localEditObjectType;
         public bool localAddMode;
@@ -36,9 +39,22 @@ namespace TravelExpertsDatabaseManager
         /// <param name="dbAddMode">bool to set add mode</param>
         /// <param name="dbEditMode">bool to set edit mode</param>
         /// <param name="editValue">string value being edited</param>
-        public AddEditForm(string dbAddEditObjectType, bool dbAddMode = false, bool dbEditMode = false, string editValue = "")
+        public AddEditForm(string dbAddEditObjectType, bool dbAddMode = false, bool dbEditMode = false, Product oldProduct = null, Supplier oldSupplier = null)
         {
             InitializeComponent();
+
+            string editValue = "";
+
+            if(oldProduct != null)
+            {
+                editValue = oldProduct.ProductName;
+                editedProductId = oldProduct.ProductId;
+            }
+            else if(oldSupplier != null)
+            {
+                editValue = oldSupplier.SupplierName;
+                editedSupplierId = oldSupplier.SupplierId;
+            }
 
             //assign input parameters to class variables
             localEditObjectType = dbAddEditObjectType;
@@ -150,5 +166,6 @@ namespace TravelExpertsDatabaseManager
                     break;
             }
         }
+        
     }
 }

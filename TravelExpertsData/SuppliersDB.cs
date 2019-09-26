@@ -155,31 +155,77 @@ namespace TravelExpertsData
         /// <summary>
         /// Public static class method for editing suppliers
         /// </summary>
-        /// <param name="editSupplier">string name of supplier to be edited</param>
-        /// <param name="editSupplierId">int id of supplier to be edited</param>
-        public static void EditSuppliers(string editSupplier, int editSupplierId)
+        /// <param name="oldSupplier">Supplier class object for getting old values</param>
+        /// <param name="newSupplier">Supplier class object for getting new values</param>
+        /// <returns></returns>
+        public static bool UpdateSuppliers(Supplier oldSupplier, Supplier newSupplier)
         {
-            //Sql connection block to connect to TravelExpertsDB; closes connection at end of block
-            //Executes query to edit suppliers
+            bool success;
+            // Opens connection
             using (SqlConnection connection = TravelExpertsDB.GetConnection())
             {
-                string query = "UPDATE Suppliers " +
-                               "SET SupName = @supplierName " +
-                               "WHERE ProductId = @supplierId";
+                string query =
+                    "UPDATE Suppliers " +
+                    "SET " +
+                    "SupName = @NewSupplierName " +
 
-                connection.Open();
+                    "WHERE " +
+                    "SupplierId = @OldSupplierId AND " +
+                    "SupName = @OldSupName ; ";
 
-                SqlDataAdapter adapter = new SqlDataAdapter();//new sql adapter for modifying db
 
-                //associate the insert command
-                adapter.UpdateCommand = new SqlCommand(query, connection);
+                // Creates command and adds all proper parameters
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    connection.Open();
 
-                //add and declare sql parameters for the adapter update command
-                adapter.UpdateCommand.Parameters.Add(new SqlParameter("@supplierName", editSupplier));
-                adapter.UpdateCommand.Parameters.Add(new SqlParameter("@supplierId", editSupplierId));
+                    //Add parameters for sql query
+                    cmd.Parameters.AddWithValue("@NewSupplierName", newSupplier.SupplierName);
+                    cmd.Parameters.AddWithValue("@OldSupplierId", oldSupplier.SupplierId);
+                    cmd.Parameters.AddWithValue("@OldSupName", oldSupplier.SupplierName);
 
-                adapter.UpdateCommand.ExecuteNonQuery();
+                    success = cmd.ExecuteNonQuery() > 0; // Success if rows changed
+
+                } // cmd object recycled
             }// connection object recycled
+
+
+            return success;
+        }
+
+        /// <summary>
+        /// Public static class method for deleting suppliers
+        /// </summary>
+        /// <param name="oldSupplier">Supplier class object for supplier being deleted</param>
+        /// <returns></returns>
+        public static bool DeleteSupplier(Supplier oldSupplier)
+        {
+            bool success = false;
+            // Opens connection
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                string query =
+                    "DELETE FROM Suppliers " +
+                    "WHERE " +
+                    "SupplierId = @OldSupplierId AND " +
+                    "SupName = @OldSupplierName ; ";
+                // Adds all parameters to new SQL Command
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    connection.Open();
+
+                    //Add parameters for sql query
+                    cmd.Parameters.AddWithValue("@OldSupplierId", oldSupplier.SupplierId);
+                    cmd.Parameters.AddWithValue("@OldSupplierName", oldSupplier.SupplierName);
+
+
+                    success = cmd.ExecuteNonQuery() > 0; // Success if rows have been deleted
+
+                } // cmd object recycled
+            }// connection object recycled
+
+
+            return success;
         }
     }
 }

@@ -24,7 +24,6 @@ namespace TravelExpertsDatabaseManager
 
         public FindableBindingList<Product> products;// Holds all products from database
         public FindableBindingList<Supplier> suppliers;// Holds all suppliers from database
-
         public FindableBindingList<Package> packages; // Holds all packages from database
 
         public MainForm()
@@ -76,6 +75,7 @@ namespace TravelExpertsDatabaseManager
             {
                 supplierComboBox.SelectedIndex = 0;
             }
+            supplierComboBox.SelectedIndex = 0;
         }
 
         // Packages Tab
@@ -110,7 +110,7 @@ namespace TravelExpertsDatabaseManager
                 searchByPackageNameComboBox.SelectedIndex += 1;
             }
         }
-
+        
         /// <summary>
         /// Moves binding source to package selected in search by name combo box
         /// </summary>
@@ -125,8 +125,8 @@ namespace TravelExpertsDatabaseManager
             {
                 packageBindingSource.Position = bsIndex;
                 populateProductSupplierListBoxes(bsIndex);
-
             }
+            populateSupplierListBoxes(productComboBox.SelectedIndex);
         }
 
         /// <summary>
@@ -228,6 +228,7 @@ namespace TravelExpertsDatabaseManager
             {
                 MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
+            populateProductListBoxes(supplierComboBox.SelectedIndex);
         }
 
         /// <summary>
@@ -941,6 +942,11 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
+                if(nonAssociatedProductsListBox.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please select a product to add!", "Product Add Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 int index = nonAssociatedProductsListBox.SelectedIndex;//assign selected index from non associated list box to variable
 
                 if (index != -1)
@@ -1002,6 +1008,11 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
+                if (associatedProductsListBox.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please select a product to remove!", "Product Remove Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 int index = associatedProductsListBox.SelectedIndex;//assign selected index from associated list box to variable
 
                 if (index != -1)
