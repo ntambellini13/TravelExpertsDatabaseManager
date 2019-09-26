@@ -403,6 +403,8 @@ namespace TravelExpertsDatabaseManager
                     ProductsDB.AddProducts(addProduct.addedProductName);//ProductsDB class method call to add product
                     InitializeProductDataBinding();
                     InitializeProductNameSearchComboBox();
+                    InitializeSupplierDataBinding();
+                    InitializeSupplierNameSearchComboBox();
                 }
             }
             catch (SqlException ex)
@@ -479,6 +481,8 @@ namespace TravelExpertsDatabaseManager
                     SuppliersDB.AddSuppliers(addSupplier.addedSupplierName);//ProductsDB class method call to add product
                     InitializeSupplierDataBinding();
                     InitializeSupplierNameSearchComboBox();
+                    InitializeProductDataBinding();
+                    InitializeProductNameSearchComboBox();
                 }
             }
             catch (SqlException ex)
@@ -1073,6 +1077,83 @@ namespace TravelExpertsDatabaseManager
                 //remove the last '\' character from the string AKA get the table name
                 tableName = tableName.Substring(0, tableName.Count() - 1);
                 MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
+            }
+        }
+
+        private void productDeleteButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Confirms user wants to delete package
+                DialogResult result = MessageBox.Show("Are you sure you wold like to delete this product?", "Confirm delete", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    // Gets reference to current package. Deletes it. If unsuccessful, show error message.
+                    Product currentProduct = (Product)productBindingSource.Current;
+                    if (ProductsDB.DeleteProduct(currentProduct))
+                    {
+                        products.Remove(currentProduct);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error. Could not delete product. Please try again.");
+                    }
+                    InitializeProductDataBinding();
+                    InitializeProductNameSearchComboBox();
+                    InitializeSupplierDataBinding();
+                    InitializeSupplierNameSearchComboBox();
+                }
+            }
+            catch (SqlException ex)
+            {
+                //create a regex match option that searches the exception message string for the table that caused the foreign key constraint
+                Match match = Regex.Match(ex.Message, "\"dbo.+\"", RegexOptions.IgnoreCase);
+
+                //split the returned string by the '.' character name, then grab the second string out of the two and assign it to a variable
+                String tableName = match.Value.Split('.').Last();
+
+                //remove the last '\' character from the string AKA get the table name
+                tableName = tableName.Substring(0, tableName.Count() - 1);
+                MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the product.");
+            }
+        }
+
+        private void supplierDeleteButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Confirms user wants to delete package
+                DialogResult result = MessageBox.Show("Are you sure you wold like to delete this supplier?", "Confirm delete", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    // Gets reference to current package. Deletes it. If unsuccessful, show error message.
+                    Supplier currentSupplier = (Supplier)supplierBindingSource.Current;
+                    if (SuppliersDB.DeleteSupplier(currentSupplier))
+                    {
+                        suppliers.Remove(currentSupplier);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error. Could not delete supplier. Please try again.");
+                    }
+                    InitializeSupplierDataBinding();
+                    InitializeSupplierNameSearchComboBox();
+                    InitializeProductDataBinding();
+                    InitializeProductNameSearchComboBox();
+
+                }
+            }
+            catch (SqlException ex)
+            {
+                //create a regex match option that searches the exception message string for the table that caused the foreign key constraint
+                Match match = Regex.Match(ex.Message, "\"dbo.+\"", RegexOptions.IgnoreCase);
+
+                //split the returned string by the '.' character name, then grab the second string out of the two and assign it to a variable
+                String tableName = match.Value.Split('.').Last();
+
+                //remove the last '\' character from the string AKA get the table name
+                tableName = tableName.Substring(0, tableName.Count() - 1);
+                MessageBox.Show($"This supplier is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the supplier.");
             }
         }
     }

@@ -155,8 +155,9 @@ namespace TravelExpertsData
         /// <summary>
         /// Public static class method for editing suppliers
         /// </summary>
-        /// <param name="editSupplier">string name of supplier to be edited</param>
-        /// <param name="editSupplierId">int id of supplier to be edited</param>
+        /// <param name="oldSupplier">Supplier class object for getting old values</param>
+        /// <param name="newSupplier">Supplier class object for getting new values</param>
+        /// <returns></returns>
         public static bool UpdateSuppliers(Supplier oldSupplier, Supplier newSupplier)
         {
             bool success;
@@ -178,12 +179,47 @@ namespace TravelExpertsData
                 {
                     connection.Open();
 
+                    //Add parameters for sql query
                     cmd.Parameters.AddWithValue("@NewSupplierName", newSupplier.SupplierName);
-
                     cmd.Parameters.AddWithValue("@OldSupplierId", oldSupplier.SupplierId);
                     cmd.Parameters.AddWithValue("@OldSupName", oldSupplier.SupplierName);
 
                     success = cmd.ExecuteNonQuery() > 0; // Success if rows changed
+
+                } // cmd object recycled
+            }// connection object recycled
+
+
+            return success;
+        }
+
+        /// <summary>
+        /// Public static class method for deleting suppliers
+        /// </summary>
+        /// <param name="oldSupplier">Supplier class object for supplier being deleted</param>
+        /// <returns></returns>
+        public static bool DeleteSupplier(Supplier oldSupplier)
+        {
+            bool success = false;
+            // Opens connection
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                string query =
+                    "DELETE FROM Suppliers " +
+                    "WHERE " +
+                    "SupplierId = @OldSupplierId AND " +
+                    "SupName = @OldSupplierName ; ";
+                // Adds all parameters to new SQL Command
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    connection.Open();
+
+                    //Add parameters for sql query
+                    cmd.Parameters.AddWithValue("@OldSupplierId", oldSupplier.SupplierId);
+                    cmd.Parameters.AddWithValue("@OldSupplierName", oldSupplier.SupplierName);
+
+
+                    success = cmd.ExecuteNonQuery() > 0; // Success if rows have been deleted
 
                 } // cmd object recycled
             }// connection object recycled

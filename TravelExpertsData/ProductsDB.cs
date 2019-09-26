@@ -155,6 +155,12 @@ namespace TravelExpertsData
             }// connection object recycled
         }
 
+        /// <summary>
+        /// Public static class method for editing products
+        /// </summary>
+        /// <param name="oldProduct">Product class object for getting old values</param>
+        /// <param name="newProduct">Product class object for getting new values</param>
+        /// <returns></returns>
         public static bool UpdateProduct(Product oldProduct, Product newProduct)
         {
             bool success;
@@ -176,12 +182,47 @@ namespace TravelExpertsData
                 {
                     connection.Open();
 
+                    //Add parameters for sql query
                     cmd.Parameters.AddWithValue("@NewProductName", newProduct.ProductName);
-
                     cmd.Parameters.AddWithValue("@OldProductId", oldProduct.ProductId);
                     cmd.Parameters.AddWithValue("@OldProdName", oldProduct.ProductName);
 
                     success = cmd.ExecuteNonQuery() > 0; // Success if rows changed
+
+                } // cmd object recycled
+            }// connection object recycled
+
+
+            return success;
+        }
+
+        /// <summary>
+        /// Public static class method for deleting products
+        /// </summary>
+        /// <param name="oldProduct">Product class object for products being deleted</param>
+        /// <returns></returns>
+        public static bool DeleteProduct(Product oldProduct)
+        {
+            bool success = false;
+            // Opens connection
+            using (SqlConnection connection = TravelExpertsDB.GetConnection())
+            {
+                string query =
+                    "DELETE FROM Products " +
+                    "WHERE " +
+                    "ProductId = @OldProductId AND " +
+                    "ProdName = @OldProductName ; ";
+                // Adds all parameters to new SQL Command
+                using (SqlCommand cmd = new SqlCommand(query, connection))
+                {
+                    connection.Open();
+
+                    //Add parameters for sql query
+                    cmd.Parameters.AddWithValue("@OldProductId", oldProduct.ProductId);
+                    cmd.Parameters.AddWithValue("@OldProductName", oldProduct.ProductName);
+                    
+
+                    success = cmd.ExecuteNonQuery() > 0; // Success if rows have been deleted
 
                 } // cmd object recycled
             }// connection object recycled
