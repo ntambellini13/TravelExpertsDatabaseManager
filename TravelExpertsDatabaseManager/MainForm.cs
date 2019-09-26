@@ -58,25 +58,7 @@ namespace TravelExpertsDatabaseManager
 
         }
 
-        /// <summary>
-        /// Main tab control selected index changed
-        /// initializes data on each tabs controls by setting index when a tab is first selected by setting combo box selected index
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (mainTabControl.SelectedIndex == 1)
-            {
-                productComboBox.SelectedIndex = 0;
-            }
-
-            if (mainTabControl.SelectedIndex == 2)
-            {
-                supplierComboBox.SelectedIndex = 0;
-            }
-            supplierComboBox.SelectedIndex = 0;
-        }
+        
 
         // Packages Tab
 
@@ -93,7 +75,7 @@ namespace TravelExpertsDatabaseManager
             {
                 searchByPackageNameComboBox.SelectedIndex -= 1;
             }
-            populateProductSupplierListBoxes(searchByPackageNameComboBox.SelectedIndex);
+            
         }
 
         /// <summary>
@@ -495,8 +477,9 @@ namespace TravelExpertsDatabaseManager
             if (productComboBox.SelectedIndex > 0)
             {
                 productComboBox.SelectedIndex -= 1;
-                populateSupplierListBoxes(productComboBox.SelectedIndex);
+                
             }
+            
         }
 
         /// <summary>
@@ -511,7 +494,7 @@ namespace TravelExpertsDatabaseManager
             if (productComboBox.SelectedIndex < productComboBox.Items.Count - 1)
             {
                 productComboBox.SelectedIndex += 1;
-                populateSupplierListBoxes(productComboBox.SelectedIndex);
+                
             }
         }
 
@@ -553,6 +536,8 @@ namespace TravelExpertsDatabaseManager
                     ProductsDB.AddProducts(addProduct.addedProductName);//ProductsDB class method call to add product
                     InitializeProductDataBinding();
                     InitializeProductNameSearchComboBox();
+                    InitializeSupplierDataBinding();
+                    InitializeSupplierNameSearchComboBox();
                 }
             }
             catch (SqlException ex)
@@ -575,17 +560,36 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
-                AddEditForm editProduct = new AddEditForm("Product", false, true, productNameTextBox.Text);//create instance of addeditform for product add
-
-                DialogResult result = editProduct.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
-
-                if (result == DialogResult.OK)
+                // Gets selected product and opens form in edit mode for that package
+                Product oldProduct = (Product)productBindingSource.Current;
+                AddEditForm editProduct = new AddEditForm("Product", false, true, oldProduct, null);//create instance of addeditform for product add
+                // If result is OK, edit package in DB
+                if (editProduct.ShowDialog() == DialogResult.OK)
                 {
-                    ProductsDB.EditProduct(editProduct.editedProductName, int.Parse(productIdTextBox.Text));
-                    InitializeProductDataBinding();
-                    InitializeProductNameSearchComboBox();
+                    Product newProduct = new Product(
+                        editProduct.editedProductId,
+                        editProduct.editedProductName);
+                    // Updates package. Shows error if unsuccessful. Reloads all packages and moves to updated package
+                    if (ProductsDB.UpdateProduct(oldProduct, newProduct))
+                    {
+                        InitializeProductDataBinding();
+                        InitializeProductNameSearchComboBox();
+                        productComboBox.SelectedItem = newProduct.ProductName; // Move to updated package
+                        InitializeSupplierDataBinding();
+                        InitializeSupplierNameSearchComboBox();
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error. Could not update package. Please try again.");
+                        InitializeProductDataBinding();
+                        InitializeProductNameSearchComboBox();
+                        productComboBox.SelectedItem = oldProduct.ProductName; // Move to package that tried to update. (May see that it was updated by someone else).
+                        InitializeSupplierDataBinding();
+                        InitializeSupplierNameSearchComboBox();
+                    }
                 }
-            }
+             }
             catch (SqlException ex)
             {
                 MessageBox.Show("Database error # " + ex.Number +
@@ -607,6 +611,11 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
+                if (nonAssociatedSuppliersListBox.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please select a supplier to add!", "Supplier Add Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 int index = nonAssociatedSuppliersListBox.SelectedIndex;//assign selected index from nonassociated list box to variable
 
                 if (index != -1)
@@ -657,6 +666,7 @@ namespace TravelExpertsDatabaseManager
                 MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
+                
 
         /// <summary>
         /// Removes a supplier from a products nonassociated supplier list box
@@ -667,6 +677,11 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
+                if (associatedSuppliersListBox.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Please select a supplier to remove!", "Supplier Remove Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
                 int index = associatedSuppliersListBox.SelectedIndex;//assign selected index from associated list box to variable
 
                 if (index != -1)
@@ -697,8 +712,11 @@ namespace TravelExpertsDatabaseManager
                         //remove the selected item from the non associated items list box
                         associatedSuppliersListBox.Items.RemoveAt(index);
 
-                        //select the last item in list
-                        nonAssociatedSuppliersListBox.SelectedIndex = nonAssociatedSuppliersListBox.Items.Count - 1;
+                        int currentProductIndex = productComboBox.SelectedIndex;//capture current products combo box index
+
+                        //change product combo box index then set back to current product to refresh list
+                        productComboBox.SelectedIndex = currentProductIndex - 1;
+                        productComboBox.SelectedIndex = currentProductIndex;
                     }
                     else
                     {
@@ -726,15 +744,65 @@ namespace TravelExpertsDatabaseManager
         }
 
         /// <summary>
+        /// Deletes the current product
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void productDeleteButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Confirms user wants to delete package
+                DialogResult result = MessageBox.Show("Are you sure you wold like to delete this product?", "Confirm delete", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    // Gets reference to current package. Deletes it. If unsuccessful, show error message.
+                    Product currentProduct = (Product)productBindingSource.Current;
+                    if (ProductsDB.DeleteProduct(currentProduct))
+                    {
+                        products.Remove(currentProduct);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error. Could not delete product. Please try again.");
+                    }
+                    InitializeProductDataBinding();
+                    InitializeProductNameSearchComboBox();
+                    InitializeSupplierDataBinding();
+                    InitializeSupplierNameSearchComboBox();
+                }
+            }
+            catch (SqlException ex)
+            {
+                //create a regex match option that searches the exception message string for the table that caused the foreign key constraint
+                Match match = Regex.Match(ex.Message, "\"dbo.+\"", RegexOptions.IgnoreCase);
+
+                //split the returned string by the '.' character name, then grab the second string out of the two and assign it to a variable
+                String tableName = match.Value.Split('.').Last();
+
+                //remove the last '\' character from the string AKA get the table name
+                tableName = tableName.Substring(0, tableName.Count() - 1);
+                MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the product.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
+        }
+
+
+        /// <summary>
         /// Private form class method initializes component
         /// </summary>
         private void InitializeProductNameSearchComboBox()
         {
+            productComboBox.Items.Clear();
             //iterate through products list from database and populate product combo box with name property of each Product class object
             foreach (Product product in products)
             {
                 productComboBox.Items.Add(product.ProductName);
             }
+            productComboBox.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -770,7 +838,8 @@ namespace TravelExpertsDatabaseManager
             BindingList<Product> currentProducts = (BindingList<Product>)productBindingSource.DataSource;//grab current products list
             List<Supplier> associatedSupplier = currentProducts[index].Suppliers;//select associated suppliers for the current product
 
-            List<Supplier> allSuppliers = suppliers.ToList();//converts bindable list to list and assigns the suppliers to another list
+            //List<Supplier> allSuppliers = suppliers.ToList();//converts bindable list to list and assigns the suppliers to another list
+            List<Supplier> allSuppliers = SuppliersDB.GetSuppliers();
 
             //iterate through each supplier object in our list of all suppliers
             foreach (Supplier supplier in allSuppliers)
@@ -830,8 +899,9 @@ namespace TravelExpertsDatabaseManager
             if (supplierComboBox.SelectedIndex > 0)
             {
                 supplierComboBox.SelectedIndex -= 1;
-                populateSupplierListBoxes(supplierComboBox.SelectedIndex);
+                
             }
+            
         }
 
         /// <summary>
@@ -846,7 +916,7 @@ namespace TravelExpertsDatabaseManager
             if (supplierComboBox.SelectedIndex < supplierComboBox.Items.Count - 1)
             {
                 supplierComboBox.SelectedIndex += 1;
-                populateSupplierListBoxes(supplierComboBox.SelectedIndex);
+                
             }
         }                             
 
@@ -865,7 +935,7 @@ namespace TravelExpertsDatabaseManager
             if (bsIndex > -1)
             {
                 supplierBindingSource.Position = bsIndex;
-                populateProductListBoxes(supplierComboBox.SelectedIndex);
+                populateProductListBoxes(bsIndex);
             }
         }
 
@@ -887,6 +957,8 @@ namespace TravelExpertsDatabaseManager
                     SuppliersDB.AddSuppliers(addSupplier.addedSupplierName);//ProductsDB class method call to add product
                     InitializeSupplierDataBinding();
                     InitializeSupplierNameSearchComboBox();
+                    InitializeProductDataBinding();
+                    InitializeProductNameSearchComboBox();
                 }
             }
             catch (SqlException ex)
@@ -909,15 +981,33 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
-                AddEditForm editSupplier = new AddEditForm("Supplier", true, false);//create instance of addeditform for product add
-
-                DialogResult result = editSupplier.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
-
-                if (result == DialogResult.OK)
+                // Gets selected product and opens form in edit mode for that package
+                Supplier oldSupplier = (Supplier)supplierBindingSource.Current;
+                AddEditForm editSupplier = new AddEditForm("Supplier", false, true, null, oldSupplier);//create instance of addeditform for product add
+                // If result is OK, edit package in DB
+                if (editSupplier.ShowDialog() == DialogResult.OK)
                 {
-                    SuppliersDB.EditSuppliers(editSupplier.editedSupplierName, int.Parse(supplierIdTextBox.Text));//ProductsDB class method call to add product
-                    InitializeSupplierDataBinding();
-                    InitializeSupplierNameSearchComboBox();
+                    Supplier newSupplier = new Supplier(
+                        editSupplier.editedSupplierId,
+                        editSupplier.editedSupplierName);
+                    // Updates package. Shows error if unsuccessful. Reloads all packages and moves to updated package
+                    if (SuppliersDB.UpdateSuppliers(oldSupplier, newSupplier))
+                    {
+                        InitializeSupplierDataBinding();
+                        InitializeSupplierNameSearchComboBox();
+                        supplierComboBox.SelectedItem = newSupplier.SupplierName; // Move to updated package
+                        InitializeProductDataBinding();
+                        InitializeProductNameSearchComboBox();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error. Could not update package. Please try again.");
+                        InitializeSupplierDataBinding();
+                        InitializeSupplierNameSearchComboBox();
+                        supplierComboBox.SelectedItem = oldSupplier.SupplierName; // Move to package that tried to update. (May see that it was updated by someone else).
+                        InitializeProductDataBinding();
+                        InitializeProductNameSearchComboBox();
+                    }
                 }
             }
             catch (SqlException ex)
@@ -942,7 +1032,7 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
-                if(nonAssociatedProductsListBox.SelectedIndex == -1)
+                if (nonAssociatedProductsListBox.SelectedIndex == -1)
                 {
                     MessageBox.Show("Please select a product to add!", "Product Add Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -1071,6 +1161,54 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
+        /// <summary>
+        /// Deletes the current supplier
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void supplierDeleteButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Confirms user wants to delete package
+                DialogResult result = MessageBox.Show("Are you sure you wold like to delete this supplier?", "Confirm delete", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    // Gets reference to current package. Deletes it. If unsuccessful, show error message.
+                    Supplier currentSupplier = (Supplier)supplierBindingSource.Current;
+                    if (SuppliersDB.DeleteSupplier(currentSupplier))
+                    {
+                        suppliers.Remove(currentSupplier);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error. Could not delete supplier. Please try again.");
+                    }
+                    InitializeSupplierDataBinding();
+                    InitializeSupplierNameSearchComboBox();
+                    InitializeProductDataBinding();
+                    InitializeProductNameSearchComboBox();
+
+                }
+            }
+            catch (SqlException ex)
+            {
+                //create a regex match option that searches the exception message string for the table that caused the foreign key constraint
+                Match match = Regex.Match(ex.Message, "\"dbo.+\"", RegexOptions.IgnoreCase);
+
+                //split the returned string by the '.' character name, then grab the second string out of the two and assign it to a variable
+                String tableName = match.Value.Split('.').Last();
+
+                //remove the last '\' character from the string AKA get the table name
+                tableName = tableName.Substring(0, tableName.Count() - 1);
+                MessageBox.Show($"This supplier is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the supplier.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
+        }
+
 
 
         /// <summary>
@@ -1078,11 +1216,13 @@ namespace TravelExpertsDatabaseManager
         /// </summary>
         private void InitializeSupplierNameSearchComboBox()
         {
+            supplierComboBox.Items.Clear();
             //iterate through suppliers list from database and populate supplier combo box with name property of each Supplier class object
             foreach (Supplier supplier in suppliers)
             {
                 supplierComboBox.Items.Add(supplier.SupplierName);
             }
+            supplierComboBox.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -1111,17 +1251,16 @@ namespace TravelExpertsDatabaseManager
         /// Populates products associated and notassociated with a supplier listBoxes 
         /// </summary>
         /// <param name="index"></param>
-        private void populateProductListBoxes(int selectedIndex)
+        private void populateProductListBoxes(int index)
         {
             associatedProductsListBox.Items.Clear();
             nonAssociatedProductsListBox.Items.Clear();
 
-            BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.DataSource;//grab current products list
-            List<Product> associatedProduct = currentSuppliers[selectedIndex].Products;//select associated suppliers for the current product
+            BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.DataSource;//grab current suppliers list
+            List<Product> associatedProduct = currentSuppliers[index].Products;//select associated products for the current supplier
 
-            //BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.List;
-
-            List<Product> allProducts = products.ToList();//converts bindable list to list and assigns the products to another list
+            //List<Product> allProducts = products.ToList();//converts bindable list to list and assigns the products to another list
+            List<Product> allProducts = ProductsDB.GetProducts();
 
             //iterate through each product object in our list of all products
             foreach (Product product in allProducts)
