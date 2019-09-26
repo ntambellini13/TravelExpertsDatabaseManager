@@ -60,42 +60,6 @@ namespace TravelExpertsData
                 }
             }
         }
-        // Ran the below method to set all passwords in DB using desired encryption algorithm
-        /*
-        public static void setPassword()
-        {
-
-
-            for (int i = 1; i < 16; i++)
-            {
-                byte[] salt;
-                new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
-                var pbkdf2 = new Rfc2898DeriveBytes("password", salt, 10000);
-
-                byte[] hash = pbkdf2.GetBytes(20);
-                byte[] hashBytes = new byte[36];
-
-                Array.Copy(salt, 0, hashBytes, 0, 16);
-                Array.Copy(hash, 0, hashBytes, 16, 20);
-
-                string password = Convert.ToBase64String(hashBytes);
-                using (SqlConnection connection = TravelExpertsDB.GetConnection())
-                {
-                    string query = "update agents " +
-                        "set salt=@salt, " +
-                        "password = @password " +
-                        "where AgentId=@agentId ; ";
-                    using (SqlCommand cmd = new SqlCommand(query, connection))
-                    {
-                        connection.Open();
-                        cmd.Parameters.AddWithValue("@salt", Convert.ToBase64String(salt));
-                        cmd.Parameters.AddWithValue("@password", password);
-                        cmd.Parameters.AddWithValue("@agentId", i);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-            }
-        }
-        */
+        
     }
 }

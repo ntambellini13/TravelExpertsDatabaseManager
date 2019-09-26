@@ -74,85 +74,7 @@ namespace TravelExpertsDatabaseManager
             isValidPartnerURL = true;
         }
 
-        /// <summary>
-        /// Checks if form is valid. If its invalid, show a messagebox with error.
-        /// </summary>
-        /// <returns>Form valid?</returns>
-        private bool isValidForm()
-        {
-            String message = ""; // Empty string
-
-            // Goes through validation and adds message to string
-            if (!isValidPackageName)
-            {
-                message += "Must enter a package name.\n";
-            }
-            if (!isValidImage)
-            {
-                message += "Must select a path for the image.\n";
-            }
-            if (!isValidPartnerURL)
-            {
-                message += "Must enter a partner url.\n";
-            }
-            if (!isValidPackageDates)
-            {
-                message += "Start date must be before end date.\n";
-            }
-            if (!isValidDescription)
-            {
-                message += "Must enter a description.\n";
-            }
-            if (!isValidPackageBasePrice)
-            {
-                message += "Must enter a base price.\n";
-            }
-            if (!isValidPackageAgencyCommission)
-            {
-                message += "Agency commission must be less than base price.\n";
-            }
-
-            // If string is empty, all validation passed. Show error message otherwise.
-            if (message != "")
-            {
-                MessageBox.Show(message, "Form Error");
-                return false;
-            }
-            else
-            {                
-                return true;
-            }           
-        }
-
-        /// <summary>
-        /// Creates a file dialog to open file
-        /// </summary>
-        /// <returns>Was the file opened successfully?</returns>
-        private bool OpenFilePathDialog()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog
-            {
-                Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png",
-                DefaultExt = ".jpg",
-                Title = "Choose image .."
-            };
-            DialogResult result = openFileDialog.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                // Reads image as byte[] and stores image path in text box
-                Image = File.ReadAllBytes(openFileDialog.FileName);
-                imagePathTextBox.Text = openFileDialog.FileName;
-                isValidImage = true;
-                return true;
-            }
-            else
-            {
-                // Sets valid image to false if no image was yet selected in app
-                isValidImage = (Image != null);
-                return false;
-            }
-        }
-
+        
         /// <summary>
         /// Validates name text box on change. Colors it appropriately.
         /// </summary>
@@ -171,6 +93,7 @@ namespace TravelExpertsDatabaseManager
         private void basePriceTextBox_TextChanged(object sender, EventArgs e)
         {
             isValidPackageBasePrice = Validation.ColorTextBoxValidation(basePriceTextBox, Validation.isValidPositiveDecimal);
+            ValidateAgencyCommission();
         }
 
         /// <summary>
@@ -180,19 +103,10 @@ namespace TravelExpertsDatabaseManager
         /// <param name="e"></param>
         private void agencyCommissionTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (Validation.isValidPositiveDecimal(agencyCommissionTextBox) &&
-                Validation.isFirstDecimalLessThanSecondDecimal(agencyCommissionTextBox, basePriceTextBox))
-            {
-                agencyCommissionTextBox.ForeColor = Color.Black;
-                isValidPackageAgencyCommission = true;
-            }
-            else
-            {
-                agencyCommissionTextBox.ForeColor = Color.Red;
-                isValidPackageAgencyCommission = false;
-            }
+            ValidateAgencyCommission();
         }
 
+        
         /// <summary>
         /// Validates date values on change.
         /// </summary>
@@ -230,7 +144,7 @@ namespace TravelExpertsDatabaseManager
         /// <param name="e"></param>
         private void partnerURLTextBox_TextChanged(object sender, EventArgs e)
         {
-            isValidPartnerURL = Validation.IsNotEmptyOrNull(partnerURLTextBox);
+            isValidPartnerURL = Validation.ColorTextBoxValidation(partnerURLTextBox,Validation.IsValidURL);
         }
 
         /// <summary>
@@ -280,6 +194,107 @@ namespace TravelExpertsDatabaseManager
         private void cancelButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
+        }
+
+        /// <summary>
+        /// Checks if form is valid. If its invalid, show a messagebox with error.
+        /// </summary>
+        /// <returns>Form valid?</returns>
+        private bool isValidForm()
+        {
+            String message = ""; // Empty string
+
+            // Goes through validation and adds message to string
+            if (!isValidPackageName)
+            {
+                message += "Must enter a package name.\n";
+            }
+            if (!isValidImage)
+            {
+                message += "Must select a path for the image.\n";
+            }
+            if (!isValidPartnerURL)
+            {
+                message += "Must enter a partner url.\n";
+            }
+            if (!isValidPackageDates)
+            {
+                message += "Start date must be before end date.\n";
+            }
+            if (!isValidDescription)
+            {
+                message += "Must enter a description.\n";
+            }
+            if (!isValidPackageBasePrice)
+            {
+                message += "Must enter a base price.\n";
+            }
+            if (!isValidPackageAgencyCommission && agencyCommissionTextBox.Text.Trim() == "")
+            {
+                message += "Must enter an agency commission.\n";
+            }
+            else if (!isValidPackageAgencyCommission)
+            {
+                message += "Agency commission must be less than base price.\n";
+            }
+
+            // If string is empty, all validation passed. Show error message otherwise.
+            if (message != "")
+            {
+                MessageBox.Show(message, "Form Error");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Creates a file dialog to open file
+        /// </summary>
+        /// <returns>Was the file opened successfully?</returns>
+        private bool OpenFilePathDialog()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png",
+                DefaultExt = ".jpg",
+                Title = "Choose image .."
+            };
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                // Reads image as byte[] and stores image path in text box
+                Image = File.ReadAllBytes(openFileDialog.FileName);
+                imagePathTextBox.Text = openFileDialog.FileName;
+                isValidImage = true;
+                return true;
+            }
+            else
+            {
+                // Sets valid image to false if no image was yet selected in app
+                isValidImage = (Image != null);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Validates the agency commission text box (valid decimal and less than base price)
+        /// </summary>
+        private void ValidateAgencyCommission()
+        {
+            if (Validation.isValidPositiveDecimal(agencyCommissionTextBox) &&
+                            Validation.isFirstDecimalLessThanSecondDecimal(agencyCommissionTextBox, basePriceTextBox))
+            {
+                agencyCommissionTextBox.ForeColor = Color.Black;
+                isValidPackageAgencyCommission = true;
+            }
+            else
+            {
+                agencyCommissionTextBox.ForeColor = Color.Red;
+                isValidPackageAgencyCommission = false;
+            }
         }
     }
 }
