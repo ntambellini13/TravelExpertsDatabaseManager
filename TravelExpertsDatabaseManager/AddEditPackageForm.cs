@@ -107,7 +107,11 @@ namespace TravelExpertsDatabaseManager
             {
                 message += "Must enter a base price.\n";
             }
-            if (!isValidPackageAgencyCommission)
+            if(!isValidPackageAgencyCommission && agencyCommissionTextBox.Text.Trim() == "")
+            {
+                message += "Must enter an agency commission.\n";
+            }
+            else if (!isValidPackageAgencyCommission)
             {
                 message += "Agency commission must be less than base price.\n";
             }
@@ -230,7 +234,7 @@ namespace TravelExpertsDatabaseManager
         /// <param name="e"></param>
         private void partnerURLTextBox_TextChanged(object sender, EventArgs e)
         {
-            isValidPartnerURL = Validation.IsNotEmptyOrNull(partnerURLTextBox);
+            isValidPartnerURL = Validation.ColorTextBoxValidation(partnerURLTextBox,Validation.IsValidURL);
         }
 
         /// <summary>

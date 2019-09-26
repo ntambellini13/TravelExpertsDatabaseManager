@@ -161,6 +161,16 @@ namespace TravelExpertsDatabaseManager
         }
 
         /// <summary>
+        /// Checks if a valid  url is entered
+        /// </summary>
+        /// <param name="textBox">Textbox to check</param>
+        /// <returns>True/false</returns>
+        public static bool IsValidURL(TextBox textBox)
+        {
+            return Regex.IsMatch(textBox.Text.Trim(), @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,}", RegexOptions.IgnoreCase);
+        }
+
+        /// <summary>
         /// Colors the textbox red if invalid, black if vallid
         /// </summary>
         /// <param name="textBox">Textbox to check</param>
