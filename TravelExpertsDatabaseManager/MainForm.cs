@@ -17,7 +17,6 @@ using TravelExpertsData;
  * Date: September 18, 2019
  * 
  * */
-
 namespace TravelExpertsDatabaseManager
 {
     public partial class MainForm : Form
@@ -33,6 +32,7 @@ namespace TravelExpertsDatabaseManager
             InitializeComponent();
         }
 
+        
         /// <summary>
         /// Load the packages data source and set up the search by package name combo box
         /// </summary>
@@ -44,11 +44,11 @@ namespace TravelExpertsDatabaseManager
             // Ensure agent logs in before using the form. If did not login, close application
             if (loginForm.ShowDialog() == DialogResult.OK)
             {
+                // Initialize packages, products, and suppliers tabs
                 InitializeProductDataBinding();
                 InitializeProductNameSearchComboBox();
                 InitializeSupplierDataBinding();
                 InitializeSupplierNameSearchComboBox();
-
                 LoadPackageDataBinding();
                 LoadPackageNameSearchComboBox();
             }
@@ -59,96 +59,26 @@ namespace TravelExpertsDatabaseManager
 
         }
 
-
         /// <summary>
-        /// Sets up the load by package name combo box
+        /// Main tab control selected index changed
+        /// initializes data on each tabs controls by setting index when a tab is first selected by setting combo box selected index
         /// </summary>
-        private void LoadPackageNameSearchComboBox()
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Add all package names to combo box and selects the first
-            searchByPackageNameComboBox.Items.Clear();
-            foreach(Package package in packages)
+            if (mainTabControl.SelectedIndex == 1)
             {
-                searchByPackageNameComboBox.Items.Add(package.PackageName);
+                productComboBox.SelectedIndex = 0;
             }
-            searchByPackageNameComboBox.SelectedIndex = 0;
-        }
 
-        /// <summary>
-        /// Sets up the package data binding
-        /// </summary>
-        private void LoadPackageDataBinding()
-        {
-            try
+            if (mainTabControl.SelectedIndex == 2)
             {
-                // Retrieves package list from DB and creates a new findable binding list  and sets it as new binding source
-                packages = new FindableBindingList<Package>(PackagesDB.GetPackages());
-                packageBindingSource.DataSource = packages;
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                supplierComboBox.SelectedIndex = 0;
             }
         }
 
-        /// <summary>
-        /// Private form class method initializes component
-        /// </summary>
-        private void InitializeProductNameSearchComboBox()
-        {
-            //iterate through products list from database and populate product combo box with name property of each Product class object
-            foreach (Product product in products)
-            {
-                productComboBox.Items.Add(product.ProductName);
-            }
-        }
-
-        /// <summary>
-        /// Private form class method initializes component
-        /// </summary>
-        private void InitializeProductDataBinding()
-        {
-            try
-            {
-                products = new FindableBindingList<Product>(ProductsDB.GetProducts());//populates list with data retrieved from database
-                productBindingSource.DataSource = products;//adds list data to binding source's datasource 
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
-            }
-        }
-
-        /// <summary>
-        /// Private form class method initializes component
-        /// </summary>
-        private void InitializeSupplierNameSearchComboBox()
-        {
-            //iterate through suppliers list from database and populate supplier combo box with name property of each Supplier class object
-            foreach (Supplier supplier in suppliers)
-            {
-                supplierComboBox.Items.Add(supplier.SupplierName);
-            }
-        }
-
-        /// <summary>
-        /// Private form class method initializes component
-        /// </summary>
-        private void InitializeSupplierDataBinding()
-        {
-            try
-            {
-                suppliers = new FindableBindingList<Supplier>(SuppliersDB.GetSuppliers());//populates list with data retrieved from database
-                supplierBindingSource.DataSource = suppliers;//adds list data to binding source's datasource
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
-            }
-        }
+        // Packages Tab
 
         /// <summary>
         /// Moves to previous package
@@ -175,73 +105,9 @@ namespace TravelExpertsDatabaseManager
         {
             // Moves the binding source and package name combo box to next item
             packageBindingSource.MoveNext();
-            if (searchByPackageNameComboBox.SelectedIndex < searchByPackageNameComboBox.Items.Count-1)
+            if (searchByPackageNameComboBox.SelectedIndex < searchByPackageNameComboBox.Items.Count - 1)
             {
                 searchByPackageNameComboBox.SelectedIndex += 1;
-            }
-        }
-
-        /// <summary>
-        /// Moves to previous product
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void productPrevButton_Click(object sender, EventArgs e)
-        {
-            // Moves the binding source and product name combo box to previous item
-            productBindingSource.MovePrevious();
-            if (productComboBox.SelectedIndex > 0)
-            {
-                productComboBox.SelectedIndex -= 1;
-                populateSupplierListBoxes(productComboBox.SelectedIndex);
-            }
-        }
-
-        /// <summary>
-        /// Moves to next product
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void productNextButton_Click(object sender, EventArgs e)
-        {
-            // Moves the binding source and product name combo box to next item
-            productBindingSource.MoveNext();
-            if (productComboBox.SelectedIndex < productComboBox.Items.Count - 1)
-            {
-                productComboBox.SelectedIndex += 1;
-                populateSupplierListBoxes(productComboBox.SelectedIndex);
-            }
-        }
-
-        /// <summary>
-        /// Moves to previous supplier
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void supplierPrevButton_Click(object sender, EventArgs e)
-        {
-            // Moves the binding source and supplier name combo box to previous item
-            supplierBindingSource.MovePrevious();
-            if (supplierComboBox.SelectedIndex > 0)
-            {
-                supplierComboBox.SelectedIndex -= 1;
-                populateSupplierListBoxes(supplierComboBox.SelectedIndex);
-            }
-        }
-
-        /// <summary>
-        /// Moves to next supplier
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void supplierNextButton_Click(object sender, EventArgs e)
-        {
-            // Moves the binding source and supplier name combo box to next item
-            supplierBindingSource.MoveNext();
-            if (supplierComboBox.SelectedIndex < supplierComboBox.Items.Count - 1)
-            {
-                supplierComboBox.SelectedIndex += 1;
-                populateSupplierListBoxes(supplierComboBox.SelectedIndex);
             }
         }
 
@@ -258,241 +124,9 @@ namespace TravelExpertsDatabaseManager
             if (bsIndex > -1)
             {
                 packageBindingSource.Position = bsIndex;
-                populateProductSupplierListBoxes(bsIndex);               
-                
+                populateProductSupplierListBoxes(bsIndex);
+
             }
-        }
-
-        /// <summary>
-        /// combobox selectedindexchanged event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void productComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //grab the selected product's index and assign to a variable
-            int bsIndex = productBindingSource.Find("ProductName", productComboBox.SelectedItem.ToString());
-
-            //if we have selected a product set the binding source position to match that of the selected ones index
-            //populate associated and non associated supplier list boxes
-            if (bsIndex > -1)
-            {
-                productBindingSource.Position = bsIndex;
-                populateSupplierListBoxes(bsIndex);
-                
-            }
-        }
-
-        /// <summary>
-        /// Populates suppliers associated and notassociated with a product listBoxes 
-        /// </summary>
-        /// <param name="index"></param>
-        private void populateSupplierListBoxes(int index)
-        {
-            associatedSuppliersListBox.Items.Clear();
-            nonAssociatedSuppliersListBox.Items.Clear();
-            
-            BindingList<Product> currentProducts = (BindingList<Product>)productBindingSource.DataSource;//grab current products list
-            List<Supplier> associatedSupplier = currentProducts[index].Suppliers;//select associated suppliers for the current product
-
-            List<Supplier> allSuppliers = suppliers.ToList();//converts bindable list to list and assigns the suppliers to another list
-
-            //iterate through each supplier object in our list of all suppliers
-            foreach (Supplier supplier in allSuppliers)
-            {
-                bool isAssociatedSupplier = false;//bool variable used to check if a supplier is associated with a product
-
-                //iterate through each supplier object in the known associated suppliers 
-                foreach(Supplier associated in associatedSupplier)
-                {
-                    //call class method to verify if suppler is associated, set association bool to true if they are
-                    if (supplier.Equals(associated))
-                    {
-                        isAssociatedSupplier = true;
-                        break;
-                    }
-                }
-                if(isAssociatedSupplier)
-                {
-                    associatedSuppliersListBox.Items.Add(supplier);//add the confirmed associated suppliers to the associated list
-                }
-                else
-                {
-                    nonAssociatedSuppliersListBox.Items.Add(supplier);//add all other suppliers to the non associated list
-                }
-            }
-
-        }
-
-        /// <summary>
-        /// combobox selectedindexchanged event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void supplierComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //grab the selected supplier's index and assign to a variable
-            int bsIndex = supplierBindingSource.Find("SupplierName", supplierComboBox.SelectedItem.ToString());
-
-            //if we have selected a supplier set the binding source position to match that of the selected ones index
-            //populate associated and non associated product list boxes
-            if (bsIndex > -1)
-            {
-                supplierBindingSource.Position = bsIndex;
-                populateProductListBoxes(supplierComboBox.SelectedIndex);
-            }
-        }
-
-        /// <summary>
-        /// Populates products associated and notassociated with a supplier listBoxes 
-        /// </summary>
-        /// <param name="index"></param>
-        private void populateProductListBoxes(int selectedIndex)
-        {
-            associatedProductsListBox.Items.Clear();
-            nonAssociatedProductsListBox.Items.Clear();
-
-            BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.DataSource;//grab current products list
-            List<Product> associatedProduct = currentSuppliers[selectedIndex].Products;//select associated suppliers for the current product
-
-            //BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.List;
-
-            List<Product> allProducts = products.ToList();//converts bindable list to list and assigns the products to another list
-
-            //iterate through each product object in our list of all products
-            foreach (Product product in allProducts)
-            {
-                bool isAssociatedProduct = false;//bool variable used to check if a product is associated with a supplier
-
-                //iterate through each product object in the known associated products
-                foreach (Product associated in associatedProduct)
-                {
-                    //call class method to verify if product is associated, set association bool to true if they are
-                    if (product.Equals(associated))
-                    {
-                        isAssociatedProduct = true;
-                        break;
-                    }
-                }
-                if (isAssociatedProduct)
-                {
-                    associatedProductsListBox.Items.Add(product);//add the confirmed associated products to the associated list
-                }
-                else
-                {
-                    nonAssociatedProductsListBox.Items.Add(product);//add all other products to the non associated list
-                }
-            }
-        }
-
-        /// <summary>
-        /// Opens dialog box to all adding a product in Product tab
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ProductAddButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                AddEditForm addProduct = new AddEditForm("Product", true, false);//create instance of addeditform for product add
-
-                DialogResult result = addProduct.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
-
-                if (result == DialogResult.OK)
-                {
-                    ProductsDB.AddProducts(addProduct.addedProductName);//ProductsDB class method call to add product
-                    InitializeProductDataBinding();
-                    InitializeProductNameSearchComboBox();
-                }
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
-            }
-        }
-
-        /// <summary>
-        /// Opens dialog box to all editing a product in Product tab
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ProductEditButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                AddEditForm editProduct = new AddEditForm("Product", false, true, productNameTextBox.Text);//create instance of addeditform for product add
-
-                DialogResult result = editProduct.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
-
-                if (result == DialogResult.OK)
-                {
-                    ProductsDB.EditProduct(editProduct.editedProductName, int.Parse(productIdTextBox.Text));
-                    InitializeProductDataBinding();
-                    InitializeProductNameSearchComboBox();
-                }
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
-            }
-
-        }
-
-        /// <summary>
-        /// Opens dialog box to all adding a supplier in Supplier tab
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SupplierAddButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                AddEditForm addSupplier = new AddEditForm("Supplier", true, false);//create instance of addeditform for product add
-
-                DialogResult result = addSupplier.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
-
-                if (result == DialogResult.OK)
-                {
-                    SuppliersDB.AddSuppliers(addSupplier.addedSupplierName);//ProductsDB class method call to add product
-                    InitializeSupplierDataBinding();
-                    InitializeSupplierNameSearchComboBox();
-                }
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
-            }
-        }
-
-        /// <summary>
-        /// Opens dialog box to all editing a supplier in Supplier tab
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SupplierEditButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                AddEditForm editSupplier = new AddEditForm("Supplier", true, false);//create instance of addeditform for product add
-
-                DialogResult result = editSupplier.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
-
-                if (result == DialogResult.OK)
-                {
-                    SuppliersDB.EditSuppliers(editSupplier.editedSupplierName, int.Parse(supplierIdTextBox.Text));//ProductsDB class method call to add product
-                    InitializeSupplierDataBinding();
-                    InitializeSupplierNameSearchComboBox();
-                }
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
-            }
-
         }
 
         /// <summary>
@@ -500,7 +134,7 @@ namespace TravelExpertsDatabaseManager
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void addButton_Click(object sender, EventArgs e)
+        private void addPackageButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -537,6 +171,10 @@ namespace TravelExpertsDatabaseManager
                 MessageBox.Show("Database error # " + ex.Number +
                     ": " + ex.Message, ex.GetType().ToString());
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
         }
 
         /// <summary>
@@ -544,7 +182,7 @@ namespace TravelExpertsDatabaseManager
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void editButton_Click(object sender, EventArgs e)
+        private void editPackageButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -586,6 +224,10 @@ namespace TravelExpertsDatabaseManager
                 MessageBox.Show("Database error # " + ex.Number +
                     ": " + ex.Message, ex.GetType().ToString());
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
         }
 
         /// <summary>
@@ -603,7 +245,7 @@ namespace TravelExpertsDatabaseManager
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void deleteButton_Click(object sender, EventArgs e)
+        private void deletePackageButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -637,6 +279,322 @@ namespace TravelExpertsDatabaseManager
                 tableName = tableName.Substring(0, tableName.Count() - 1);
                 MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
+        }
+
+        /// <summary>
+        /// Adds the selected product supplier to the package (and DB)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void addProductSupplierButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the selected index and package Id
+                int selectedProductSupplierIndex = nonAssociatedProductSuppliersListBox.SelectedIndex;
+                int packageId = ((Package)packageBindingSource.Current).PackageId;
+
+                // Ensure proper indices are chosen
+                if (selectedProductSupplierIndex != -1 && packageId != -1)
+                {
+                    // Gets product supplier Id from list box string and attempts to add package product supplier pair to DB
+                    if (PackagesProductsSuppliersDB.addPackageProductSupplier(packageId, Convert.ToInt32(nonAssociatedProductSuppliersListBox.Items[selectedProductSupplierIndex].ToString().Split('|').First())))
+                    {
+                        // On success
+                        //add selected item from non associated items list box to the associated items listbox
+                        //then remove the selected item from the non associated items list box
+                        associatedProductSuppliersListBox.Items.Add(nonAssociatedProductSuppliersListBox.Items[selectedProductSupplierIndex]);
+                        nonAssociatedProductSuppliersListBox.Items.RemoveAt(selectedProductSupplierIndex);
+                        associatedProductSuppliersListBox.SelectedIndex = associatedProductSuppliersListBox.Items.Count - 1;
+
+                        // Attach new product suppliers list to current package
+                        Package currentPackage = (Package)packageBindingSource.Current;
+                        currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error in updating database. Application data will be refreshed");
+                        // reload data
+                        Package currentPackage = (Package)packageBindingSource.Current;
+                        currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
+                        populateProductSupplierListBoxes(packageBindingSource.Position);
+                    }
+
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
+        }
+
+        private void removeProductSupplierButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Get the selected index and package Id
+                int selectedProductSupplierIndex = associatedProductSuppliersListBox.SelectedIndex;
+                int packageId = ((Package)packageBindingSource.Current).PackageId;
+
+                // Ensure proper indices are chosen
+                if (selectedProductSupplierIndex != -1 && packageId != -1)
+                {
+                    // Get product supplier Id from list box string and attempt to remove the package product supplier pair
+                    if (PackagesProductsSuppliersDB.removePackageProductSupplier(packageId, Convert.ToInt32(associatedProductSuppliersListBox.Items[selectedProductSupplierIndex].ToString().Split('|').First())))
+                    {
+                        //add selected item from associated items list box to the non associated items listbox
+                        //then remove the selected item from the associated items list box
+                        nonAssociatedProductSuppliersListBox.Items.Add(associatedProductSuppliersListBox.Items[selectedProductSupplierIndex]);
+                        associatedProductSuppliersListBox.Items.RemoveAt(selectedProductSupplierIndex);
+                        nonAssociatedProductSuppliersListBox.SelectedIndex = nonAssociatedProductSuppliersListBox.Items.Count - 1;
+
+                        // Attach new product suppliers list to current package
+                        Package currentPackage = (Package)packageBindingSource.Current;
+                        currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error in updating database. Application data will be refreshed");
+                        // reload data
+                        Package currentPackage = (Package)packageBindingSource.Current;
+                        currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
+                        populateProductSupplierListBoxes(packageBindingSource.Position);
+                    }
+
+                }
+            }
+            catch (SqlException ex)
+            {
+                //create a regex match option that searches the exception message string for the table that caused the foreign key constraint
+                Match match = Regex.Match(ex.Message, "\"dbo.+\"", RegexOptions.IgnoreCase);
+
+                //split the returned string by the '.' character name, then grab the second string out of the two and assign it to a variable
+                String tableName = match.Value.Split('.').Last();
+
+                //remove the last '\' character from the string AKA get the table name
+                tableName = tableName.Substring(0, tableName.Count() - 1);
+                MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
+        }
+
+        /// <summary>
+        /// Sets up the load by package name combo box
+        /// </summary>
+        private void LoadPackageNameSearchComboBox()
+        {
+            // Add all package names to combo box and selects the first
+            searchByPackageNameComboBox.Items.Clear();
+            foreach(Package package in packages)
+            {
+                searchByPackageNameComboBox.Items.Add(package.PackageName);
+            }
+            searchByPackageNameComboBox.SelectedIndex = 0;
+        }
+
+        /// <summary>
+        /// Sets up the package data binding
+        /// </summary>
+        private void LoadPackageDataBinding()
+        {
+            try
+            {
+                // Retrieves package list from DB and creates a new findable binding list  and sets it as new binding source
+                packages = new FindableBindingList<Package>(PackagesDB.GetPackages());
+                packageBindingSource.DataSource = packages;
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
+        }
+
+        /// <summary>
+        /// Populates the product suppliers in the list boxes for the selected package
+        /// </summary>
+        /// <param name="selectedIndex">Package index</param>
+        private void populateProductSupplierListBoxes(int selectedIndex)
+        {
+            try
+            {
+                associatedProductSuppliersListBox.Items.Clear();
+                nonAssociatedProductSuppliersListBox.Items.Clear();
+
+                BindingList<Package> currentPackages = (BindingList<Package>)packageBindingSource.DataSource;//grab current packages list
+                SortedList<int, string> associatedProductSuppliers = currentPackages[selectedIndex].ProductSuppliers;//select associated product suppliers for the current package
+
+                SortedList<int, string> allProductSuppliers = ProductsSuppliersDB.getProductsSuppliersIdAndString(); // Grabs all product suppliers
+
+                // Go through all product suppliers. Add to associated or non associated product suppliers depending on if the sorted list contains the key
+                foreach (KeyValuePair<int, string> entry in allProductSuppliers)
+                {
+                    if (associatedProductSuppliers.ContainsKey(entry.Key))
+                    {
+                        associatedProductSuppliersListBox.Items.Add(entry.Key + " | " + entry.Value);
+                    }
+                    else
+                    {
+                        nonAssociatedProductSuppliersListBox.Items.Add(entry.Key + " | " + entry.Value);
+                    }
+
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Products Tab
+
+        /// <summary>
+        /// Moves to previous product
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void productPrevButton_Click(object sender, EventArgs e)
+        {
+            // Moves the binding source and product name combo box to previous item
+            productBindingSource.MovePrevious();
+            if (productComboBox.SelectedIndex > 0)
+            {
+                productComboBox.SelectedIndex -= 1;
+                populateSupplierListBoxes(productComboBox.SelectedIndex);
+            }
+        }
+
+        /// <summary>
+        /// Moves to next product
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void productNextButton_Click(object sender, EventArgs e)
+        {
+            // Moves the binding source and product name combo box to next item
+            productBindingSource.MoveNext();
+            if (productComboBox.SelectedIndex < productComboBox.Items.Count - 1)
+            {
+                productComboBox.SelectedIndex += 1;
+                populateSupplierListBoxes(productComboBox.SelectedIndex);
+            }
+        }
+
+        /// <summary>
+        /// combobox selectedindexchanged event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void productComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //grab the selected product's index and assign to a variable
+            int bsIndex = productBindingSource.Find("ProductName", productComboBox.SelectedItem.ToString());
+
+            //if we have selected a product set the binding source position to match that of the selected ones index
+            //populate associated and non associated supplier list boxes
+            if (bsIndex > -1)
+            {
+                productBindingSource.Position = bsIndex;
+                populateSupplierListBoxes(bsIndex);
+
+            }
+        }
+
+        /// <summary>
+        /// Opens dialog box to all adding a product in Product tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ProductAddButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AddEditForm addProduct = new AddEditForm("Product", true, false);//create instance of addeditform for product add
+
+                DialogResult result = addProduct.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
+
+                if (result == DialogResult.OK)
+                {
+                    ProductsDB.AddProducts(addProduct.addedProductName);//ProductsDB class method call to add product
+                    InitializeProductDataBinding();
+                    InitializeProductNameSearchComboBox();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
+        }
+
+        /// <summary>
+        /// Opens dialog box to all editing a product in Product tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ProductEditButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AddEditForm editProduct = new AddEditForm("Product", false, true, productNameTextBox.Text);//create instance of addeditform for product add
+
+                DialogResult result = editProduct.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
+
+                if (result == DialogResult.OK)
+                {
+                    ProductsDB.EditProduct(editProduct.editedProductName, int.Parse(productIdTextBox.Text));
+                    InitializeProductDataBinding();
+                    InitializeProductNameSearchComboBox();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
+
         }
 
         /// <summary>
@@ -692,6 +650,10 @@ namespace TravelExpertsDatabaseManager
             {
                 MessageBox.Show("Database error # " + ex.Number +
                     ": " + ex.Message, ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -756,8 +718,220 @@ namespace TravelExpertsDatabaseManager
                 tableName = tableName.Substring(0, tableName.Count() - 1);
                 MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
         }
 
+        /// <summary>
+        /// Private form class method initializes component
+        /// </summary>
+        private void InitializeProductNameSearchComboBox()
+        {
+            //iterate through products list from database and populate product combo box with name property of each Product class object
+            foreach (Product product in products)
+            {
+                productComboBox.Items.Add(product.ProductName);
+            }
+        }
+
+        /// <summary>
+        /// Private form class method initializes component
+        /// </summary>
+        private void InitializeProductDataBinding()
+        {
+            try
+            {
+                products = new FindableBindingList<Product>(ProductsDB.GetProducts());//populates list with data retrieved from database
+                productBindingSource.DataSource = products;//adds list data to binding source's datasource 
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
+        }
+
+        /// <summary>
+        /// Populates suppliers associated and notassociated with a product listBoxes 
+        /// </summary>
+        /// <param name="index"></param>
+        private void populateSupplierListBoxes(int index)
+        {
+            associatedSuppliersListBox.Items.Clear();
+            nonAssociatedSuppliersListBox.Items.Clear();
+
+            BindingList<Product> currentProducts = (BindingList<Product>)productBindingSource.DataSource;//grab current products list
+            List<Supplier> associatedSupplier = currentProducts[index].Suppliers;//select associated suppliers for the current product
+
+            List<Supplier> allSuppliers = suppliers.ToList();//converts bindable list to list and assigns the suppliers to another list
+
+            //iterate through each supplier object in our list of all suppliers
+            foreach (Supplier supplier in allSuppliers)
+            {
+                bool isAssociatedSupplier = false;//bool variable used to check if a supplier is associated with a product
+
+                //iterate through each supplier object in the known associated suppliers 
+                foreach (Supplier associated in associatedSupplier)
+                {
+                    //call class method to verify if suppler is associated, set association bool to true if they are
+                    if (supplier.Equals(associated))
+                    {
+                        isAssociatedSupplier = true;
+                        break;
+                    }
+                }
+                if (isAssociatedSupplier)
+                {
+                    associatedSuppliersListBox.Items.Add(supplier);//add the confirmed associated suppliers to the associated list
+                }
+                else
+                {
+                    nonAssociatedSuppliersListBox.Items.Add(supplier);//add all other suppliers to the non associated list
+                }
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Suppliers Tab
+
+        /// <summary>
+        /// Moves to previous supplier
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void supplierPrevButton_Click(object sender, EventArgs e)
+        {
+            // Moves the binding source and supplier name combo box to previous item
+            supplierBindingSource.MovePrevious();
+            if (supplierComboBox.SelectedIndex > 0)
+            {
+                supplierComboBox.SelectedIndex -= 1;
+                populateSupplierListBoxes(supplierComboBox.SelectedIndex);
+            }
+        }
+
+        /// <summary>
+        /// Moves to next supplier
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void supplierNextButton_Click(object sender, EventArgs e)
+        {
+            // Moves the binding source and supplier name combo box to next item
+            supplierBindingSource.MoveNext();
+            if (supplierComboBox.SelectedIndex < supplierComboBox.Items.Count - 1)
+            {
+                supplierComboBox.SelectedIndex += 1;
+                populateSupplierListBoxes(supplierComboBox.SelectedIndex);
+            }
+        }                             
+
+        /// <summary>
+        /// combobox selectedindexchanged event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void supplierComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //grab the selected supplier's index and assign to a variable
+            int bsIndex = supplierBindingSource.Find("SupplierName", supplierComboBox.SelectedItem.ToString());
+
+            //if we have selected a supplier set the binding source position to match that of the selected ones index
+            //populate associated and non associated product list boxes
+            if (bsIndex > -1)
+            {
+                supplierBindingSource.Position = bsIndex;
+                populateProductListBoxes(supplierComboBox.SelectedIndex);
+            }
+        }
+
+        /// <summary>
+        /// Opens dialog box to all adding a supplier in Supplier tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SupplierAddButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AddEditForm addSupplier = new AddEditForm("Supplier", true, false);//create instance of addeditform for product add
+
+                DialogResult result = addSupplier.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
+
+                if (result == DialogResult.OK)
+                {
+                    SuppliersDB.AddSuppliers(addSupplier.addedSupplierName);//ProductsDB class method call to add product
+                    InitializeSupplierDataBinding();
+                    InitializeSupplierNameSearchComboBox();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
+        }
+
+        /// <summary>
+        /// Opens dialog box to all editing a supplier in Supplier tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SupplierEditButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                AddEditForm editSupplier = new AddEditForm("Supplier", true, false);//create instance of addeditform for product add
+
+                DialogResult result = editSupplier.ShowDialog(this);//variable the stores result returned from modal dialog form; shows addeditform for product add
+
+                if (result == DialogResult.OK)
+                {
+                    SuppliersDB.EditSuppliers(editSupplier.editedSupplierName, int.Parse(supplierIdTextBox.Text));//ProductsDB class method call to add product
+                    InitializeSupplierDataBinding();
+                    InitializeSupplierNameSearchComboBox();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
+
+        }
+
+        
         /// <summary>
         /// Adds a product to a suppliers associated product list box
         /// </summary>
@@ -811,6 +985,10 @@ namespace TravelExpertsDatabaseManager
             {
                 MessageBox.Show("Database error # " + ex.Number +
                     ": " + ex.Message, ex.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
 
         }
@@ -876,160 +1054,89 @@ namespace TravelExpertsDatabaseManager
                 tableName = tableName.Substring(0, tableName.Count() - 1);
                 MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
         }
 
+
+
         /// <summary>
-        /// Main tab control selected index changed
-        /// initializes data on each tabs controls by setting index when a tab is first selected by setting combo box selected index
+        /// Private form class method initializes component
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        private void InitializeSupplierNameSearchComboBox()
         {
-            if (mainTabControl.SelectedIndex == 1)
+            //iterate through suppliers list from database and populate supplier combo box with name property of each Supplier class object
+            foreach (Supplier supplier in suppliers)
             {
-                productComboBox.SelectedIndex = 0;
-            }
-
-            if (mainTabControl.SelectedIndex == 2)
-            {
-                supplierComboBox.SelectedIndex = 0;
+                supplierComboBox.Items.Add(supplier.SupplierName);
             }
         }
 
-
         /// <summary>
-        /// Populates the product suppliers in the list boxes for the selected package
+        /// Private form class method initializes component
         /// </summary>
-        /// <param name="selectedIndex">Package index</param>
-        private void populateProductSupplierListBoxes(int selectedIndex)
+        private void InitializeSupplierDataBinding()
         {
             try
             {
-                associatedProductSuppliersListBox.Items.Clear();
-                nonAssociatedProductSuppliersListBox.Items.Clear();
-
-                BindingList<Package> currentPackages = (BindingList<Package>)packageBindingSource.DataSource;//grab current packages list
-                SortedList<int, string> associatedProductSuppliers = currentPackages[selectedIndex].ProductSuppliers;//select associated product suppliers for the current package
-
-                SortedList<int, string> allProductSuppliers = ProductsSuppliersDB.getProductsSuppliersIdAndString(); // Grabs all product suppliers
-
-                // Go through all product suppliers. Add to associated or non associated product suppliers depending on if the sorted list contains the key
-                foreach (KeyValuePair<int, string> entry in allProductSuppliers)
-                {
-                    if (associatedProductSuppliers.ContainsKey(entry.Key))
-                    {
-                        associatedProductSuppliersListBox.Items.Add(entry.Key + " | " + entry.Value);
-                    }
-                    else
-                    {
-                        nonAssociatedProductSuppliersListBox.Items.Add(entry.Key + " | " + entry.Value);
-                    }
-
-                }
+                suppliers = new FindableBindingList<Supplier>(SuppliersDB.GetSuppliers());//populates list with data retrieved from database
+                supplierBindingSource.DataSource = suppliers;//adds list data to binding source's datasource
             }
             catch (SqlException ex)
             {
                 MessageBox.Show("Database error # " + ex.Number +
                     ": " + ex.Message, ex.GetType().ToString());
             }
-        }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+            }
+        }     
+                           
 
         /// <summary>
-        /// Adds the selected product supplier to the package (and DB)
+        /// Populates products associated and notassociated with a supplier listBoxes 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void addProductSupplierButton_Click(object sender, EventArgs e)
+        /// <param name="index"></param>
+        private void populateProductListBoxes(int selectedIndex)
         {
-            try
+            associatedProductsListBox.Items.Clear();
+            nonAssociatedProductsListBox.Items.Clear();
+
+            BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.DataSource;//grab current products list
+            List<Product> associatedProduct = currentSuppliers[selectedIndex].Products;//select associated suppliers for the current product
+
+            //BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.List;
+
+            List<Product> allProducts = products.ToList();//converts bindable list to list and assigns the products to another list
+
+            //iterate through each product object in our list of all products
+            foreach (Product product in allProducts)
             {
-                // Get the selected index and package Id
-                int selectedProductSupplierIndex = nonAssociatedProductSuppliersListBox.SelectedIndex;
-                int packageId = ((Package)packageBindingSource.Current).PackageId;
+                bool isAssociatedProduct = false;//bool variable used to check if a product is associated with a supplier
 
-                // Ensure proper indices are chosen
-                if (selectedProductSupplierIndex != -1 && packageId != -1)
+                //iterate through each product object in the known associated products
+                foreach (Product associated in associatedProduct)
                 {
-                    // Gets product supplier Id from list box string and attempts to add package product supplier pair to DB
-                    if (PackagesProductsSuppliersDB.addPackageProductSupplier(packageId, Convert.ToInt32(nonAssociatedProductSuppliersListBox.Items[selectedProductSupplierIndex].ToString().Split('|').First())))
+                    //call class method to verify if product is associated, set association bool to true if they are
+                    if (product.Equals(associated))
                     {
-                        // On success
-                        //add selected item from non associated items list box to the associated items listbox
-                        //then remove the selected item from the non associated items list box
-                        associatedProductSuppliersListBox.Items.Add(nonAssociatedProductSuppliersListBox.Items[selectedProductSupplierIndex]);
-                        nonAssociatedProductSuppliersListBox.Items.RemoveAt(selectedProductSupplierIndex);
-                        associatedProductSuppliersListBox.SelectedIndex = associatedProductSuppliersListBox.Items.Count - 1;
-
-                        // Attach new product suppliers list to current package
-                        Package currentPackage = (Package)packageBindingSource.Current;
-                        currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
+                        isAssociatedProduct = true;
+                        break;
                     }
-                    else
-                    {
-                        MessageBox.Show("Error in updating database. Application data will be refreshed");
-                        // reload data
-                        Package currentPackage = (Package)packageBindingSource.Current;
-                        currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
-                        populateProductSupplierListBoxes(packageBindingSource.Position);
-                    }
-
+                }
+                if (isAssociatedProduct)
+                {
+                    associatedProductsListBox.Items.Add(product);//add the confirmed associated products to the associated list
+                }
+                else
+                {
+                    nonAssociatedProductsListBox.Items.Add(product);//add all other products to the non associated list
                 }
             }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
-            }
         }
-
-        private void removeProductSupplierButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Get the selected index and package Id
-                int selectedProductSupplierIndex = associatedProductSuppliersListBox.SelectedIndex;
-                int packageId = ((Package)packageBindingSource.Current).PackageId;
-
-                // Ensure proper indices are chosen
-                if (selectedProductSupplierIndex != -1 && packageId != -1)
-                {
-                    // Get product supplier Id from list box string and attempt to remove the package product supplier pair
-                    if (PackagesProductsSuppliersDB.removePackageProductSupplier(packageId, Convert.ToInt32(associatedProductSuppliersListBox.Items[selectedProductSupplierIndex].ToString().Split('|').First())))
-                    {
-                        //add selected item from associated items list box to the non associated items listbox
-                        //then remove the selected item from the associated items list box
-                        nonAssociatedProductSuppliersListBox.Items.Add(associatedProductSuppliersListBox.Items[selectedProductSupplierIndex]);
-                        associatedProductSuppliersListBox.Items.RemoveAt(selectedProductSupplierIndex);
-                        nonAssociatedProductSuppliersListBox.SelectedIndex = nonAssociatedProductSuppliersListBox.Items.Count - 1;
-
-                        // Attach new product suppliers list to current package
-                        Package currentPackage = (Package)packageBindingSource.Current;
-                        currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error in updating database. Application data will be refreshed");
-                        // reload data
-                        Package currentPackage = (Package)packageBindingSource.Current;
-                        currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
-                        populateProductSupplierListBoxes(packageBindingSource.Position);
-                    }
-
-                }
-            }
-            catch (SqlException ex)
-            {
-                //create a regex match option that searches the exception message string for the table that caused the foreign key constraint
-                Match match = Regex.Match(ex.Message, "\"dbo.+\"", RegexOptions.IgnoreCase);
-
-                //split the returned string by the '.' character name, then grab the second string out of the two and assign it to a variable
-                String tableName = match.Value.Split('.').Last();
-
-                //remove the last '\' character from the string AKA get the table name
-                tableName = tableName.Substring(0, tableName.Count() - 1);
-                MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
-            }
-        }
+                
     }
 }

@@ -221,9 +221,11 @@ namespace TravelExpertsData
         public static Bitmap ByteToImage(byte[] blob)
         {
             if (blob == null) { throw new ArgumentNullException("Must supply blob array"); }
+            // Writes picture data to memory stream
             MemoryStream mStream = new MemoryStream();
             byte[] pData = blob;            
             mStream.Write(pData, 0, Convert.ToInt32(pData.Length));
+            // Convert memory stream to bitmap
             Bitmap bm = new Bitmap(mStream, false);
             mStream.Dispose();
             return bm;
