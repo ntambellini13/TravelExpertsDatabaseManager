@@ -13,7 +13,7 @@ using TravelExpertsData;
 
 /*
  * Purpose: Main Form Class loads and runs main program functions
- * Author: Tawico
+ * Author: Tawico 
  * Date: September 18, 2019
  * 
  * */
