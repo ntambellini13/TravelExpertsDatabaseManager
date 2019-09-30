@@ -30,7 +30,6 @@ namespace TravelExpertsDatabaseManager
         {
             InitializeComponent();
         }
-
         
         /// <summary>
         /// Load the packages data source and set up the search by package name combo box
@@ -1287,6 +1286,7 @@ namespace TravelExpertsDatabaseManager
                 }
             }
         }
-                
+
+        
     }
 }

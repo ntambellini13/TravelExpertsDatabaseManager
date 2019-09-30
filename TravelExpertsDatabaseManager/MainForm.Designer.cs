@@ -293,7 +293,7 @@
             this.packagesTabPage.Controls.Add(this.partnerURLTextBox);
             this.packagesTabPage.Location = new System.Drawing.Point(4, 22);
             this.packagesTabPage.Name = "packagesTabPage";
-            this.packagesTabPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.packagesTabPage.Padding = new System.Windows.Forms.Padding(3);
             this.packagesTabPage.Size = new System.Drawing.Size(668, 459);
             this.packagesTabPage.TabIndex = 0;
             this.packagesTabPage.Text = "Packages";
@@ -551,7 +551,7 @@
             // productDeleteButton
             // 
             this.productDeleteButton.Location = new System.Drawing.Point(485, 85);
-            this.productDeleteButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.productDeleteButton.Margin = new System.Windows.Forms.Padding(2);
             this.productDeleteButton.Name = "productDeleteButton";
             this.productDeleteButton.Size = new System.Drawing.Size(91, 23);
             this.productDeleteButton.TabIndex = 34;
@@ -715,7 +715,7 @@
             this.suppliersTabPage.Controls.Add(this.supplierIdTextBox);
             this.suppliersTabPage.Location = new System.Drawing.Point(4, 22);
             this.suppliersTabPage.Name = "suppliersTabPage";
-            this.suppliersTabPage.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.suppliersTabPage.Padding = new System.Windows.Forms.Padding(3);
             this.suppliersTabPage.Size = new System.Drawing.Size(668, 459);
             this.suppliersTabPage.TabIndex = 1;
             this.suppliersTabPage.Text = "Suppliers";
@@ -724,7 +724,7 @@
             // supplierDeleteButton
             // 
             this.supplierDeleteButton.Location = new System.Drawing.Point(490, 84);
-            this.supplierDeleteButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.supplierDeleteButton.Margin = new System.Windows.Forms.Padding(2);
             this.supplierDeleteButton.Name = "supplierDeleteButton";
             this.supplierDeleteButton.Size = new System.Drawing.Size(94, 23);
             this.supplierDeleteButton.TabIndex = 40;
