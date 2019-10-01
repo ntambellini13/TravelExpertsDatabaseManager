@@ -61,7 +61,7 @@ namespace TravelExpertsData
             List<Product> products = new List<Product>();
             SqlConnection connection = TravelExpertsDB.GetConnection();
 
-            
+            // Gets products related to supplier id
             String query = "SELECT ps.ProductId, ProdName " +
                                 "FROM " +
                                 "Products_Suppliers ps " +
@@ -97,7 +97,7 @@ namespace TravelExpertsData
             List<Supplier> suppliers = new List<Supplier>();
             SqlConnection connection = TravelExpertsDB.GetConnection();
 
-
+            // Gets suppliers related to product id
             String query = "SELECT ps.SupplierId, SupName " +
                                 "FROM " +
                                 "Products_Suppliers ps " +

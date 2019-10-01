@@ -57,7 +57,37 @@ namespace TravelExpertsDatabaseManager
 
         }
 
-        
+        /// <summary>
+        /// Sets up environment for tabs when the tab is switched
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (mainTabControl.SelectedIndex == 0)
+            {
+                // Attach new product suppliers list to current package
+                // Package currentPackage = (Package)packageBindingSource.Current;
+                // currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
+                populateProductSupplierListBoxes(packageBindingSource.Position);
+            }
+            else if (mainTabControl.SelectedIndex == 1)
+            {
+                // Retrieve updated supplier list from db
+                //Product currentProduct = (Product)productBindingSource.Current;
+                // currentProduct.Suppliers = ProductsSuppliersDB.getSuppliersByProductId(currentProduct.ProductId);
+                populateSupplierListBoxes(productBindingSource.Position);
+            }
+            else if (mainTabControl.SelectedIndex == 2)
+            {
+                // Retrieve updated product list from DB
+                //Supplier currentSupplier = (Supplier)supplierBindingSource.Current;
+                // currentSupplier.Products = ProductsSuppliersDB.getProductsBySupplierId(currentSupplier.SupplierId);
+                populateProductListBoxes(supplierBindingSource.Position);
+            }
+        }
+
+
 
         // Packages Tab
 
@@ -1318,29 +1348,6 @@ namespace TravelExpertsDatabaseManager
             }
         }
 
-        private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (mainTabControl.SelectedIndex == 0)
-            {
-                // Attach new product suppliers list to current package
-               // Package currentPackage = (Package)packageBindingSource.Current;
-               // currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
-                populateProductSupplierListBoxes(packageBindingSource.Position);
-            }
-            else if (mainTabControl.SelectedIndex == 1)
-            {                
-                // Retrieve updated supplier list from db
-                //Product currentProduct = (Product)productBindingSource.Current;
-               // currentProduct.Suppliers = ProductsSuppliersDB.getSuppliersByProductId(currentProduct.ProductId);
-                populateSupplierListBoxes(productBindingSource.Position);
-            }
-            else if (mainTabControl.SelectedIndex == 2)
-            {
-                // Retrieve updated product list from DB
-                //Supplier currentSupplier = (Supplier)supplierBindingSource.Current;
-               // currentSupplier.Products = ProductsSuppliersDB.getProductsBySupplierId(currentSupplier.SupplierId);
-                populateProductListBoxes(supplierBindingSource.Position);
-            }
-        }
+        
     }
 }
