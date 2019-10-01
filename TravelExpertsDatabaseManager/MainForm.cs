@@ -1053,9 +1053,7 @@ namespace TravelExpertsDatabaseManager
             if (supplierComboBox.SelectedIndex > 0)
             {
                 supplierComboBox.SelectedIndex -= 1;
-                
             }
-            
         }
 
         /// <summary>

@@ -257,7 +257,7 @@
             this.mainTabControl.Size = new System.Drawing.Size(676, 485);
             this.mainTabControl.TabIndex = 1;
             this.mainTabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.mainTabControl_DrawItem);
-            this.mainTabControl.SelectedIndexChanged += new System.EventHandler(this.supplierComboBox_SelectedIndexChanged);
+            this.mainTabControl.SelectedIndexChanged += new System.EventHandler(this.mainTabControl_SelectedIndexChanged);
             // 
             // packagesTabPage
             // 
