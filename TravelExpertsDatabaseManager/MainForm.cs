@@ -57,7 +57,37 @@ namespace TravelExpertsDatabaseManager
 
         }
 
-        
+        /// <summary>
+        /// Sets up environment for tabs when the tab is switched
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (mainTabControl.SelectedIndex == 0)
+            {
+                // Attach new product suppliers list to current package
+                // Package currentPackage = (Package)packageBindingSource.Current;
+                // currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
+                populateProductSupplierListBoxes(packageBindingSource.Position);
+            }
+            else if (mainTabControl.SelectedIndex == 1)
+            {
+                // Retrieve updated supplier list from db
+                //Product currentProduct = (Product)productBindingSource.Current;
+                // currentProduct.Suppliers = ProductsSuppliersDB.getSuppliersByProductId(currentProduct.ProductId);
+                populateSupplierListBoxes(productBindingSource.Position);
+            }
+            else if (mainTabControl.SelectedIndex == 2)
+            {
+                // Retrieve updated product list from DB
+                //Supplier currentSupplier = (Supplier)supplierBindingSource.Current;
+                // currentSupplier.Products = ProductsSuppliersDB.getProductsBySupplierId(currentSupplier.SupplierId);
+                populateProductListBoxes(supplierBindingSource.Position);
+            }
+        }
+
+
 
         // Packages Tab
 
@@ -278,6 +308,12 @@ namespace TravelExpertsDatabaseManager
             {
                 // Get the selected index and package Id
                 int selectedProductSupplierIndex = nonAssociatedProductSuppliersListBox.SelectedIndex;
+                // Error if nothing selected
+                if (selectedProductSupplierIndex == -1)
+                {
+                    MessageBox.Show("Must select a product to add");
+                    return;
+                }
                 int packageId = ((Package)packageBindingSource.Current).PackageId;
 
                 // Ensure proper indices are chosen
@@ -296,6 +332,7 @@ namespace TravelExpertsDatabaseManager
                         // Attach new product suppliers list to current package
                         Package currentPackage = (Package)packageBindingSource.Current;
                         currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
+
                     }
                     else
                     {
@@ -325,6 +362,12 @@ namespace TravelExpertsDatabaseManager
             {
                 // Get the selected index and package Id
                 int selectedProductSupplierIndex = associatedProductSuppliersListBox.SelectedIndex;
+                // Error if nothing selected
+                if (selectedProductSupplierIndex == -1)
+                {
+                    MessageBox.Show("Must select a product to remove");
+                    return;
+                }
                 int packageId = ((Package)packageBindingSource.Current).PackageId;
 
                 // Ensure proper indices are chosen
@@ -420,6 +463,7 @@ namespace TravelExpertsDatabaseManager
                 nonAssociatedProductSuppliersListBox.Items.Clear();
 
                 BindingList<Package> currentPackages = (BindingList<Package>)packageBindingSource.DataSource;//grab current packages list
+                currentPackages[selectedIndex].ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackages[selectedIndex].PackageId); // Update productSuppliersList
                 SortedList<int, string> associatedProductSuppliers = currentPackages[selectedIndex].ProductSuppliers;//select associated product suppliers for the current package
 
                 SortedList<int, string> allProductSuppliers = ProductsSuppliersDB.getProductsSuppliersIdAndString(); // Grabs all product suppliers
@@ -475,8 +519,7 @@ namespace TravelExpertsDatabaseManager
             productBindingSource.MovePrevious();
             if (productComboBox.SelectedIndex > 0)
             {
-                productComboBox.SelectedIndex -= 1;
-                
+                productComboBox.SelectedIndex -= 1;                
             }
             
         }
@@ -537,6 +580,8 @@ namespace TravelExpertsDatabaseManager
                     InitializeProductNameSearchComboBox();
                     InitializeSupplierDataBinding();
                     InitializeSupplierNameSearchComboBox();
+
+                    productComboBox.SelectedIndex = productComboBox.Items.Count - 1; // Go to new product
                 }
             }
             catch (SqlException ex)
@@ -653,6 +698,10 @@ namespace TravelExpertsDatabaseManager
                         MessageBox.Show("Error in updating database. Application data will be refreshed");
                         // reload data
                     }
+                    // Retrieve updated supplier list from db
+                    Product currentProduct = (Product) productBindingSource.Current;
+                    currentProduct.Suppliers = ProductsSuppliersDB.getSuppliersByProductId(currentProduct.ProductId);
+
                 }
             }
             catch (SqlException ex)
@@ -711,17 +760,17 @@ namespace TravelExpertsDatabaseManager
                         //remove the selected item from the non associated items list box
                         associatedSuppliersListBox.Items.RemoveAt(index);
 
-                        int currentProductIndex = productComboBox.SelectedIndex;//capture current products combo box index
-
-                        //change product combo box index then set back to current product to refresh list
-                        productComboBox.SelectedIndex = currentProductIndex - 1;
-                        productComboBox.SelectedIndex = currentProductIndex;
+                        //select the last item in the list
+                        nonAssociatedSuppliersListBox.SelectedIndex = nonAssociatedSuppliersListBox.Items.Count - 1;
                     }
                     else
                     {
                         MessageBox.Show("Error in updating database. Application data will be refreshed");
                         // reload data
                     }
+                    // Retrieve updated supplier list from db
+                    Product currentProduct = (Product)productBindingSource.Current;
+                    currentProduct.Suppliers = ProductsSuppliersDB.getSuppliersByProductId(currentProduct.ProductId);
                 }
             }
             catch (SqlException ex)
@@ -835,6 +884,7 @@ namespace TravelExpertsDatabaseManager
             nonAssociatedSuppliersListBox.Items.Clear();
 
             BindingList<Product> currentProducts = (BindingList<Product>)productBindingSource.DataSource;//grab current products list
+            currentProducts[index].Suppliers = ProductsSuppliersDB.getSuppliersByProductId(currentProducts[index].ProductId); // refresh supplier list
             List<Supplier> associatedSupplier = currentProducts[index].Suppliers;//select associated suppliers for the current product
 
             //List<Supplier> allSuppliers = suppliers.ToList();//converts bindable list to list and assigns the suppliers to another list
@@ -958,6 +1008,8 @@ namespace TravelExpertsDatabaseManager
                     InitializeSupplierNameSearchComboBox();
                     InitializeProductDataBinding();
                     InitializeProductNameSearchComboBox();
+
+                    supplierComboBox.SelectedIndex = supplierComboBox.Items.Count - 1; // Go to new supplier
                 }
             }
             catch (SqlException ex)
@@ -1074,6 +1126,10 @@ namespace TravelExpertsDatabaseManager
                         MessageBox.Show("Error in updating database. Application data will be refreshed");
                         // reload data
                     }
+
+                    // Retrieve updated product list from DB
+                    Supplier currentSupplier = (Supplier)supplierBindingSource.Current;
+                    currentSupplier.Products = ProductsSuppliersDB.getProductsBySupplierId(currentSupplier.SupplierId);
                 }
             }
             catch (SqlException ex)
@@ -1140,6 +1196,10 @@ namespace TravelExpertsDatabaseManager
                         MessageBox.Show("Error in updating database. Application data will be refreshed");
                         // reload data
                     }
+
+                    // Retrieve updated product list from DB
+                    Supplier currentSupplier = (Supplier)supplierBindingSource.Current;
+                    currentSupplier.Products = ProductsSuppliersDB.getProductsBySupplierId(currentSupplier.SupplierId);
                 }
             }
             catch (SqlException ex)
@@ -1256,6 +1316,7 @@ namespace TravelExpertsDatabaseManager
             nonAssociatedProductsListBox.Items.Clear();
 
             BindingList<Supplier> currentSuppliers = (BindingList<Supplier>)supplierBindingSource.DataSource;//grab current suppliers list
+            currentSuppliers[index].Products = ProductsSuppliersDB.getProductsBySupplierId(currentSuppliers[index].SupplierId); // Refresh products list
             List<Product> associatedProduct = currentSuppliers[index].Products;//select associated products for the current supplier
 
             //List<Product> allProducts = products.ToList();//converts bindable list to list and assigns the products to another list

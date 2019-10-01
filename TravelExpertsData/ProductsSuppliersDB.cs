@@ -53,6 +53,78 @@ namespace TravelExpertsData
         }
 
         /// <summary>
+        /// Gets a list of products by supplier id
+        /// </summary>
+        /// <returns>Product list</returns>
+        public static List<Product> getProductsBySupplierId(int id)
+        {
+            List<Product> products = new List<Product>();
+            SqlConnection connection = TravelExpertsDB.GetConnection();
+
+            // Gets products related to supplier id
+            String query = "SELECT ps.ProductId, ProdName " +
+                                "FROM " +
+                                "Products_Suppliers ps " +
+                                "JOIN Products pr " +
+                                "ON ps.ProductId = pr.ProductId " +
+                                "WHERE ps.SupplierId = @id " +
+                                "ORDER BY ps.ProductID ; ";
+
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                connection.Open();
+                command.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader =
+                    command.ExecuteReader(CommandBehavior.CloseConnection);
+                // Add all found products to list
+                while (reader.Read())
+                {
+                    products.Add(new Product((int) reader["ProductId"],reader["ProdName"].ToString()));
+                }
+                connection.Close();
+            }
+
+            return products;
+        }
+
+        /// <summary>
+        /// Gets a list of suppliers by product id
+        /// </summary>
+        /// <returns>Supplier list</returns>
+        public static List<Supplier> getSuppliersByProductId(int id)
+        {
+            List<Supplier> suppliers = new List<Supplier>();
+            SqlConnection connection = TravelExpertsDB.GetConnection();
+
+            // Gets suppliers related to product id
+            String query = "SELECT ps.SupplierId, SupName " +
+                                "FROM " +
+                                "Products_Suppliers ps " +
+                                "JOIN Suppliers s " +
+                                "ON ps.SupplierId = s.SupplierId " +
+                                "WHERE ps.ProductId = @id " +
+                                "ORDER BY ps.SupplierId ";
+
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                connection.Open();
+                command.Parameters.AddWithValue("@id", id);
+                SqlDataReader reader =
+                    command.ExecuteReader(CommandBehavior.CloseConnection);
+                // Add all found suppliers to list
+                while (reader.Read())
+                {
+                    suppliers.Add(new Supplier((int)reader["SupplierId"], reader["SupName"].ToString()));
+                }
+                connection.Close();
+            }
+
+            return suppliers;
+        }
+
+        /// <summary>
         /// Adds product supplier pair to DB
         /// </summary>
         /// <param name="productId">Product ID</param>
