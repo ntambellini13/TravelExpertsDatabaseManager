@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.agentLoginLabel = new System.Windows.Forms.Label();
             this.usernameLabel = new System.Windows.Forms.Label();
             this.passwordLabel = new System.Windows.Forms.Label();
@@ -74,7 +75,7 @@
             // 
             this.usernameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.usernameTextBox.Location = new System.Drawing.Point(146, 67);
-            this.usernameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.usernameTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(199, 26);
             this.usernameTextBox.TabIndex = 1;
@@ -83,7 +84,7 @@
             // 
             this.passwordTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.passwordTextBox.Location = new System.Drawing.Point(146, 117);
-            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.passwordTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.Size = new System.Drawing.Size(199, 26);
             this.passwordTextBox.TabIndex = 2;
@@ -91,8 +92,8 @@
             // 
             // loginButton
             // 
-            this.loginButton.Location = new System.Drawing.Point(20, 184);
-            this.loginButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.loginButton.Location = new System.Drawing.Point(192, 176);
+            this.loginButton.Margin = new System.Windows.Forms.Padding(2);
             this.loginButton.Name = "loginButton";
             this.loginButton.Size = new System.Drawing.Size(67, 29);
             this.loginButton.TabIndex = 3;
@@ -102,8 +103,8 @@
             // 
             // exitLoginButton
             // 
-            this.exitLoginButton.Location = new System.Drawing.Point(295, 184);
-            this.exitLoginButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.exitLoginButton.Location = new System.Drawing.Point(280, 176);
+            this.exitLoginButton.Margin = new System.Windows.Forms.Padding(2);
             this.exitLoginButton.Name = "exitLoginButton";
             this.exitLoginButton.Size = new System.Drawing.Size(67, 29);
             this.exitLoginButton.TabIndex = 4;
@@ -116,9 +117,7 @@
             this.AcceptButton = this.loginButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-
-            this.ClientSize = new System.Drawing.Size(535, 317);
-
+            this.ClientSize = new System.Drawing.Size(379, 234);
             this.ControlBox = false;
             this.Controls.Add(this.exitLoginButton);
             this.Controls.Add(this.loginButton);
@@ -128,12 +127,14 @@
             this.Controls.Add(this.usernameLabel);
             this.Controls.Add(this.agentLoginLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
+            this.Load += new System.EventHandler(this.LoginForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

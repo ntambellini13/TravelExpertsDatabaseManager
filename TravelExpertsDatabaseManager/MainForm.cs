@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -29,8 +30,11 @@ namespace TravelExpertsDatabaseManager
         public MainForm()
         {
             InitializeComponent();
+            
+            //set screen start position of form
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
-        
+
         /// <summary>
         /// Load the packages data source and set up the search by package name combo box
         /// </summary>
@@ -38,6 +42,45 @@ namespace TravelExpertsDatabaseManager
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //Register form with our form registration method to apply styling
+            FormManager.registerForm(this);
+
+            //Set backcolor of each tab page
+            packagesTabPage.BackColor = Color.Azure;
+            productsTabPage.BackColor = Color.Azure;
+            suppliersTabPage.BackColor = Color.Azure;
+
+            // We will draw the tabs.
+            mainTabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
+
+            // SizeMode must be Fixed to change tab size.
+            mainTabControl.SizeMode = TabSizeMode.Fixed;
+
+            // Set the size for the tabs.
+            Size tab_size = mainTabControl.ItemSize;
+            tab_size.Width = 100;
+            tab_size.Height += 6;
+            mainTabControl.ItemSize = tab_size;
+
+            //grab all buttons on the form
+            var buttons = HelperMethods.GetAll(this, typeof(Button));
+
+            //grab all labels on the form
+            var labels = HelperMethods.GetAll(this, typeof(Label));
+
+            //set the BackColor of each button 
+            foreach (var b in buttons)
+            {
+                b.BackColor = Color.GhostWhite;
+            }
+
+            //Style the font of each label on the form
+            foreach (var l in labels)
+            {
+                l.Font = new Font("Arial", (float)8.25);
+                l.ForeColor = Color.RoyalBlue;
+            }
+
             LoginForm loginForm = new LoginForm(); 
             // Ensure agent logs in before using the form. If did not login, close application
             if (loginForm.ShowDialog() == DialogResult.OK)
@@ -57,6 +100,79 @@ namespace TravelExpertsDatabaseManager
 
         }
 
+        // The size of the X in each tab's upper right corner; was previously drawing an x in corner
+        private const int tab_margin = 3;
+
+        /// <summary>
+        /// Draw a tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mainTabControl_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            Brush txt_brush, box_brush;
+            Pen box_pen;
+
+            // We draw in the TabRect rather than on e.Bounds
+            // so we can use TabRect later in MouseDown.
+            Rectangle tab_rect = mainTabControl.GetTabRect(e.Index);
+            
+
+            // Draw the background.
+            // Pick appropriate pens and brushes.
+            if (e.State == DrawItemState.Selected)
+            {
+                e.Graphics.FillRectangle(Brushes.Azure, tab_rect);
+                e.DrawFocusRectangle();
+
+                txt_brush = Brushes.MediumVioletRed;//selected tab color
+                box_brush = Brushes.RoyalBlue;
+                box_pen = Pens.RoyalBlue;
+            }
+            else
+            {
+                e.Graphics.FillRectangle(Brushes.Azure, tab_rect);
+
+                txt_brush = Brushes.RoyalBlue;
+                box_brush = Brushes.RoyalBlue;
+                box_pen = Pens.RoyalBlue;
+            }
+
+            // Allow room for margins.
+            RectangleF layout_rect = new RectangleF(
+                tab_rect.Left + tab_margin,
+                tab_rect.Y + tab_margin,
+                tab_rect.Width - 2 * tab_margin,
+                tab_rect.Height - 2 * tab_margin);
+            using (StringFormat string_format = new StringFormat())
+            {
+                // Draw the tab's text centered.
+                using (Font big_font = new Font(this.Font, FontStyle.Bold))
+                {
+                    string_format.Alignment = StringAlignment.Center;
+                    string_format.LineAlignment = StringAlignment.Center;
+                    e.Graphics.DrawString(
+                        mainTabControl.TabPages[e.Index].Text,
+                        big_font,
+                        txt_brush,
+                        layout_rect,
+                        string_format);
+                }
+            }
+
+            //define solid brush object for fill color
+            SolidBrush fillbrush = new SolidBrush(Color.Azure);
+
+            //draw rectangle behind the tabs
+            Rectangle lasttabrect = mainTabControl.GetTabRect(mainTabControl.TabPages.Count - 1);
+            Rectangle background = new Rectangle();
+            background.Location = new Point(lasttabrect.Right, 0);
+
+            //pad the rectangle to cover the 1 pixel line between the top of the tabpage and the start of the tabs
+            background.Size = new Size(mainTabControl.Right - background.Left, lasttabrect.Height + 1);
+            e.Graphics.FillRectangle(fillbrush, background);
+        }
+
         /// <summary>
         /// Sets up environment for tabs when the tab is switched
         /// </summary>
@@ -67,29 +183,19 @@ namespace TravelExpertsDatabaseManager
             if (mainTabControl.SelectedIndex == 0)
             {
                 // Attach new product suppliers list to current package
-                // Package currentPackage = (Package)packageBindingSource.Current;
-                // currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
                 populateProductSupplierListBoxes(packageBindingSource.Position);
             }
             else if (mainTabControl.SelectedIndex == 1)
             {
                 // Retrieve updated supplier list from db
-                //Product currentProduct = (Product)productBindingSource.Current;
-                // currentProduct.Suppliers = ProductsSuppliersDB.getSuppliersByProductId(currentProduct.ProductId);
                 populateSupplierListBoxes(productBindingSource.Position);
             }
             else if (mainTabControl.SelectedIndex == 2)
             {
                 // Retrieve updated product list from DB
-                //Supplier currentSupplier = (Supplier)supplierBindingSource.Current;
-                // currentSupplier.Products = ProductsSuppliersDB.getProductsBySupplierId(currentSupplier.SupplierId);
                 populateProductListBoxes(supplierBindingSource.Position);
             }
         }
-
-
-
-        // Packages Tab
 
         /// <summary>
         /// Moves to previous package
@@ -150,7 +256,6 @@ namespace TravelExpertsDatabaseManager
             try
             {
                 AddEditPackageForm addForm = new AddEditPackageForm(); // Opens form in add mode
-                                                                       // If we get an OK message, create a package, add to db, and requery db packages
                 if (addForm.ShowDialog() == DialogResult.OK)
                 {
                     Package package = new Package( // Create new package
@@ -1072,7 +1177,6 @@ namespace TravelExpertsDatabaseManager
             }
 
         }
-
         
         /// <summary>
         /// Adds a product to a suppliers associated product list box
@@ -1305,7 +1409,6 @@ namespace TravelExpertsDatabaseManager
             }
         }     
                            
-
         /// <summary>
         /// Populates products associated and notassociated with a supplier listBoxes 
         /// </summary>
@@ -1347,7 +1450,5 @@ namespace TravelExpertsDatabaseManager
                 }
             }
         }
-
-        
     }
 }

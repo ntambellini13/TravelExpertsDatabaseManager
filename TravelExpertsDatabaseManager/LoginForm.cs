@@ -29,6 +29,7 @@ namespace TravelExpertsDatabaseManager
         public LoginForm()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         /// <summary>
@@ -74,6 +75,33 @@ namespace TravelExpertsDatabaseManager
         private void exitLoginButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+
+            FormManager.registerForm(this);
+
+            FormManager.setAllBackcolors(Color.Azure);
+
+            //grab all buttons on the form
+            var buttons = HelperMethods.GetAll(this, typeof(Button));
+
+            //grab all labels on the form
+            var labels = HelperMethods.GetAll(this, typeof(Label));
+
+            //set the BackColor of each button 
+            foreach (var b in buttons)
+            {
+                b.BackColor = Color.GhostWhite;
+            }
+
+            //Style the font of each label on the form
+            foreach (var l in labels)
+            {
+                l.Font = new Font("Arial", (float)11, FontStyle.Bold);
+                l.ForeColor = Color.RoyalBlue;
+            }
         }
     }
 }

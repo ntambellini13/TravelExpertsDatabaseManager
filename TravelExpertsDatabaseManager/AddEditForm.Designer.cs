@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddEditForm));
             this.addEditCancelButton = new System.Windows.Forms.Button();
             this.addEditButton = new System.Windows.Forms.Button();
             this.addEditLabel = new System.Windows.Forms.Label();
@@ -65,7 +66,7 @@
             // 
             // addEditTextBox
             // 
-            this.addEditTextBox.Location = new System.Drawing.Point(120, 12);
+            this.addEditTextBox.Location = new System.Drawing.Point(120, 9);
             this.addEditTextBox.Name = "addEditTextBox";
             this.addEditTextBox.Size = new System.Drawing.Size(100, 20);
             this.addEditTextBox.TabIndex = 3;
@@ -80,8 +81,11 @@
             this.Controls.Add(this.addEditLabel);
             this.Controls.Add(this.addEditButton);
             this.Controls.Add(this.addEditCancelButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddEditForm";
             this.Text = "AddEditForm";
+            this.Load += new System.EventHandler(this.AddEditForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

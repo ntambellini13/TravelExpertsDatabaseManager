@@ -134,9 +134,8 @@
       <Name>TravelExpertsData</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="sql\customTravelExpertsDBv3.sql" />
+    <Content Include="sql\customTravelExpertsDB.sql" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

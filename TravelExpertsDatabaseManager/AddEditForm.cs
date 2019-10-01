@@ -43,6 +43,13 @@ namespace TravelExpertsDatabaseManager
         {
             InitializeComponent();
 
+            //set screen start position of form
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+            //set back color of popup dialog
+            this.BackColor = Color.Azure;
+
+            //initialize variable for value to be edited
             string editValue = "";
 
             if(oldProduct != null)
@@ -166,6 +173,27 @@ namespace TravelExpertsDatabaseManager
                     break;
             }
         }
-        
+
+        private void AddEditForm_Load(object sender, EventArgs e)
+        {
+            //grab all buttons on the form
+            var buttons = HelperMethods.GetAll(this, typeof(Button));
+
+            //grab all labels on the form
+            var labels = HelperMethods.GetAll(this, typeof(Label));
+
+            //set the BackColor of each button 
+            foreach (var b in buttons)
+            {
+                b.BackColor = Color.GhostWhite;
+            }
+
+            //Style the font of each label on the form
+            foreach (var l in labels)
+            {
+                l.Font = new Font("Arial", (float)8.25);
+                l.ForeColor = Color.RoyalBlue;
+            }
+        }
     }
 }
