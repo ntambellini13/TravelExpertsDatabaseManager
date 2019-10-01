@@ -302,6 +302,7 @@ namespace TravelExpertsDatabaseManager
                         // Attach new product suppliers list to current package
                         Package currentPackage = (Package)packageBindingSource.Current;
                         currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
+
                     }
                     else
                     {
@@ -432,6 +433,7 @@ namespace TravelExpertsDatabaseManager
                 nonAssociatedProductSuppliersListBox.Items.Clear();
 
                 BindingList<Package> currentPackages = (BindingList<Package>)packageBindingSource.DataSource;//grab current packages list
+                currentPackages[selectedIndex].ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackages[selectedIndex].PackageId); // Update productSuppliersList
                 SortedList<int, string> associatedProductSuppliers = currentPackages[selectedIndex].ProductSuppliers;//select associated product suppliers for the current package
 
                 SortedList<int, string> allProductSuppliers = ProductsSuppliersDB.getProductsSuppliersIdAndString(); // Grabs all product suppliers
@@ -548,6 +550,8 @@ namespace TravelExpertsDatabaseManager
                     InitializeProductNameSearchComboBox();
                     InitializeSupplierDataBinding();
                     InitializeSupplierNameSearchComboBox();
+
+                    productComboBox.SelectedIndex = productComboBox.Items.Count - 1; // Go to new product
                 }
             }
             catch (SqlException ex)
@@ -974,6 +978,8 @@ namespace TravelExpertsDatabaseManager
                     InitializeSupplierNameSearchComboBox();
                     InitializeProductDataBinding();
                     InitializeProductNameSearchComboBox();
+
+                    supplierComboBox.SelectedIndex = supplierComboBox.Items.Count - 1; // Go to new supplier
                 }
             }
             catch (SqlException ex)
@@ -1317,22 +1323,22 @@ namespace TravelExpertsDatabaseManager
             if (mainTabControl.SelectedIndex == 0)
             {
                 // Attach new product suppliers list to current package
-                Package currentPackage = (Package)packageBindingSource.Current;
-                currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
+               // Package currentPackage = (Package)packageBindingSource.Current;
+               // currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
                 populateProductSupplierListBoxes(packageBindingSource.Position);
             }
             else if (mainTabControl.SelectedIndex == 1)
             {                
                 // Retrieve updated supplier list from db
-                Product currentProduct = (Product)productBindingSource.Current;
-                currentProduct.Suppliers = ProductsSuppliersDB.getSuppliersByProductId(currentProduct.ProductId);
+                //Product currentProduct = (Product)productBindingSource.Current;
+               // currentProduct.Suppliers = ProductsSuppliersDB.getSuppliersByProductId(currentProduct.ProductId);
                 populateSupplierListBoxes(productBindingSource.Position);
             }
             else if (mainTabControl.SelectedIndex == 2)
             {
                 // Retrieve updated product list from DB
-                Supplier currentSupplier = (Supplier)supplierBindingSource.Current;
-                currentSupplier.Products = ProductsSuppliersDB.getProductsBySupplierId(currentSupplier.SupplierId);
+                //Supplier currentSupplier = (Supplier)supplierBindingSource.Current;
+               // currentSupplier.Products = ProductsSuppliersDB.getProductsBySupplierId(currentSupplier.SupplierId);
                 populateProductListBoxes(supplierBindingSource.Position);
             }
         }
