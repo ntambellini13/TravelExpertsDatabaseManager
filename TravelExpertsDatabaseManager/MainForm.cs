@@ -307,6 +307,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -371,6 +372,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -399,6 +401,7 @@ namespace TravelExpertsDatabaseManager
                 // Confirms user wants to delete package
                 //DialogResult result = MessageBox.Show("Are you sure you wold like to delete this package?", "Confirm delete", MessageBoxButtons.YesNo);
                 TawicoMessageBox customMessageBox = new TawicoMessageBox();
+                customMessageBox.Text = "Confirm delete";
                 DialogResult result = customMessageBox.Show("Are you sure you wold like to delete this package ? ", TawicoMessageBoxColor, true);
                 if (result == DialogResult.Yes)
                 {
@@ -430,12 +433,14 @@ namespace TravelExpertsDatabaseManager
                 tableName = tableName.Substring(0, tableName.Count() - 1);
 
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.", TawicoMessageBoxColor);
                 //MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
             }
             catch (Exception ex)
             {
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -507,6 +512,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -571,6 +577,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.", TawicoMessageBoxColor);
                 //MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
             }
@@ -579,6 +586,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -626,6 +634,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -679,6 +688,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -792,6 +802,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -857,6 +868,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -943,6 +955,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -1028,6 +1041,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the product.", TawicoMessageBoxColor);
                 //MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
             }
@@ -1036,6 +1050,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -1091,6 +1106,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the product.", TawicoMessageBoxColor);
                 //MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the product.");
             }
@@ -1099,6 +1115,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -1146,6 +1163,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -1304,6 +1322,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -1368,6 +1387,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -1459,6 +1479,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -1546,6 +1567,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show($"This supplier is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the supplier.", TawicoMessageBoxColor);
                 //MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
             }
@@ -1554,6 +1576,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -1571,6 +1594,7 @@ namespace TravelExpertsDatabaseManager
                 // Confirms user wants to delete package
                 //DialogResult result = MessageBox.Show("Are you sure you wold like to delete this supplier?", "Confirm delete", MessageBoxButtons.YesNo);
                 TawicoMessageBox customMessageBox = new TawicoMessageBox();
+                customMessageBox.Text = "Confirm delete";
                 DialogResult result = customMessageBox.Show("Are you sure you wold like to delete this supplier?", TawicoMessageBoxColor, true);
                 if (result == DialogResult.Yes)
                 {
@@ -1609,6 +1633,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show($"This supplier is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the supplier.", TawicoMessageBoxColor);
                 //MessageBox.Show($"This supplier is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the supplier.");
             }
@@ -1617,6 +1642,7 @@ namespace TravelExpertsDatabaseManager
                 //create custom message box instance
                 //show message box
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
@@ -1663,6 +1689,7 @@ namespace TravelExpertsDatabaseManager
             catch (Exception ex)
             {
                 TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
                 showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
                 //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }

@@ -36,9 +36,10 @@
             // 
             // TawicoButtonConfirm
             // 
-            this.TawicoButtonConfirm.Location = new System.Drawing.Point(65, 144);
+            this.TawicoButtonConfirm.Location = new System.Drawing.Point(64, 94);
+            this.TawicoButtonConfirm.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.TawicoButtonConfirm.Name = "TawicoButtonConfirm";
-            this.TawicoButtonConfirm.Size = new System.Drawing.Size(105, 40);
+            this.TawicoButtonConfirm.Size = new System.Drawing.Size(70, 26);
             this.TawicoButtonConfirm.TabIndex = 0;
             this.TawicoButtonConfirm.Text = "OK";
             this.TawicoButtonConfirm.UseVisualStyleBackColor = true;
@@ -46,17 +47,19 @@
             // 
             // TawicoLabel
             // 
-            this.TawicoLabel.Location = new System.Drawing.Point(28, 9);
+            this.TawicoLabel.Location = new System.Drawing.Point(39, 6);
+            this.TawicoLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.TawicoLabel.Name = "TawicoLabel";
-            this.TawicoLabel.Size = new System.Drawing.Size(300, 101);
+            this.TawicoLabel.Size = new System.Drawing.Size(200, 66);
             this.TawicoLabel.TabIndex = 2;
             this.TawicoLabel.Text = "label1";
             // 
             // TawicoButtonCancel
             // 
-            this.TawicoButtonCancel.Location = new System.Drawing.Point(186, 144);
+            this.TawicoButtonCancel.Location = new System.Drawing.Point(145, 94);
+            this.TawicoButtonCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.TawicoButtonCancel.Name = "TawicoButtonCancel";
-            this.TawicoButtonCancel.Size = new System.Drawing.Size(105, 40);
+            this.TawicoButtonCancel.Size = new System.Drawing.Size(70, 26);
             this.TawicoButtonCancel.TabIndex = 3;
             this.TawicoButtonCancel.Text = "OK";
             this.TawicoButtonCancel.UseVisualStyleBackColor = true;
@@ -64,14 +67,15 @@
             // 
             // TawicoMessageBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(357, 196);
+            this.ClientSize = new System.Drawing.Size(279, 127);
             this.Controls.Add(this.TawicoButtonCancel);
             this.Controls.Add(this.TawicoLabel);
             this.Controls.Add(this.TawicoButtonConfirm);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "TawicoMessageBox";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
