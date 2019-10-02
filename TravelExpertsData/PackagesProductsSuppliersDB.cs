@@ -6,6 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+ * Purpose: Class for accessing Packages-Products-Suppliers Database Objects
+ * Author: Tawico
+ * Date: September 18, 2019
+ * 
+ * */
+
 namespace TravelExpertsData
 {
     public static class PackagesProductsSuppliersDB

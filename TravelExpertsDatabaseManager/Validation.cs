@@ -7,6 +7,13 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/*
+ * Purpose: Class for validating textbox data
+ * Author: Tawico
+ * Date: September 18, 2019
+ * 
+ * */
+
 namespace TravelExpertsDatabaseManager
 {
     /// <summary>

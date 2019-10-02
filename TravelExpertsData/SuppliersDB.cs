@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- * Purpose: Class for creating Supplier Database Objects
+ * Purpose: Class for accessing Supplier Database Objects
  * Author: Tawico
  * Date: September 18, 2019
  * 

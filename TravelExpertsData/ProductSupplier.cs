@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- * Purpose: Class for creating ProductSupplier Objects
+ * Purpose: Class for creating Product-Supplier Objects
  * Author: Tawico
  * Date: September 18, 2019
  * 

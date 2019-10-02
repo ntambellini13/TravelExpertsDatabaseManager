@@ -6,6 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/*
+ * Purpose: Class for objects that extend the application's functionality
+ * Author: Tawico
+ * Date: September 18, 2019
+ * 
+ * */
+
 namespace TravelExpertsData
 {
     public static class HelperMethods
@@ -62,6 +69,5 @@ namespace TravelExpertsData
         {
             foreach (Form f in formList) if (f != null) f.BackColor = backColor;
         }
-
     }
 }

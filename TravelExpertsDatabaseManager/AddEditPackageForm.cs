@@ -10,6 +10,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TravelExpertsData;
 
+/*
+ * Purpose: Form for adding or editing packages
+ * Author: Tawico
+ * Date: September 18, 2019
+ * 
+ * */
 
 namespace TravelExpertsDatabaseManager
 {

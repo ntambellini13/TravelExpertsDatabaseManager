@@ -11,6 +11,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TravelExpertsData;
 
+/*
+ * Purpose: Form for logging into application
+ * Author: Tawico
+ * Date: September 18, 2019
+ * 
+ * */
+
 namespace TravelExpertsDatabaseManager
 {
     public partial class LoginForm : Form
