@@ -71,6 +71,8 @@ namespace TravelExpertsDatabaseManager
             //Switch triggered on input parameters used to set fields or load values
             switch (dbAddEditObjectType)
             {
+                //Set up form component text on a per case basis
+                //To account for each mode and object type
                 case "Product":
                     if(dbAddMode)
                     {

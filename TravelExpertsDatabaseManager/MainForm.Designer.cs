@@ -103,6 +103,7 @@
             this.supplierNameTextBox = new System.Windows.Forms.TextBox();
             this.supplierBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.supplierIdTextBox = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             airfairInclusionLabel = new System.Windows.Forms.Label();
             imagePathLabel = new System.Windows.Forms.Label();
             packageAgencyCommissionLabel = new System.Windows.Forms.Label();
@@ -129,117 +130,130 @@
             // airfairInclusionLabel
             // 
             airfairInclusionLabel.AutoSize = true;
-            airfairInclusionLabel.Location = new System.Drawing.Point(28, 206);
+            airfairInclusionLabel.Location = new System.Drawing.Point(42, 317);
+            airfairInclusionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             airfairInclusionLabel.Name = "airfairInclusionLabel";
-            airfairInclusionLabel.Size = new System.Drawing.Size(81, 13);
+            airfairInclusionLabel.Size = new System.Drawing.Size(121, 20);
             airfairInclusionLabel.TabIndex = 0;
             airfairInclusionLabel.Text = "Airfair Inclusion:";
             // 
             // imagePathLabel
             // 
             imagePathLabel.AutoSize = true;
-            imagePathLabel.Location = new System.Drawing.Point(507, 85);
+            imagePathLabel.Location = new System.Drawing.Point(760, 131);
+            imagePathLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             imagePathLabel.Name = "imagePathLabel";
-            imagePathLabel.Size = new System.Drawing.Size(39, 13);
+            imagePathLabel.Size = new System.Drawing.Size(58, 20);
             imagePathLabel.TabIndex = 2;
             imagePathLabel.Text = "Image:";
             // 
             // packageAgencyCommissionLabel
             // 
             packageAgencyCommissionLabel.AutoSize = true;
-            packageAgencyCommissionLabel.Location = new System.Drawing.Point(25, 178);
+            packageAgencyCommissionLabel.Location = new System.Drawing.Point(38, 274);
+            packageAgencyCommissionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             packageAgencyCommissionLabel.Name = "packageAgencyCommissionLabel";
-            packageAgencyCommissionLabel.Size = new System.Drawing.Size(150, 13);
+            packageAgencyCommissionLabel.Size = new System.Drawing.Size(222, 20);
             packageAgencyCommissionLabel.TabIndex = 4;
             packageAgencyCommissionLabel.Text = "Package Agency Commission:";
             // 
             // packageBasePriceLabel
             // 
             packageBasePriceLabel.AutoSize = true;
-            packageBasePriceLabel.Location = new System.Drawing.Point(27, 152);
+            packageBasePriceLabel.Location = new System.Drawing.Point(40, 234);
+            packageBasePriceLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             packageBasePriceLabel.Name = "packageBasePriceLabel";
-            packageBasePriceLabel.Size = new System.Drawing.Size(107, 13);
+            packageBasePriceLabel.Size = new System.Drawing.Size(155, 20);
             packageBasePriceLabel.TabIndex = 6;
             packageBasePriceLabel.Text = "Package Base Price:";
             // 
             // packageDescriptionLabel
             // 
             packageDescriptionLabel.AutoSize = true;
-            packageDescriptionLabel.Location = new System.Drawing.Point(28, 234);
+            packageDescriptionLabel.Location = new System.Drawing.Point(42, 360);
+            packageDescriptionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             packageDescriptionLabel.Name = "packageDescriptionLabel";
-            packageDescriptionLabel.Size = new System.Drawing.Size(109, 13);
+            packageDescriptionLabel.Size = new System.Drawing.Size(159, 20);
             packageDescriptionLabel.TabIndex = 8;
             packageDescriptionLabel.Text = "Package Description:";
             // 
             // packageEndDateLabel
             // 
             packageEndDateLabel.AutoSize = true;
-            packageEndDateLabel.Location = new System.Drawing.Point(27, 112);
+            packageEndDateLabel.Location = new System.Drawing.Point(40, 172);
+            packageEndDateLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             packageEndDateLabel.Name = "packageEndDateLabel";
-            packageEndDateLabel.Size = new System.Drawing.Size(101, 13);
+            packageEndDateLabel.Size = new System.Drawing.Size(147, 20);
             packageEndDateLabel.TabIndex = 10;
             packageEndDateLabel.Text = "Package End Date:";
             // 
             // packageIdLabel
             // 
             packageIdLabel.AutoSize = true;
-            packageIdLabel.Location = new System.Drawing.Point(27, 62);
+            packageIdLabel.Location = new System.Drawing.Point(40, 95);
+            packageIdLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             packageIdLabel.Name = "packageIdLabel";
-            packageIdLabel.Size = new System.Drawing.Size(65, 13);
+            packageIdLabel.Size = new System.Drawing.Size(93, 20);
             packageIdLabel.TabIndex = 12;
             packageIdLabel.Text = "Package Id:";
             // 
             // packageStartDateLabel
             // 
             packageStartDateLabel.AutoSize = true;
-            packageStartDateLabel.Location = new System.Drawing.Point(27, 85);
+            packageStartDateLabel.Location = new System.Drawing.Point(40, 131);
+            packageStartDateLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             packageStartDateLabel.Name = "packageStartDateLabel";
-            packageStartDateLabel.Size = new System.Drawing.Size(104, 13);
+            packageStartDateLabel.Size = new System.Drawing.Size(153, 20);
             packageStartDateLabel.TabIndex = 16;
             packageStartDateLabel.Text = "Package Start Date:";
             // 
             // partnerURLLabel
             // 
             partnerURLLabel.AutoSize = true;
-            partnerURLLabel.Location = new System.Drawing.Point(28, 309);
+            partnerURLLabel.Location = new System.Drawing.Point(42, 475);
+            partnerURLLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             partnerURLLabel.Name = "partnerURLLabel";
-            partnerURLLabel.Size = new System.Drawing.Size(69, 13);
+            partnerURLLabel.Size = new System.Drawing.Size(102, 20);
             partnerURLLabel.TabIndex = 18;
             partnerURLLabel.Text = "Partner URL:";
             // 
             // productIdLabel
             // 
             productIdLabel.AutoSize = true;
-            productIdLabel.Location = new System.Drawing.Point(44, 64);
+            productIdLabel.Location = new System.Drawing.Point(66, 98);
+            productIdLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             productIdLabel.Name = "productIdLabel";
-            productIdLabel.Size = new System.Drawing.Size(59, 13);
+            productIdLabel.Size = new System.Drawing.Size(86, 20);
             productIdLabel.TabIndex = 0;
             productIdLabel.Text = "Product Id:";
             // 
             // productNameLabel
             // 
             productNameLabel.AutoSize = true;
-            productNameLabel.Location = new System.Drawing.Point(25, 90);
+            productNameLabel.Location = new System.Drawing.Point(38, 138);
+            productNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             productNameLabel.Name = "productNameLabel";
-            productNameLabel.Size = new System.Drawing.Size(78, 13);
+            productNameLabel.Size = new System.Drawing.Size(114, 20);
             productNameLabel.TabIndex = 2;
             productNameLabel.Text = "Product Name:";
             // 
             // supplierIdLabel
             // 
             supplierIdLabel.AutoSize = true;
-            supplierIdLabel.Location = new System.Drawing.Point(43, 64);
+            supplierIdLabel.Location = new System.Drawing.Point(64, 98);
+            supplierIdLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             supplierIdLabel.Name = "supplierIdLabel";
-            supplierIdLabel.Size = new System.Drawing.Size(60, 13);
+            supplierIdLabel.Size = new System.Drawing.Size(89, 20);
             supplierIdLabel.TabIndex = 0;
             supplierIdLabel.Text = "Supplier Id:";
             // 
             // supplierNameLabel
             // 
             supplierNameLabel.AutoSize = true;
-            supplierNameLabel.Location = new System.Drawing.Point(24, 90);
+            supplierNameLabel.Location = new System.Drawing.Point(36, 138);
+            supplierNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             supplierNameLabel.Name = "supplierNameLabel";
-            supplierNameLabel.Size = new System.Drawing.Size(79, 13);
+            supplierNameLabel.Size = new System.Drawing.Size(117, 20);
             supplierNameLabel.TabIndex = 2;
             supplierNameLabel.Text = "Supplier Name:";
             // 
@@ -251,10 +265,11 @@
             this.mainTabControl.Controls.Add(this.packagesTabPage);
             this.mainTabControl.Controls.Add(this.productsTabPage);
             this.mainTabControl.Controls.Add(this.suppliersTabPage);
-            this.mainTabControl.Location = new System.Drawing.Point(12, 39);
+            this.mainTabControl.Location = new System.Drawing.Point(18, 60);
+            this.mainTabControl.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(676, 485);
+            this.mainTabControl.Size = new System.Drawing.Size(1014, 746);
             this.mainTabControl.TabIndex = 1;
             this.mainTabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.mainTabControl_DrawItem);
             this.mainTabControl.SelectedIndexChanged += new System.EventHandler(this.mainTabControl_SelectedIndexChanged);
@@ -294,10 +309,11 @@
             this.packagesTabPage.Controls.Add(this.packageStartDateDateTimePicker);
             this.packagesTabPage.Controls.Add(partnerURLLabel);
             this.packagesTabPage.Controls.Add(this.partnerURLTextBox);
-            this.packagesTabPage.Location = new System.Drawing.Point(4, 22);
+            this.packagesTabPage.Location = new System.Drawing.Point(4, 29);
+            this.packagesTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.packagesTabPage.Name = "packagesTabPage";
-            this.packagesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.packagesTabPage.Size = new System.Drawing.Size(668, 459);
+            this.packagesTabPage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.packagesTabPage.Size = new System.Drawing.Size(1006, 713);
             this.packagesTabPage.TabIndex = 0;
             this.packagesTabPage.Text = "Packages";
             this.packagesTabPage.UseVisualStyleBackColor = true;
@@ -305,27 +321,30 @@
             // associatedProductSuppliersLabel
             // 
             this.associatedProductSuppliersLabel.AutoSize = true;
-            this.associatedProductSuppliersLabel.Location = new System.Drawing.Point(387, 347);
+            this.associatedProductSuppliersLabel.Location = new System.Drawing.Point(580, 534);
+            this.associatedProductSuppliersLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.associatedProductSuppliersLabel.Name = "associatedProductSuppliersLabel";
-            this.associatedProductSuppliersLabel.Size = new System.Drawing.Size(150, 13);
+            this.associatedProductSuppliersLabel.Size = new System.Drawing.Size(219, 20);
             this.associatedProductSuppliersLabel.TabIndex = 29;
             this.associatedProductSuppliersLabel.Text = "Products Included in Package";
             // 
             // nonAssociatedProductSuppliersLabel
             // 
             this.nonAssociatedProductSuppliersLabel.AutoSize = true;
-            this.nonAssociatedProductSuppliersLabel.Location = new System.Drawing.Point(84, 347);
+            this.nonAssociatedProductSuppliersLabel.Location = new System.Drawing.Point(126, 534);
+            this.nonAssociatedProductSuppliersLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.nonAssociatedProductSuppliersLabel.Name = "nonAssociatedProductSuppliersLabel";
-            this.nonAssociatedProductSuppliersLabel.Size = new System.Drawing.Size(126, 13);
+            this.nonAssociatedProductSuppliersLabel.Size = new System.Drawing.Size(183, 20);
             this.nonAssociatedProductSuppliersLabel.TabIndex = 29;
             this.nonAssociatedProductSuppliersLabel.Text = "Products Not in Package";
             // 
             // removeProductSupplierButton
             // 
             this.removeProductSupplierButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.removeProductSupplierButton.Location = new System.Drawing.Point(278, 403);
+            this.removeProductSupplierButton.Location = new System.Drawing.Point(417, 620);
+            this.removeProductSupplierButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.removeProductSupplierButton.Name = "removeProductSupplierButton";
-            this.removeProductSupplierButton.Size = new System.Drawing.Size(54, 34);
+            this.removeProductSupplierButton.Size = new System.Drawing.Size(81, 52);
             this.removeProductSupplierButton.TabIndex = 28;
             this.removeProductSupplierButton.Text = "←";
             this.removeProductSupplierButton.UseVisualStyleBackColor = true;
@@ -334,9 +353,10 @@
             // addProductSupplierButton
             // 
             this.addProductSupplierButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addProductSupplierButton.Location = new System.Drawing.Point(278, 363);
+            this.addProductSupplierButton.Location = new System.Drawing.Point(417, 558);
+            this.addProductSupplierButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.addProductSupplierButton.Name = "addProductSupplierButton";
-            this.addProductSupplierButton.Size = new System.Drawing.Size(54, 34);
+            this.addProductSupplierButton.Size = new System.Drawing.Size(81, 52);
             this.addProductSupplierButton.TabIndex = 28;
             this.addProductSupplierButton.Text = "→";
             this.addProductSupplierButton.UseVisualStyleBackColor = true;
@@ -345,26 +365,31 @@
             // associatedProductSuppliersListBox
             // 
             this.associatedProductSuppliersListBox.FormattingEnabled = true;
-            this.associatedProductSuppliersListBox.Location = new System.Drawing.Point(347, 363);
+            this.associatedProductSuppliersListBox.ItemHeight = 20;
+            this.associatedProductSuppliersListBox.Location = new System.Drawing.Point(520, 558);
+            this.associatedProductSuppliersListBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.associatedProductSuppliersListBox.Name = "associatedProductSuppliersListBox";
-            this.associatedProductSuppliersListBox.Size = new System.Drawing.Size(226, 82);
+            this.associatedProductSuppliersListBox.Size = new System.Drawing.Size(337, 124);
             this.associatedProductSuppliersListBox.TabIndex = 27;
             // 
             // nonAssociatedProductSuppliersListBox
             // 
             this.nonAssociatedProductSuppliersListBox.FormattingEnabled = true;
-            this.nonAssociatedProductSuppliersListBox.Location = new System.Drawing.Point(31, 363);
+            this.nonAssociatedProductSuppliersListBox.ItemHeight = 20;
+            this.nonAssociatedProductSuppliersListBox.Location = new System.Drawing.Point(46, 558);
+            this.nonAssociatedProductSuppliersListBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nonAssociatedProductSuppliersListBox.Name = "nonAssociatedProductSuppliersListBox";
-            this.nonAssociatedProductSuppliersListBox.Size = new System.Drawing.Size(232, 82);
+            this.nonAssociatedProductSuppliersListBox.Size = new System.Drawing.Size(346, 124);
             this.nonAssociatedProductSuppliersListBox.TabIndex = 27;
             // 
             // imageForPictureBoxPictureBox
             // 
             this.imageForPictureBoxPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.imageForPictureBoxPictureBox.DataBindings.Add(new System.Windows.Forms.Binding("Image", this.packageBindingSource, "ImageForPictureBox", true));
-            this.imageForPictureBoxPictureBox.Location = new System.Drawing.Point(421, 109);
+            this.imageForPictureBoxPictureBox.Location = new System.Drawing.Point(632, 168);
+            this.imageForPictureBoxPictureBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.imageForPictureBoxPictureBox.Name = "imageForPictureBoxPictureBox";
-            this.imageForPictureBoxPictureBox.Size = new System.Drawing.Size(230, 138);
+            this.imageForPictureBoxPictureBox.Size = new System.Drawing.Size(343, 210);
             this.imageForPictureBoxPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.imageForPictureBoxPictureBox.TabIndex = 26;
             this.imageForPictureBoxPictureBox.TabStop = false;
@@ -375,9 +400,10 @@
             // 
             // exitButton
             // 
-            this.exitButton.Location = new System.Drawing.Point(588, 422);
+            this.exitButton.Location = new System.Drawing.Point(882, 649);
+            this.exitButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.exitButton.Name = "exitButton";
-            this.exitButton.Size = new System.Drawing.Size(63, 23);
+            this.exitButton.Size = new System.Drawing.Size(94, 35);
             this.exitButton.TabIndex = 25;
             this.exitButton.Text = "Exit";
             this.exitButton.UseVisualStyleBackColor = true;
@@ -385,9 +411,10 @@
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(559, 309);
+            this.deleteButton.Location = new System.Drawing.Point(838, 475);
+            this.deleteButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(92, 23);
+            this.deleteButton.Size = new System.Drawing.Size(138, 35);
             this.deleteButton.TabIndex = 25;
             this.deleteButton.Text = "Delete Package";
             this.deleteButton.UseVisualStyleBackColor = true;
@@ -395,9 +422,10 @@
             // 
             // editButton
             // 
-            this.editButton.Location = new System.Drawing.Point(559, 270);
+            this.editButton.Location = new System.Drawing.Point(838, 415);
+            this.editButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.editButton.Name = "editButton";
-            this.editButton.Size = new System.Drawing.Size(92, 23);
+            this.editButton.Size = new System.Drawing.Size(138, 35);
             this.editButton.TabIndex = 25;
             this.editButton.Text = "Edit Package";
             this.editButton.UseVisualStyleBackColor = true;
@@ -405,9 +433,10 @@
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(453, 270);
+            this.addButton.Location = new System.Drawing.Point(680, 415);
+            this.addButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(93, 23);
+            this.addButton.Size = new System.Drawing.Size(140, 35);
             this.addButton.TabIndex = 24;
             this.addButton.Text = "Add Package";
             this.addButton.UseVisualStyleBackColor = true;
@@ -417,26 +446,29 @@
             // 
             this.searchByPackageNameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.searchByPackageNameComboBox.FormattingEnabled = true;
-            this.searchByPackageNameComboBox.Location = new System.Drawing.Point(183, 22);
+            this.searchByPackageNameComboBox.Location = new System.Drawing.Point(274, 34);
+            this.searchByPackageNameComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.searchByPackageNameComboBox.Name = "searchByPackageNameComboBox";
-            this.searchByPackageNameComboBox.Size = new System.Drawing.Size(200, 21);
+            this.searchByPackageNameComboBox.Size = new System.Drawing.Size(298, 28);
             this.searchByPackageNameComboBox.TabIndex = 23;
             this.searchByPackageNameComboBox.SelectedIndexChanged += new System.EventHandler(this.searchByPackageNameComboBox_SelectedIndexChanged);
             // 
             // searchByPackageNameLabel
             // 
             this.searchByPackageNameLabel.AutoSize = true;
-            this.searchByPackageNameLabel.Location = new System.Drawing.Point(27, 25);
+            this.searchByPackageNameLabel.Location = new System.Drawing.Point(40, 38);
+            this.searchByPackageNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.searchByPackageNameLabel.Name = "searchByPackageNameLabel";
-            this.searchByPackageNameLabel.Size = new System.Drawing.Size(138, 13);
+            this.searchByPackageNameLabel.Size = new System.Drawing.Size(200, 20);
             this.searchByPackageNameLabel.TabIndex = 22;
             this.searchByPackageNameLabel.Text = "Search by Package Name: ";
             // 
             // nextButton
             // 
-            this.nextButton.Location = new System.Drawing.Point(578, 21);
+            this.nextButton.Location = new System.Drawing.Point(867, 32);
+            this.nextButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nextButton.Name = "nextButton";
-            this.nextButton.Size = new System.Drawing.Size(63, 23);
+            this.nextButton.Size = new System.Drawing.Size(94, 35);
             this.nextButton.TabIndex = 21;
             this.nextButton.Text = "Next";
             this.nextButton.UseVisualStyleBackColor = true;
@@ -444,9 +476,10 @@
             // 
             // prevButton
             // 
-            this.prevButton.Location = new System.Drawing.Point(490, 21);
+            this.prevButton.Location = new System.Drawing.Point(735, 32);
+            this.prevButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.prevButton.Name = "prevButton";
-            this.prevButton.Size = new System.Drawing.Size(63, 23);
+            this.prevButton.Size = new System.Drawing.Size(94, 35);
             this.prevButton.TabIndex = 21;
             this.prevButton.Text = "Prev";
             this.prevButton.UseVisualStyleBackColor = true;
@@ -455,79 +488,88 @@
             // packageIdTextBox
             // 
             this.packageIdTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PackageId", true));
-            this.packageIdTextBox.Location = new System.Drawing.Point(183, 55);
+            this.packageIdTextBox.Location = new System.Drawing.Point(274, 85);
+            this.packageIdTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.packageIdTextBox.Name = "packageIdTextBox";
             this.packageIdTextBox.ReadOnly = true;
-            this.packageIdTextBox.Size = new System.Drawing.Size(200, 20);
+            this.packageIdTextBox.Size = new System.Drawing.Size(298, 26);
             this.packageIdTextBox.TabIndex = 20;
             // 
             // airfairInclusionCheckBox
             // 
             this.airfairInclusionCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("CheckState", this.packageBindingSource, "AirfairInclusion", true));
             this.airfairInclusionCheckBox.Enabled = false;
-            this.airfairInclusionCheckBox.Location = new System.Drawing.Point(183, 201);
+            this.airfairInclusionCheckBox.Location = new System.Drawing.Point(274, 309);
+            this.airfairInclusionCheckBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.airfairInclusionCheckBox.Name = "airfairInclusionCheckBox";
-            this.airfairInclusionCheckBox.Size = new System.Drawing.Size(200, 24);
+            this.airfairInclusionCheckBox.Size = new System.Drawing.Size(300, 37);
             this.airfairInclusionCheckBox.TabIndex = 1;
             this.airfairInclusionCheckBox.UseVisualStyleBackColor = true;
             // 
             // packageAgencyCommissionTextBox
             // 
             this.packageAgencyCommissionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PackageAgencyCommission", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "C2"));
-            this.packageAgencyCommissionTextBox.Location = new System.Drawing.Point(183, 175);
+            this.packageAgencyCommissionTextBox.Location = new System.Drawing.Point(274, 269);
+            this.packageAgencyCommissionTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.packageAgencyCommissionTextBox.Name = "packageAgencyCommissionTextBox";
             this.packageAgencyCommissionTextBox.ReadOnly = true;
-            this.packageAgencyCommissionTextBox.Size = new System.Drawing.Size(200, 20);
+            this.packageAgencyCommissionTextBox.Size = new System.Drawing.Size(298, 26);
             this.packageAgencyCommissionTextBox.TabIndex = 5;
             // 
             // packageBasePriceTextBox
             // 
             this.packageBasePriceTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PackageBasePrice", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "C2"));
-            this.packageBasePriceTextBox.Location = new System.Drawing.Point(183, 149);
+            this.packageBasePriceTextBox.Location = new System.Drawing.Point(274, 229);
+            this.packageBasePriceTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.packageBasePriceTextBox.Name = "packageBasePriceTextBox";
             this.packageBasePriceTextBox.ReadOnly = true;
-            this.packageBasePriceTextBox.Size = new System.Drawing.Size(200, 20);
+            this.packageBasePriceTextBox.Size = new System.Drawing.Size(298, 26);
             this.packageBasePriceTextBox.TabIndex = 7;
             // 
             // packageDescriptionTextBox
             // 
             this.packageDescriptionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PackageDescription", true));
-            this.packageDescriptionTextBox.Location = new System.Drawing.Point(183, 231);
+            this.packageDescriptionTextBox.Location = new System.Drawing.Point(274, 355);
+            this.packageDescriptionTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.packageDescriptionTextBox.Multiline = true;
             this.packageDescriptionTextBox.Name = "packageDescriptionTextBox";
             this.packageDescriptionTextBox.ReadOnly = true;
-            this.packageDescriptionTextBox.Size = new System.Drawing.Size(200, 62);
+            this.packageDescriptionTextBox.Size = new System.Drawing.Size(298, 93);
             this.packageDescriptionTextBox.TabIndex = 9;
             // 
             // packageEndDateDateTimePicker
             // 
             this.packageEndDateDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.packageBindingSource, "PackageEndDate", true));
             this.packageEndDateDateTimePicker.Enabled = false;
-            this.packageEndDateDateTimePicker.Location = new System.Drawing.Point(183, 111);
+            this.packageEndDateDateTimePicker.Location = new System.Drawing.Point(274, 171);
+            this.packageEndDateDateTimePicker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.packageEndDateDateTimePicker.Name = "packageEndDateDateTimePicker";
-            this.packageEndDateDateTimePicker.Size = new System.Drawing.Size(200, 20);
+            this.packageEndDateDateTimePicker.Size = new System.Drawing.Size(298, 26);
             this.packageEndDateDateTimePicker.TabIndex = 11;
             // 
             // packageStartDateDateTimePicker
             // 
             this.packageStartDateDateTimePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.packageBindingSource, "PackageStartDate", true));
             this.packageStartDateDateTimePicker.Enabled = false;
-            this.packageStartDateDateTimePicker.Location = new System.Drawing.Point(183, 85);
+            this.packageStartDateDateTimePicker.Location = new System.Drawing.Point(274, 131);
+            this.packageStartDateDateTimePicker.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.packageStartDateDateTimePicker.Name = "packageStartDateDateTimePicker";
-            this.packageStartDateDateTimePicker.Size = new System.Drawing.Size(200, 20);
+            this.packageStartDateDateTimePicker.Size = new System.Drawing.Size(298, 26);
             this.packageStartDateDateTimePicker.TabIndex = 17;
             // 
             // partnerURLTextBox
             // 
             this.partnerURLTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.packageBindingSource, "PartnerURL", true));
-            this.partnerURLTextBox.Location = new System.Drawing.Point(183, 309);
+            this.partnerURLTextBox.Location = new System.Drawing.Point(274, 475);
+            this.partnerURLTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.partnerURLTextBox.Name = "partnerURLTextBox";
             this.partnerURLTextBox.ReadOnly = true;
-            this.partnerURLTextBox.Size = new System.Drawing.Size(200, 20);
+            this.partnerURLTextBox.Size = new System.Drawing.Size(298, 26);
             this.partnerURLTextBox.TabIndex = 19;
             // 
             // productsTabPage
             // 
+            this.productsTabPage.Controls.Add(this.button1);
             this.productsTabPage.Controls.Add(this.productDeleteButton);
             this.productsTabPage.Controls.Add(this.suppliersAssociatedLabel);
             this.productsTabPage.Controls.Add(this.suppliersNotAssociatedLabel);
@@ -545,19 +587,19 @@
             this.productsTabPage.Controls.Add(this.productNameTextBox);
             this.productsTabPage.Controls.Add(productIdLabel);
             this.productsTabPage.Controls.Add(this.productIdTextBox);
-            this.productsTabPage.Location = new System.Drawing.Point(4, 22);
+            this.productsTabPage.Location = new System.Drawing.Point(4, 29);
+            this.productsTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.productsTabPage.Name = "productsTabPage";
-            this.productsTabPage.Size = new System.Drawing.Size(668, 459);
+            this.productsTabPage.Size = new System.Drawing.Size(1006, 713);
             this.productsTabPage.TabIndex = 2;
             this.productsTabPage.Text = "Products";
             this.productsTabPage.UseVisualStyleBackColor = true;
             // 
             // productDeleteButton
             // 
-            this.productDeleteButton.Location = new System.Drawing.Point(489, 85);
-            this.productDeleteButton.Margin = new System.Windows.Forms.Padding(2);
+            this.productDeleteButton.Location = new System.Drawing.Point(734, 131);
             this.productDeleteButton.Name = "productDeleteButton";
-            this.productDeleteButton.Size = new System.Drawing.Size(91, 23);
+            this.productDeleteButton.Size = new System.Drawing.Size(136, 35);
             this.productDeleteButton.TabIndex = 34;
             this.productDeleteButton.Text = "Delete Product";
             this.productDeleteButton.UseVisualStyleBackColor = true;
@@ -566,34 +608,39 @@
             // suppliersAssociatedLabel
             // 
             this.suppliersAssociatedLabel.AutoSize = true;
-            this.suppliersAssociatedLabel.Location = new System.Drawing.Point(359, 139);
+            this.suppliersAssociatedLabel.Location = new System.Drawing.Point(538, 214);
+            this.suppliersAssociatedLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.suppliersAssociatedLabel.Name = "suppliersAssociatedLabel";
-            this.suppliersAssociatedLabel.Size = new System.Drawing.Size(105, 13);
+            this.suppliersAssociatedLabel.Size = new System.Drawing.Size(158, 20);
             this.suppliersAssociatedLabel.TabIndex = 33;
             this.suppliersAssociatedLabel.Text = "Associated Suppliers";
             // 
             // suppliersNotAssociatedLabel
             // 
             this.suppliersNotAssociatedLabel.AutoSize = true;
-            this.suppliersNotAssociatedLabel.Location = new System.Drawing.Point(65, 139);
+            this.suppliersNotAssociatedLabel.Location = new System.Drawing.Point(98, 214);
+            this.suppliersNotAssociatedLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.suppliersNotAssociatedLabel.Name = "suppliersNotAssociatedLabel";
-            this.suppliersNotAssociatedLabel.Size = new System.Drawing.Size(125, 13);
+            this.suppliersNotAssociatedLabel.Size = new System.Drawing.Size(187, 20);
             this.suppliersNotAssociatedLabel.TabIndex = 33;
             this.suppliersNotAssociatedLabel.Text = "Not Associated Suppliers";
             // 
             // nonAssociatedSuppliersListBox
             // 
             this.nonAssociatedSuppliersListBox.FormattingEnabled = true;
-            this.nonAssociatedSuppliersListBox.Location = new System.Drawing.Point(36, 167);
+            this.nonAssociatedSuppliersListBox.ItemHeight = 20;
+            this.nonAssociatedSuppliersListBox.Location = new System.Drawing.Point(54, 257);
+            this.nonAssociatedSuppliersListBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nonAssociatedSuppliersListBox.Name = "nonAssociatedSuppliersListBox";
-            this.nonAssociatedSuppliersListBox.Size = new System.Drawing.Size(202, 95);
+            this.nonAssociatedSuppliersListBox.Size = new System.Drawing.Size(301, 144);
             this.nonAssociatedSuppliersListBox.TabIndex = 32;
             // 
             // removeSupplierButton
             // 
-            this.removeSupplierButton.Location = new System.Drawing.Point(244, 227);
+            this.removeSupplierButton.Location = new System.Drawing.Point(366, 349);
+            this.removeSupplierButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.removeSupplierButton.Name = "removeSupplierButton";
-            this.removeSupplierButton.Size = new System.Drawing.Size(71, 23);
+            this.removeSupplierButton.Size = new System.Drawing.Size(106, 35);
             this.removeSupplierButton.TabIndex = 31;
             this.removeSupplierButton.Text = "←";
             this.removeSupplierButton.UseVisualStyleBackColor = true;
@@ -601,9 +648,10 @@
             // 
             // addSupplierButton
             // 
-            this.addSupplierButton.Location = new System.Drawing.Point(244, 179);
+            this.addSupplierButton.Location = new System.Drawing.Point(366, 275);
+            this.addSupplierButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.addSupplierButton.Name = "addSupplierButton";
-            this.addSupplierButton.Size = new System.Drawing.Size(71, 23);
+            this.addSupplierButton.Size = new System.Drawing.Size(106, 35);
             this.addSupplierButton.TabIndex = 30;
             this.addSupplierButton.Text = "→";
             this.addSupplierButton.UseVisualStyleBackColor = true;
@@ -612,35 +660,40 @@
             // associatedSuppliersListBox
             // 
             this.associatedSuppliersListBox.FormattingEnabled = true;
-            this.associatedSuppliersListBox.Location = new System.Drawing.Point(321, 167);
+            this.associatedSuppliersListBox.ItemHeight = 20;
+            this.associatedSuppliersListBox.Location = new System.Drawing.Point(482, 257);
+            this.associatedSuppliersListBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.associatedSuppliersListBox.Name = "associatedSuppliersListBox";
-            this.associatedSuppliersListBox.Size = new System.Drawing.Size(202, 95);
+            this.associatedSuppliersListBox.Size = new System.Drawing.Size(301, 144);
             this.associatedSuppliersListBox.TabIndex = 29;
             // 
             // productComboBox
             // 
             this.productComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.productComboBox.FormattingEnabled = true;
-            this.productComboBox.Location = new System.Drawing.Point(183, 22);
+            this.productComboBox.Location = new System.Drawing.Point(274, 34);
+            this.productComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.productComboBox.Name = "productComboBox";
-            this.productComboBox.Size = new System.Drawing.Size(200, 21);
+            this.productComboBox.Size = new System.Drawing.Size(298, 28);
             this.productComboBox.TabIndex = 27;
             this.productComboBox.SelectedIndexChanged += new System.EventHandler(this.productComboBox_SelectedIndexChanged);
             // 
             // searchProductLabel
             // 
             this.searchProductLabel.AutoSize = true;
-            this.searchProductLabel.Location = new System.Drawing.Point(24, 24);
+            this.searchProductLabel.Location = new System.Drawing.Point(36, 37);
+            this.searchProductLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.searchProductLabel.Name = "searchProductLabel";
-            this.searchProductLabel.Size = new System.Drawing.Size(132, 13);
+            this.searchProductLabel.Size = new System.Drawing.Size(193, 20);
             this.searchProductLabel.TabIndex = 26;
             this.searchProductLabel.Text = "Search by Product Name: ";
             // 
             // productNextButton
             // 
-            this.productNextButton.Location = new System.Drawing.Point(578, 21);
+            this.productNextButton.Location = new System.Drawing.Point(867, 32);
+            this.productNextButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.productNextButton.Name = "productNextButton";
-            this.productNextButton.Size = new System.Drawing.Size(63, 23);
+            this.productNextButton.Size = new System.Drawing.Size(94, 35);
             this.productNextButton.TabIndex = 24;
             this.productNextButton.Text = "Next";
             this.productNextButton.UseVisualStyleBackColor = true;
@@ -648,9 +701,10 @@
             // 
             // productPrevButton
             // 
-            this.productPrevButton.Location = new System.Drawing.Point(490, 21);
+            this.productPrevButton.Location = new System.Drawing.Point(735, 32);
+            this.productPrevButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.productPrevButton.Name = "productPrevButton";
-            this.productPrevButton.Size = new System.Drawing.Size(63, 23);
+            this.productPrevButton.Size = new System.Drawing.Size(94, 35);
             this.productPrevButton.TabIndex = 25;
             this.productPrevButton.Text = "Prev";
             this.productPrevButton.UseVisualStyleBackColor = true;
@@ -658,9 +712,10 @@
             // 
             // productEditButton
             // 
-            this.productEditButton.Location = new System.Drawing.Point(377, 85);
+            this.productEditButton.Location = new System.Drawing.Point(566, 131);
+            this.productEditButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.productEditButton.Name = "productEditButton";
-            this.productEditButton.Size = new System.Drawing.Size(91, 23);
+            this.productEditButton.Size = new System.Drawing.Size(136, 35);
             this.productEditButton.TabIndex = 5;
             this.productEditButton.Text = "Edit Product";
             this.productEditButton.UseVisualStyleBackColor = true;
@@ -668,9 +723,10 @@
             // 
             // productAddButton
             // 
-            this.productAddButton.Location = new System.Drawing.Point(265, 85);
+            this.productAddButton.Location = new System.Drawing.Point(398, 131);
+            this.productAddButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.productAddButton.Name = "productAddButton";
-            this.productAddButton.Size = new System.Drawing.Size(91, 23);
+            this.productAddButton.Size = new System.Drawing.Size(136, 35);
             this.productAddButton.TabIndex = 4;
             this.productAddButton.Text = "Add Product";
             this.productAddButton.UseVisualStyleBackColor = true;
@@ -679,10 +735,11 @@
             // productNameTextBox
             // 
             this.productNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "ProductName", true));
-            this.productNameTextBox.Location = new System.Drawing.Point(109, 87);
+            this.productNameTextBox.Location = new System.Drawing.Point(164, 134);
+            this.productNameTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.productNameTextBox.Name = "productNameTextBox";
             this.productNameTextBox.ReadOnly = true;
-            this.productNameTextBox.Size = new System.Drawing.Size(100, 20);
+            this.productNameTextBox.Size = new System.Drawing.Size(148, 26);
             this.productNameTextBox.TabIndex = 3;
             // 
             // productBindingSource
@@ -692,10 +749,11 @@
             // productIdTextBox
             // 
             this.productIdTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.productBindingSource, "ProductId", true));
-            this.productIdTextBox.Location = new System.Drawing.Point(109, 61);
+            this.productIdTextBox.Location = new System.Drawing.Point(164, 94);
+            this.productIdTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.productIdTextBox.Name = "productIdTextBox";
             this.productIdTextBox.ReadOnly = true;
-            this.productIdTextBox.Size = new System.Drawing.Size(100, 20);
+            this.productIdTextBox.Size = new System.Drawing.Size(148, 26);
             this.productIdTextBox.TabIndex = 1;
             // 
             // suppliersTabPage
@@ -717,20 +775,20 @@
             this.suppliersTabPage.Controls.Add(this.supplierNameTextBox);
             this.suppliersTabPage.Controls.Add(supplierIdLabel);
             this.suppliersTabPage.Controls.Add(this.supplierIdTextBox);
-            this.suppliersTabPage.Location = new System.Drawing.Point(4, 22);
+            this.suppliersTabPage.Location = new System.Drawing.Point(4, 29);
+            this.suppliersTabPage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.suppliersTabPage.Name = "suppliersTabPage";
-            this.suppliersTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.suppliersTabPage.Size = new System.Drawing.Size(668, 459);
+            this.suppliersTabPage.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.suppliersTabPage.Size = new System.Drawing.Size(1006, 713);
             this.suppliersTabPage.TabIndex = 1;
             this.suppliersTabPage.Text = "Suppliers";
             this.suppliersTabPage.UseVisualStyleBackColor = true;
             // 
             // supplierDeleteButton
             // 
-            this.supplierDeleteButton.Location = new System.Drawing.Point(489, 85);
-            this.supplierDeleteButton.Margin = new System.Windows.Forms.Padding(2);
+            this.supplierDeleteButton.Location = new System.Drawing.Point(734, 131);
             this.supplierDeleteButton.Name = "supplierDeleteButton";
-            this.supplierDeleteButton.Size = new System.Drawing.Size(91, 23);
+            this.supplierDeleteButton.Size = new System.Drawing.Size(136, 35);
             this.supplierDeleteButton.TabIndex = 40;
             this.supplierDeleteButton.Text = "Delete Supplier";
             this.supplierDeleteButton.UseVisualStyleBackColor = true;
@@ -739,34 +797,39 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(359, 139);
+            this.label1.Location = new System.Drawing.Point(538, 214);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(104, 13);
+            this.label1.Size = new System.Drawing.Size(155, 20);
             this.label1.TabIndex = 38;
             this.label1.Text = "Associated Products";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(65, 139);
+            this.label2.Location = new System.Drawing.Point(98, 214);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(124, 13);
+            this.label2.Size = new System.Drawing.Size(184, 20);
             this.label2.TabIndex = 39;
             this.label2.Text = "Not Associated Products";
             // 
             // nonAssociatedProductsListBox
             // 
             this.nonAssociatedProductsListBox.FormattingEnabled = true;
-            this.nonAssociatedProductsListBox.Location = new System.Drawing.Point(36, 167);
+            this.nonAssociatedProductsListBox.ItemHeight = 20;
+            this.nonAssociatedProductsListBox.Location = new System.Drawing.Point(54, 257);
+            this.nonAssociatedProductsListBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nonAssociatedProductsListBox.Name = "nonAssociatedProductsListBox";
-            this.nonAssociatedProductsListBox.Size = new System.Drawing.Size(202, 95);
+            this.nonAssociatedProductsListBox.Size = new System.Drawing.Size(301, 144);
             this.nonAssociatedProductsListBox.TabIndex = 37;
             // 
             // removeProductButton
             // 
-            this.removeProductButton.Location = new System.Drawing.Point(244, 227);
+            this.removeProductButton.Location = new System.Drawing.Point(366, 349);
+            this.removeProductButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.removeProductButton.Name = "removeProductButton";
-            this.removeProductButton.Size = new System.Drawing.Size(71, 23);
+            this.removeProductButton.Size = new System.Drawing.Size(106, 35);
             this.removeProductButton.TabIndex = 36;
             this.removeProductButton.Text = "←";
             this.removeProductButton.UseVisualStyleBackColor = true;
@@ -774,9 +837,10 @@
             // 
             // addProductButton
             // 
-            this.addProductButton.Location = new System.Drawing.Point(244, 179);
+            this.addProductButton.Location = new System.Drawing.Point(366, 275);
+            this.addProductButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.addProductButton.Name = "addProductButton";
-            this.addProductButton.Size = new System.Drawing.Size(71, 23);
+            this.addProductButton.Size = new System.Drawing.Size(106, 35);
             this.addProductButton.TabIndex = 35;
             this.addProductButton.Text = "→";
             this.addProductButton.UseVisualStyleBackColor = true;
@@ -785,35 +849,40 @@
             // associatedProductsListBox
             // 
             this.associatedProductsListBox.FormattingEnabled = true;
-            this.associatedProductsListBox.Location = new System.Drawing.Point(321, 167);
+            this.associatedProductsListBox.ItemHeight = 20;
+            this.associatedProductsListBox.Location = new System.Drawing.Point(482, 257);
+            this.associatedProductsListBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.associatedProductsListBox.Name = "associatedProductsListBox";
-            this.associatedProductsListBox.Size = new System.Drawing.Size(202, 95);
+            this.associatedProductsListBox.Size = new System.Drawing.Size(301, 144);
             this.associatedProductsListBox.TabIndex = 34;
             // 
             // supplierComboBox
             // 
             this.supplierComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.supplierComboBox.FormattingEnabled = true;
-            this.supplierComboBox.Location = new System.Drawing.Point(183, 22);
+            this.supplierComboBox.Location = new System.Drawing.Point(274, 34);
+            this.supplierComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.supplierComboBox.Name = "supplierComboBox";
-            this.supplierComboBox.Size = new System.Drawing.Size(200, 21);
+            this.supplierComboBox.Size = new System.Drawing.Size(298, 28);
             this.supplierComboBox.TabIndex = 31;
             this.supplierComboBox.SelectedIndexChanged += new System.EventHandler(this.supplierComboBox_SelectedIndexChanged);
             // 
             // searchSupplierLabel
             // 
             this.searchSupplierLabel.AutoSize = true;
-            this.searchSupplierLabel.Location = new System.Drawing.Point(24, 24);
+            this.searchSupplierLabel.Location = new System.Drawing.Point(36, 37);
+            this.searchSupplierLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.searchSupplierLabel.Name = "searchSupplierLabel";
-            this.searchSupplierLabel.Size = new System.Drawing.Size(133, 13);
+            this.searchSupplierLabel.Size = new System.Drawing.Size(196, 20);
             this.searchSupplierLabel.TabIndex = 30;
             this.searchSupplierLabel.Text = "Search by Supplier Name: ";
             // 
             // supplierNextButton
             // 
-            this.supplierNextButton.Location = new System.Drawing.Point(578, 21);
+            this.supplierNextButton.Location = new System.Drawing.Point(867, 32);
+            this.supplierNextButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.supplierNextButton.Name = "supplierNextButton";
-            this.supplierNextButton.Size = new System.Drawing.Size(63, 23);
+            this.supplierNextButton.Size = new System.Drawing.Size(94, 35);
             this.supplierNextButton.TabIndex = 28;
             this.supplierNextButton.Text = "Next";
             this.supplierNextButton.UseVisualStyleBackColor = true;
@@ -821,9 +890,10 @@
             // 
             // supplierPrevButton
             // 
-            this.supplierPrevButton.Location = new System.Drawing.Point(490, 21);
+            this.supplierPrevButton.Location = new System.Drawing.Point(735, 32);
+            this.supplierPrevButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.supplierPrevButton.Name = "supplierPrevButton";
-            this.supplierPrevButton.Size = new System.Drawing.Size(63, 23);
+            this.supplierPrevButton.Size = new System.Drawing.Size(94, 35);
             this.supplierPrevButton.TabIndex = 29;
             this.supplierPrevButton.Text = "Prev";
             this.supplierPrevButton.UseVisualStyleBackColor = true;
@@ -831,9 +901,10 @@
             // 
             // supplierEditButton
             // 
-            this.supplierEditButton.Location = new System.Drawing.Point(377, 85);
+            this.supplierEditButton.Location = new System.Drawing.Point(566, 131);
+            this.supplierEditButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.supplierEditButton.Name = "supplierEditButton";
-            this.supplierEditButton.Size = new System.Drawing.Size(91, 23);
+            this.supplierEditButton.Size = new System.Drawing.Size(136, 35);
             this.supplierEditButton.TabIndex = 5;
             this.supplierEditButton.Text = "Edit Supplier";
             this.supplierEditButton.UseVisualStyleBackColor = true;
@@ -841,9 +912,10 @@
             // 
             // supplierAddButton
             // 
-            this.supplierAddButton.Location = new System.Drawing.Point(265, 85);
+            this.supplierAddButton.Location = new System.Drawing.Point(398, 131);
+            this.supplierAddButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.supplierAddButton.Name = "supplierAddButton";
-            this.supplierAddButton.Size = new System.Drawing.Size(91, 23);
+            this.supplierAddButton.Size = new System.Drawing.Size(136, 35);
             this.supplierAddButton.TabIndex = 4;
             this.supplierAddButton.Text = "Add Supplier";
             this.supplierAddButton.UseVisualStyleBackColor = true;
@@ -852,10 +924,11 @@
             // supplierNameTextBox
             // 
             this.supplierNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.supplierBindingSource, "SupplierName", true));
-            this.supplierNameTextBox.Location = new System.Drawing.Point(109, 87);
+            this.supplierNameTextBox.Location = new System.Drawing.Point(164, 134);
+            this.supplierNameTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.supplierNameTextBox.Name = "supplierNameTextBox";
             this.supplierNameTextBox.ReadOnly = true;
-            this.supplierNameTextBox.Size = new System.Drawing.Size(100, 20);
+            this.supplierNameTextBox.Size = new System.Drawing.Size(148, 26);
             this.supplierNameTextBox.TabIndex = 3;
             // 
             // supplierBindingSource
@@ -865,21 +938,33 @@
             // supplierIdTextBox
             // 
             this.supplierIdTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.supplierBindingSource, "SupplierId", true));
-            this.supplierIdTextBox.Location = new System.Drawing.Point(109, 61);
+            this.supplierIdTextBox.Location = new System.Drawing.Point(164, 94);
+            this.supplierIdTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.supplierIdTextBox.Name = "supplierIdTextBox";
             this.supplierIdTextBox.ReadOnly = true;
-            this.supplierIdTextBox.Size = new System.Drawing.Size(100, 20);
+            this.supplierIdTextBox.Size = new System.Drawing.Size(148, 26);
             this.supplierIdTextBox.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(79, 472);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(308, 104);
+            this.button1.TabIndex = 35;
+            this.button1.Text = "CustomMessageBoxTest";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(713, 536);
+            this.ClientSize = new System.Drawing.Size(1070, 825);
             this.Controls.Add(this.mainTabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainForm";
             this.Text = "Travel Experts Database Manager";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -961,6 +1046,7 @@
         private System.Windows.Forms.Label nonAssociatedProductSuppliersLabel;
         private System.Windows.Forms.Button productDeleteButton;
         private System.Windows.Forms.Button supplierDeleteButton;
+        private System.Windows.Forms.Button button1;
     }
 }
 

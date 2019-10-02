@@ -91,6 +91,12 @@
     <EmbeddedResource Include="AddEditForm.resx">
       <DependentUpon>AddEditForm.cs</DependentUpon>
     </EmbeddedResource>
+    <Compile Include="TawicoMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TawicoMessageBox.Designer.cs">
+      <DependentUpon>TawicoMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Validation.cs" />
     <EmbeddedResource Include="AddEditPackageForm.resx">
       <DependentUpon>AddEditPackageForm.cs</DependentUpon>
@@ -110,6 +116,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TawicoMessageBox.resx">
+      <DependentUpon>TawicoMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\DataSources\TravelExpertsData.Package.datasource" />
     <None Include="Properties\DataSources\TravelExpertsData.PackageProductSupplier.datasource" />
     <None Include="Properties\DataSources\TravelExpertsData.Product.datasource" />

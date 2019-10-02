@@ -1449,5 +1449,16 @@ namespace TravelExpertsDatabaseManager
                 }
             }
         }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            TawicoMessageBox TawicoMessageBoxInstance = new TawicoMessageBox();
+            DialogResult result = TawicoMessageBoxInstance.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                MessageBox.Show("Tawico Works!");
+            }
+
+        }
     }
 }

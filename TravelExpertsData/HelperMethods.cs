@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 /*
  * Purpose: Class for objects that extend the application's functionality
  * Author: Tawico
@@ -51,7 +52,7 @@ namespace TravelExpertsData
         {
             if (!formList.Contains(form)) formList.Add(form);
         }
-
+        
         /// <summary>
         /// Method checks if a form is part of the forms list, if it is removes it from the list
         /// </summary>
