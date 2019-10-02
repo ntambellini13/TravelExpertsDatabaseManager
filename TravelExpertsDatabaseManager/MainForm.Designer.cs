@@ -103,7 +103,6 @@
             this.supplierNameTextBox = new System.Windows.Forms.TextBox();
             this.supplierBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.supplierIdTextBox = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             airfairInclusionLabel = new System.Windows.Forms.Label();
             imagePathLabel = new System.Windows.Forms.Label();
             packageAgencyCommissionLabel = new System.Windows.Forms.Label();
@@ -569,7 +568,6 @@
             // 
             // productsTabPage
             // 
-            this.productsTabPage.Controls.Add(this.button1);
             this.productsTabPage.Controls.Add(this.productDeleteButton);
             this.productsTabPage.Controls.Add(this.suppliersAssociatedLabel);
             this.productsTabPage.Controls.Add(this.suppliersNotAssociatedLabel);
@@ -945,16 +943,6 @@
             this.supplierIdTextBox.Size = new System.Drawing.Size(148, 26);
             this.supplierIdTextBox.TabIndex = 1;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(79, 472);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(308, 104);
-            this.button1.TabIndex = 35;
-            this.button1.Text = "CustomMessageBoxTest";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1046,7 +1034,6 @@
         private System.Windows.Forms.Label nonAssociatedProductSuppliersLabel;
         private System.Windows.Forms.Button productDeleteButton;
         private System.Windows.Forms.Button supplierDeleteButton;
-        private System.Windows.Forms.Button button1;
     }
 }
 

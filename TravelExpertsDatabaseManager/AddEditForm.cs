@@ -134,7 +134,12 @@ namespace TravelExpertsDatabaseManager
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().Name;
+                showMessageBox.Show(ex.Message, Color.Black);
+                //MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

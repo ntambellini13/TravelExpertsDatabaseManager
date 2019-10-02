@@ -18,16 +18,6 @@ namespace TravelExpertsDatabaseManager
             InitializeComponent();
         }
 
-        private void Button2_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void Button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void TawicoMessageBox_Load(object sender, EventArgs e)
         {
             //set back color of popup dialog
@@ -50,6 +40,66 @@ namespace TravelExpertsDatabaseManager
             {
                 l.Font = new Font("Arial", (float)8.25);
                 l.ForeColor = Color.RoyalBlue;
+            }
+        }
+
+        private bool confirmYes = false;
+        private bool confirmOk = false;
+        private bool confirmNo = false;
+        private bool confirmCancel = false;
+
+        public DialogResult Show(string text, Color foreColour, bool confirm = false,bool cancel = false)
+        {
+            TawicoLabel.Text = text;
+            TawicoLabel.ForeColor = foreColour;
+
+            if (!confirm && !cancel)
+            {
+                TawicoButtonCancel.Visible = false;
+                TawicoButtonConfirm.Visible = true;
+                TawicoButtonConfirm.Text = "OK";
+                TawicoButtonCancel.Text = "";
+
+                confirmOk = true;
+            }
+
+            if (confirm && !cancel)
+            {
+                TawicoButtonCancel.Visible = true;
+                TawicoButtonConfirm.Visible = true;
+                TawicoButtonConfirm.Text = "Yes";
+                TawicoButtonCancel.Text = "No";
+
+                confirmYes = true;
+                confirmNo = true;
+            }
+
+            return this.ShowDialog();
+        }
+
+        private void TawicoButtonConfirm_Click(object sender, EventArgs e)
+        {
+            if (confirmOk)
+            {
+                DialogResult = DialogResult.OK;
+            }
+
+            if(confirmYes)
+            {
+                DialogResult = DialogResult.Yes;
+            }
+        }
+
+        private void TawicoButtonCancel_Click(object sender, EventArgs e)
+        {
+            if (confirmCancel)
+            {
+                DialogResult = DialogResult.Cancel;
+            }
+
+            if(confirmNo)
+            {
+                DialogResult = DialogResult.No;
             }
         }
     }

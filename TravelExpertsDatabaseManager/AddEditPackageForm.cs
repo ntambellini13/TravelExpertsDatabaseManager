@@ -195,7 +195,12 @@ namespace TravelExpertsDatabaseManager
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().Name;
+                showMessageBox.Show(ex.Message, Color.Black);
+                //MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -254,7 +259,12 @@ namespace TravelExpertsDatabaseManager
             // If string is empty, all validation passed. Show error message otherwise.
             if (message != "")
             {
-                MessageBox.Show(message, "Form Error");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = "Form Error";
+                showMessageBox.Show(message, Color.Black);
+                //MessageBox.Show(message, "Form Error");
                 return false;
             }
             else
