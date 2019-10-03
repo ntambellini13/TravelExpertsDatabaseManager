@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddEditForm));
             this.addEditCancelButton = new System.Windows.Forms.Button();
             this.addEditButton = new System.Windows.Forms.Button();
             this.addEditLabel = new System.Windows.Forms.Label();
@@ -36,7 +37,7 @@
             // 
             // addEditCancelButton
             // 
-            this.addEditCancelButton.Location = new System.Drawing.Point(156, 73);
+            this.addEditCancelButton.Location = new System.Drawing.Point(143, 84);
             this.addEditCancelButton.Name = "addEditCancelButton";
             this.addEditCancelButton.Size = new System.Drawing.Size(64, 23);
             this.addEditCancelButton.TabIndex = 0;
@@ -46,7 +47,7 @@
             // 
             // addEditButton
             // 
-            this.addEditButton.Location = new System.Drawing.Point(75, 73);
+            this.addEditButton.Location = new System.Drawing.Point(62, 84);
             this.addEditButton.Name = "addEditButton";
             this.addEditButton.Size = new System.Drawing.Size(64, 23);
             this.addEditButton.TabIndex = 1;
@@ -56,7 +57,7 @@
             // 
             // addEditLabel
             // 
-            this.addEditLabel.Location = new System.Drawing.Point(12, 9);
+            this.addEditLabel.Location = new System.Drawing.Point(30, 29);
             this.addEditLabel.Name = "addEditLabel";
             this.addEditLabel.Size = new System.Drawing.Size(100, 23);
             this.addEditLabel.TabIndex = 2;
@@ -65,7 +66,7 @@
             // 
             // addEditTextBox
             // 
-            this.addEditTextBox.Location = new System.Drawing.Point(120, 12);
+            this.addEditTextBox.Location = new System.Drawing.Point(138, 29);
             this.addEditTextBox.Name = "addEditTextBox";
             this.addEditTextBox.Size = new System.Drawing.Size(100, 20);
             this.addEditTextBox.TabIndex = 3;
@@ -75,13 +76,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(249, 119);
+            this.ClientSize = new System.Drawing.Size(269, 119);
             this.Controls.Add(this.addEditTextBox);
             this.Controls.Add(this.addEditLabel);
             this.Controls.Add(this.addEditButton);
             this.Controls.Add(this.addEditCancelButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AddEditForm";
             this.Text = "AddEditForm";
+            this.Load += new System.EventHandler(this.AddEditForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

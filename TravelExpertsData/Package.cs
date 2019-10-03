@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Drawing;
 
+/*
+ * Purpose: Class for creating Package Objects
+ * Author: Tawico
+ * Date: September 18, 2019
+ * 
+ * */
 
 namespace TravelExpertsData
 {

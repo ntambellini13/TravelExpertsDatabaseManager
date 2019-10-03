@@ -43,6 +43,13 @@ namespace TravelExpertsDatabaseManager
         {
             InitializeComponent();
 
+            //set screen start position of form
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+            //set back color of popup dialog
+            this.BackColor = Color.Azure;
+
+            //initialize variable for value to be edited
             string editValue = "";
 
             if(oldProduct != null)
@@ -64,6 +71,8 @@ namespace TravelExpertsDatabaseManager
             //Switch triggered on input parameters used to set fields or load values
             switch (dbAddEditObjectType)
             {
+                //Set up form component text on a per case basis
+                //To account for each mode and object type
                 case "Product":
                     if(dbAddMode)
                     {
@@ -121,11 +130,27 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
-                DialogResult = DialogResult.OK;//all fields are valid so set the dialog response to ok and close the form
+                // Check that a value was entered
+                if (!Validation.IsNotEmptyOrNull(addEditTextBox))
+                {
+                    TawicoMessageBox messageBox = new TawicoMessageBox();
+                    messageBox.Text = "Error";
+                    String message = "Please enter a value before submitting.";
+                    messageBox.Show(message, Color.Black);
+                }
+                else
+                {
+                    DialogResult = DialogResult.OK;// Text was entered into the field, accept the result
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().Name;
+                showMessageBox.Show(ex.Message, Color.Black);
+                //MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -166,6 +191,27 @@ namespace TravelExpertsDatabaseManager
                     break;
             }
         }
-        
+
+        private void AddEditForm_Load(object sender, EventArgs e)
+        {
+            //grab all buttons on the form
+            var buttons = HelperMethods.GetAll(this, typeof(Button));
+
+            //grab all labels on the form
+            var labels = HelperMethods.GetAll(this, typeof(Label));
+
+            //set the BackColor of each button 
+            foreach (var b in buttons)
+            {
+                b.BackColor = Color.GhostWhite;
+            }
+
+            //Style the font of each label on the form
+            foreach (var l in labels)
+            {
+                l.Font = new Font("Arial", (float)8.25);
+                l.ForeColor = Color.RoyalBlue;
+            }
+        }
     }
 }

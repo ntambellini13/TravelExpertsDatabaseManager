@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
- * Purpose: Class for creating ProductSupplier Database Objects
+ * Purpose: Class for accessing Product-Supplier Database Objects
  * Author: Tawico
  * Date: September 18, 2019
  * 

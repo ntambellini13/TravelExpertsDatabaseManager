@@ -5,6 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+ * Purpose: Class for creating bindable lists for binding sources
+ * Author: Tawico
+ * Date: September 18, 2019
+ * 
+ * */
+
 namespace TravelExpertsDatabaseManager
 {
     /// <summary>

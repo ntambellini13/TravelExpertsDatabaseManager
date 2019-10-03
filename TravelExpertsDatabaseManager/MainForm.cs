@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -17,6 +18,7 @@ using TravelExpertsData;
  * Date: September 18, 2019
  * 
  * */
+
 namespace TravelExpertsDatabaseManager
 {
     public partial class MainForm : Form
@@ -26,11 +28,17 @@ namespace TravelExpertsDatabaseManager
         public FindableBindingList<Supplier> suppliers;// Holds all suppliers from database
         public FindableBindingList<Package> packages; // Holds all packages from database
 
+        public string TawicoMessageBoxText = "";//To hold msg box text
+        public Color TawicoMessageBoxColor = Color.Black;//message box color
+
         public MainForm()
         {
             InitializeComponent();
+            
+            //set screen start position of form
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
-        
+
         /// <summary>
         /// Load the packages data source and set up the search by package name combo box
         /// </summary>
@@ -38,6 +46,45 @@ namespace TravelExpertsDatabaseManager
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //Register form with our form registration method to apply styling
+            FormManager.registerForm(this);
+
+            //Set backcolor of each tab page
+            packagesTabPage.BackColor = Color.Azure;
+            productsTabPage.BackColor = Color.Azure;
+            suppliersTabPage.BackColor = Color.Azure;
+
+            // We will draw the tabs.
+            mainTabControl.DrawMode = TabDrawMode.OwnerDrawFixed;
+
+            // SizeMode must be Fixed to change tab size.
+            mainTabControl.SizeMode = TabSizeMode.Fixed;
+
+            // Set the size for the tabs.
+            Size tab_size = mainTabControl.ItemSize;
+            tab_size.Width = 100;
+            tab_size.Height += 6;
+            mainTabControl.ItemSize = tab_size;
+
+            //grab all buttons on the form
+            var buttons = HelperMethods.GetAll(this, typeof(Button));
+
+            //grab all labels on the form
+            var labels = HelperMethods.GetAll(this, typeof(Label));
+
+            //set the BackColor of each button 
+            foreach (var b in buttons)
+            {
+                b.BackColor = Color.GhostWhite;
+            }
+
+            //Style the font of each label on the form
+            foreach (var l in labels)
+            {
+                l.Font = new Font("Arial", (float)8.25);
+                l.ForeColor = Color.RoyalBlue;
+            }
+
             LoginForm loginForm = new LoginForm(); 
             // Ensure agent logs in before using the form. If did not login, close application
             if (loginForm.ShowDialog() == DialogResult.OK)
@@ -57,6 +104,79 @@ namespace TravelExpertsDatabaseManager
 
         }
 
+        // The size of the X in each tab's upper right corner; was previously drawing an x in corner
+        private const int tab_margin = 3;
+
+        /// <summary>
+        /// Draw a tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void mainTabControl_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            Brush txt_brush, box_brush;
+            Pen box_pen;
+
+            // We draw in the TabRect rather than on e.Bounds
+            // so we can use TabRect later in MouseDown.
+            Rectangle tab_rect = mainTabControl.GetTabRect(e.Index);
+            
+
+            // Draw the background.
+            // Pick appropriate pens and brushes.
+            if (e.State == DrawItemState.Selected)
+            {
+                e.Graphics.FillRectangle(Brushes.Azure, tab_rect);
+                e.DrawFocusRectangle();
+
+                txt_brush = Brushes.MediumVioletRed;//selected tab color
+                box_brush = Brushes.RoyalBlue;
+                box_pen = Pens.RoyalBlue;
+            }
+            else
+            {
+                e.Graphics.FillRectangle(Brushes.Azure, tab_rect);
+
+                txt_brush = Brushes.RoyalBlue;
+                box_brush = Brushes.RoyalBlue;
+                box_pen = Pens.RoyalBlue;
+            }
+
+            // Allow room for margins.
+            RectangleF layout_rect = new RectangleF(
+                tab_rect.Left + tab_margin,
+                tab_rect.Y + tab_margin,
+                tab_rect.Width - 2 * tab_margin,
+                tab_rect.Height - 2 * tab_margin);
+            using (StringFormat string_format = new StringFormat())
+            {
+                // Draw the tab's text centered.
+                using (Font big_font = new Font(this.Font, FontStyle.Bold))
+                {
+                    string_format.Alignment = StringAlignment.Center;
+                    string_format.LineAlignment = StringAlignment.Center;
+                    e.Graphics.DrawString(
+                        mainTabControl.TabPages[e.Index].Text,
+                        big_font,
+                        txt_brush,
+                        layout_rect,
+                        string_format);
+                }
+            }
+
+            //define solid brush object for fill color
+            SolidBrush fillbrush = new SolidBrush(Color.Azure);
+
+            //draw rectangle behind the tabs
+            Rectangle lasttabrect = mainTabControl.GetTabRect(mainTabControl.TabPages.Count - 1);
+            Rectangle background = new Rectangle();
+            background.Location = new Point(lasttabrect.Right, 0);
+
+            //pad the rectangle to cover the 1 pixel line between the top of the tabpage and the start of the tabs
+            background.Size = new Size(mainTabControl.Right - background.Left, lasttabrect.Height + 1);
+            e.Graphics.FillRectangle(fillbrush, background);
+        }
+
         /// <summary>
         /// Sets up environment for tabs when the tab is switched
         /// </summary>
@@ -67,29 +187,19 @@ namespace TravelExpertsDatabaseManager
             if (mainTabControl.SelectedIndex == 0)
             {
                 // Attach new product suppliers list to current package
-                // Package currentPackage = (Package)packageBindingSource.Current;
-                // currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
                 populateProductSupplierListBoxes(packageBindingSource.Position);
             }
             else if (mainTabControl.SelectedIndex == 1)
             {
                 // Retrieve updated supplier list from db
-                //Product currentProduct = (Product)productBindingSource.Current;
-                // currentProduct.Suppliers = ProductsSuppliersDB.getSuppliersByProductId(currentProduct.ProductId);
                 populateSupplierListBoxes(productBindingSource.Position);
             }
             else if (mainTabControl.SelectedIndex == 2)
             {
                 // Retrieve updated product list from DB
-                //Supplier currentSupplier = (Supplier)supplierBindingSource.Current;
-                // currentSupplier.Products = ProductsSuppliersDB.getProductsBySupplierId(currentSupplier.SupplierId);
                 populateProductListBoxes(supplierBindingSource.Position);
             }
         }
-
-
-
-        // Packages Tab
 
         /// <summary>
         /// Moves to previous package
@@ -150,7 +260,6 @@ namespace TravelExpertsDatabaseManager
             try
             {
                 AddEditPackageForm addForm = new AddEditPackageForm(); // Opens form in add mode
-                                                                       // If we get an OK message, create a package, add to db, and requery db packages
                 if (addForm.ShowDialog() == DialogResult.OK)
                 {
                     Package package = new Package( // Create new package
@@ -167,7 +276,11 @@ namespace TravelExpertsDatabaseManager
                     // Adds package to db. If not successful, show message.
                     if (!PackagesDB.AddPackage(package))
                     {
-                        MessageBox.Show("Error. Could not add package to DB. Please try again");
+                        //create custom message box instance
+                        //show message box
+                        TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                        showMessageBox.Show("Error. Could not add package to DB. Please try again", TawicoMessageBoxColor);
+                        //MessageBox.Show("Error. Could not add package to DB. Please try again");
 
                     }
                     // Reload all packages from db regardless of success
@@ -179,12 +292,24 @@ namespace TravelExpertsDatabaseManager
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                //create custom message box instance
+                //set title of message box
+                //display message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, TawicoMessageBoxColor);
+                //MessageBox.Show("Database error # " + ex.Number +
+                //    ": " + ex.Message, ex.GetType().ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -232,12 +357,24 @@ namespace TravelExpertsDatabaseManager
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                //create custom message box instance
+                //set title of message box
+                //display message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, TawicoMessageBoxColor);
+                //MessageBox.Show("Database error # " + ex.Number +
+                //    ": " + ex.Message, ex.GetType().ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
             populateProductListBoxes(supplierComboBox.SelectedIndex);
         }
@@ -262,7 +399,10 @@ namespace TravelExpertsDatabaseManager
             try
             {
                 // Confirms user wants to delete package
-                DialogResult result = MessageBox.Show("Are you sure you wold like to delete this package?", "Confirm delete", MessageBoxButtons.YesNo);
+                //DialogResult result = MessageBox.Show("Are you sure you wold like to delete this package?", "Confirm delete", MessageBoxButtons.YesNo);
+                TawicoMessageBox customMessageBox = new TawicoMessageBox();
+                customMessageBox.Text = "Confirm delete";
+                DialogResult result = customMessageBox.Show("Are you sure you wold like to delete this package ? ", TawicoMessageBoxColor, true);
                 if (result == DialogResult.Yes)
                 {
                     // Gets reference to current package. Deletes it. If unsuccessful, show error message.
@@ -273,7 +413,9 @@ namespace TravelExpertsDatabaseManager
                     }
                     else
                     {
-                        MessageBox.Show("Error. Could not delete package. Please try again.");
+                        TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                        showMessageBox.Show("Error. Could not delete package. Please try again.", TawicoMessageBoxColor);
+                        //MessageBox.Show("Error. Could not delete package. Please try again.");
                     }
                     LoadPackageDataBinding();
                     LoadPackageNameSearchComboBox();
@@ -289,11 +431,18 @@ namespace TravelExpertsDatabaseManager
 
                 //remove the last '\' character from the string AKA get the table name
                 tableName = tableName.Substring(0, tableName.Count() - 1);
-                MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
+
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.", TawicoMessageBoxColor);
+                //MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -311,7 +460,9 @@ namespace TravelExpertsDatabaseManager
                 // Error if nothing selected
                 if (selectedProductSupplierIndex == -1)
                 {
-                    MessageBox.Show("Must select a product to add");
+                    TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                    showMessageBox.Show("Must select a product to add", TawicoMessageBoxColor);
+                    //MessageBox.Show("Must select a product to add");
                     return;
                 }
                 int packageId = ((Package)packageBindingSource.Current).PackageId;
@@ -336,7 +487,9 @@ namespace TravelExpertsDatabaseManager
                     }
                     else
                     {
-                        MessageBox.Show("Error in updating database. Application data will be refreshed");
+                        TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                        showMessageBox.Show("Error in updating database. Application data will be refreshed", TawicoMessageBoxColor);
+                        //MessageBox.Show("Error in updating database. Application data will be refreshed");
                         // reload data
                         Package currentPackage = (Package)packageBindingSource.Current;
                         currentPackage.ProductSuppliers = PackagesProductsSuppliersDB.getProductsSuppliersIdAndString_ByPackageId(currentPackage.PackageId);
@@ -347,12 +500,21 @@ namespace TravelExpertsDatabaseManager
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, TawicoMessageBoxColor);
+                //MessageBox.Show("Database error # " + ex.Number +
+                //    ": " + ex.Message, ex.GetType().ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -365,7 +527,11 @@ namespace TravelExpertsDatabaseManager
                 // Error if nothing selected
                 if (selectedProductSupplierIndex == -1)
                 {
-                    MessageBox.Show("Must select a product to remove");
+                    //create custom message box instance
+                    //show message box
+                    TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                    showMessageBox.Show("Must select a product to remove", TawicoMessageBoxColor);
+                    //MessageBox.Show("Must select a product to remove");
                     return;
                 }
                 int packageId = ((Package)packageBindingSource.Current).PackageId;
@@ -407,11 +573,22 @@ namespace TravelExpertsDatabaseManager
 
                 //remove the last '\' character from the string AKA get the table name
                 tableName = tableName.Substring(0, tableName.Count() - 1);
-                MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
+
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.", TawicoMessageBoxColor);
+                //MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -442,12 +619,24 @@ namespace TravelExpertsDatabaseManager
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                //create custom message box instance
+                //set title of message box
+                //display message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, TawicoMessageBoxColor);
+                //MessageBox.Show("Database error # " + ex.Number +
+                //    ": " + ex.Message, ex.GetType().ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -484,12 +673,24 @@ namespace TravelExpertsDatabaseManager
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                //create custom message box instance
+                //set title of message box
+                //display message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, TawicoMessageBoxColor);
+                //MessageBox.Show("Database error # " + ex.Number +
+                //    ": " + ex.Message, ex.GetType().ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -586,12 +787,24 @@ namespace TravelExpertsDatabaseManager
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                //create custom message box instance
+                //set title of message box
+                //display message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, TawicoMessageBoxColor);
+                //MessageBox.Show("Database error # " + ex.Number +
+                //    ": " + ex.Message, ex.GetType().ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -625,7 +838,11 @@ namespace TravelExpertsDatabaseManager
                     }
                     else
                     {
-                        MessageBox.Show("Error. Could not update package. Please try again.");
+                        //create custom message box instance
+                        //show message box
+                        TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                        showMessageBox.Show("Error. Could not update package. Please try again.", TawicoMessageBoxColor);
+                        //MessageBox.Show("Error. Could not update package. Please try again.");
                         InitializeProductDataBinding();
                         InitializeProductNameSearchComboBox();
                         productComboBox.SelectedItem = oldProduct.ProductName; // Move to package that tried to update. (May see that it was updated by someone else).
@@ -636,12 +853,24 @@ namespace TravelExpertsDatabaseManager
              }
             catch (SqlException ex)
             {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                //create custom message box instance
+                //set title of message box
+                //display message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, TawicoMessageBoxColor);
+                //MessageBox.Show("Database error # " + ex.Number +
+                //    ": " + ex.Message, ex.GetType().ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
 
         }
@@ -657,7 +886,12 @@ namespace TravelExpertsDatabaseManager
             {
                 if (nonAssociatedSuppliersListBox.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Please select a supplier to add!", "Supplier Add Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //create custom message box instance
+                    //show message box
+                    TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                    showMessageBox.Text = "Supplier Add Warning";
+                    showMessageBox.Show("Please select a supplier to add!", TawicoMessageBoxColor);
+                    //MessageBox.Show("Please select a supplier to add!", "Supplier Add Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 int index = nonAssociatedSuppliersListBox.SelectedIndex;//assign selected index from nonassociated list box to variable
@@ -706,12 +940,24 @@ namespace TravelExpertsDatabaseManager
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                //create custom message box instance
+                //set title of message box
+                //display message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, TawicoMessageBoxColor);
+                //MessageBox.Show("Database error # " + ex.Number +
+                //    ": " + ex.Message, ex.GetType().ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
                 
@@ -727,7 +973,11 @@ namespace TravelExpertsDatabaseManager
             {
                 if (associatedSuppliersListBox.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Please select a supplier to remove!", "Supplier Remove Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //create custom message box instance
+                    //show message box
+                    TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                    showMessageBox.Show("Please select a supplier to remove!", TawicoMessageBoxColor);
+                    //MessageBox.Show("Please select a supplier to remove!", "Supplier Remove Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 int index = associatedSuppliersListBox.SelectedIndex;//assign selected index from associated list box to variable
@@ -765,7 +1015,11 @@ namespace TravelExpertsDatabaseManager
                     }
                     else
                     {
-                        MessageBox.Show("Error in updating database. Application data will be refreshed");
+                        //create custom message box instance
+                        //show message box
+                        TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                        showMessageBox.Show("Error in updating database. Application data will be refreshed", TawicoMessageBoxColor);
+                        //MessageBox.Show("Error in updating database. Application data will be refreshed");
                         // reload data
                     }
                     // Retrieve updated supplier list from db
@@ -783,11 +1037,22 @@ namespace TravelExpertsDatabaseManager
 
                 //remove the last '\' character from the string AKA get the table name
                 tableName = tableName.Substring(0, tableName.Count() - 1);
-                MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
+
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the product.", TawicoMessageBoxColor);
+                //MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -801,7 +1066,10 @@ namespace TravelExpertsDatabaseManager
             try
             {
                 // Confirms user wants to delete package
-                DialogResult result = MessageBox.Show("Are you sure you wold like to delete this product?", "Confirm delete", MessageBoxButtons.YesNo);
+                //DialogResult result = MessageBox.Show("Are you sure you wold like to delete this product?", "Confirm delete", MessageBoxButtons.YesNo);
+                TawicoMessageBox customMessageBox = new TawicoMessageBox();
+                customMessageBox.Text = "Confirm delete";
+                DialogResult result = customMessageBox.Show("Are you sure you wold like to delete this product?", TawicoMessageBoxColor, true);
                 if (result == DialogResult.Yes)
                 {
                     // Gets reference to current package. Deletes it. If unsuccessful, show error message.
@@ -812,7 +1080,11 @@ namespace TravelExpertsDatabaseManager
                     }
                     else
                     {
-                        MessageBox.Show("Error. Could not delete product. Please try again.");
+                        //create custom message box instance
+                        //show message box
+                        TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                        showMessageBox.Show("Error. Could not delete product. Please try again.", TawicoMessageBoxColor);
+                        //MessageBox.Show("Error. Could not delete product. Please try again.");
                     }
                     InitializeProductDataBinding();
                     InitializeProductNameSearchComboBox();
@@ -830,11 +1102,22 @@ namespace TravelExpertsDatabaseManager
 
                 //remove the last '\' character from the string AKA get the table name
                 tableName = tableName.Substring(0, tableName.Count() - 1);
-                MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the product.");
+                
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the product.", TawicoMessageBoxColor);
+                //MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the product.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -865,12 +1148,24 @@ namespace TravelExpertsDatabaseManager
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                //create custom message box instance
+                //set title of message box
+                //display message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, TawicoMessageBoxColor);
+                //MessageBox.Show("Database error # " + ex.Number +
+                //    ": " + ex.Message, ex.GetType().ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -948,9 +1243,7 @@ namespace TravelExpertsDatabaseManager
             if (supplierComboBox.SelectedIndex > 0)
             {
                 supplierComboBox.SelectedIndex -= 1;
-                
             }
-            
         }
 
         /// <summary>
@@ -1014,12 +1307,24 @@ namespace TravelExpertsDatabaseManager
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                //create custom message box instance
+                //set title of message box
+                //display message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, TawicoMessageBoxColor);
+                //MessageBox.Show("Database error # " + ex.Number +
+                //    ": " + ex.Message, ex.GetType().ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -1052,7 +1357,11 @@ namespace TravelExpertsDatabaseManager
                     }
                     else
                     {
-                        MessageBox.Show("Error. Could not update package. Please try again.");
+                        //create custom message box instance
+                        //show message box
+                        TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                        showMessageBox.Show("Error. Could not update package. Please try again.", TawicoMessageBoxColor);
+                        //MessageBox.Show("Error. Could not update package. Please try again.");
                         InitializeSupplierDataBinding();
                         InitializeSupplierNameSearchComboBox();
                         supplierComboBox.SelectedItem = oldSupplier.SupplierName; // Move to package that tried to update. (May see that it was updated by someone else).
@@ -1063,16 +1372,27 @@ namespace TravelExpertsDatabaseManager
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                //create custom message box instance
+                //set title of message box
+                //display message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, TawicoMessageBoxColor);
+                //MessageBox.Show("Database error # " + ex.Number +
+                //    ": " + ex.Message, ex.GetType().ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
 
         }
-
         
         /// <summary>
         /// Adds a product to a suppliers associated product list box
@@ -1085,7 +1405,13 @@ namespace TravelExpertsDatabaseManager
             {
                 if (nonAssociatedProductsListBox.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Please select a product to add!", "Product Add Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //create custom message box instance
+                    //set title of message box
+                    //display message box
+                    TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                    showMessageBox.Text = "Product Add Warning";
+                    showMessageBox.Show("Please select a product to add!", TawicoMessageBoxColor);
+                    //MessageBox.Show("Please select a product to add!", "Product Add Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 int index = nonAssociatedProductsListBox.SelectedIndex;//assign selected index from non associated list box to variable
@@ -1123,7 +1449,11 @@ namespace TravelExpertsDatabaseManager
                     }
                     else
                     {
-                        MessageBox.Show("Error in updating database. Application data will be refreshed");
+                        //create custom message box instance
+                        //show message box
+                        TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                        showMessageBox.Show("Error in updating database. Application data will be refreshed", TawicoMessageBoxColor);
+                        //MessageBox.Show("Error in updating database. Application data will be refreshed");
                         // reload data
                     }
 
@@ -1134,12 +1464,24 @@ namespace TravelExpertsDatabaseManager
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                //create custom message box instance
+                //set title of message box
+                //display message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, TawicoMessageBoxColor);
+                //MessageBox.Show("Database error # " + ex.Number +
+                //    ": " + ex.Message, ex.GetType().ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
 
         }
@@ -1155,7 +1497,12 @@ namespace TravelExpertsDatabaseManager
             {
                 if (associatedProductsListBox.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Please select a product to remove!", "Product Remove Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //create custom message box instance
+                    //show message box
+                    TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                    showMessageBox.Text = "Product Remove Warning";
+                    showMessageBox.Show("Please select a product to remove!", TawicoMessageBoxColor);
+                    //MessageBox.Show("Please select a product to remove!", "Product Remove Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 int index = associatedProductsListBox.SelectedIndex;//assign selected index from associated list box to variable
@@ -1193,7 +1540,11 @@ namespace TravelExpertsDatabaseManager
                     }
                     else
                     {
-                        MessageBox.Show("Error in updating database. Application data will be refreshed");
+                        //create custom message box instance
+                        //show message box
+                        TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                        showMessageBox.Show("Error in updating database. Application data will be refreshed", TawicoMessageBoxColor);
+                        //MessageBox.Show("Error in updating database. Application data will be refreshed");
                         // reload data
                     }
 
@@ -1212,11 +1563,22 @@ namespace TravelExpertsDatabaseManager
 
                 //remove the last '\' character from the string AKA get the table name
                 tableName = tableName.Substring(0, tableName.Count() - 1);
-                MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
+
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show($"This supplier is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the supplier.", TawicoMessageBoxColor);
+                //MessageBox.Show($"This product is being referenced by the {tableName} table. Please modify or delete those entries before retying to delete the product.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -1230,7 +1592,10 @@ namespace TravelExpertsDatabaseManager
             try
             {
                 // Confirms user wants to delete package
-                DialogResult result = MessageBox.Show("Are you sure you wold like to delete this supplier?", "Confirm delete", MessageBoxButtons.YesNo);
+                //DialogResult result = MessageBox.Show("Are you sure you wold like to delete this supplier?", "Confirm delete", MessageBoxButtons.YesNo);
+                TawicoMessageBox customMessageBox = new TawicoMessageBox();
+                customMessageBox.Text = "Confirm delete";
+                DialogResult result = customMessageBox.Show("Are you sure you wold like to delete this supplier?", TawicoMessageBoxColor, true);
                 if (result == DialogResult.Yes)
                 {
                     // Gets reference to current package. Deletes it. If unsuccessful, show error message.
@@ -1241,7 +1606,11 @@ namespace TravelExpertsDatabaseManager
                     }
                     else
                     {
-                        MessageBox.Show("Error. Could not delete supplier. Please try again.");
+                        //create custom message box instance
+                        //show message box
+                        TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                        showMessageBox.Show("Error. Could not delete supplier. Please try again.", TawicoMessageBoxColor);
+                        //MessageBox.Show("Error. Could not delete supplier. Please try again.");
                     }
                     InitializeSupplierDataBinding();
                     InitializeSupplierNameSearchComboBox();
@@ -1260,11 +1629,22 @@ namespace TravelExpertsDatabaseManager
 
                 //remove the last '\' character from the string AKA get the table name
                 tableName = tableName.Substring(0, tableName.Count() - 1);
-                MessageBox.Show($"This supplier is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the supplier.");
+
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show($"This supplier is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the supplier.", TawicoMessageBoxColor);
+                //MessageBox.Show($"This supplier is being referenced by the {tableName} table. Please modify or delete those entries before retrying to delete the supplier.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                //create custom message box instance
+                //show message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }
 
@@ -1296,16 +1676,25 @@ namespace TravelExpertsDatabaseManager
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Database error # " + ex.Number +
-                    ": " + ex.Message, ex.GetType().ToString());
+                //create custom message box instance
+                //set title of message box
+                //display message box
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Database error # " + ex.Number +
+                    ": " + ex.Message, TawicoMessageBoxColor);
+                //MessageBox.Show("Database error # " + ex.Number +
+                //    ": " + ex.Message, ex.GetType().ToString());
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
+                TawicoMessageBox showMessageBox = new TawicoMessageBox();
+                showMessageBox.Text = ex.GetType().ToString();
+                showMessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.", TawicoMessageBoxColor);
+                //MessageBox.Show("Unknown error: " + ex.Message + ". Please contact Tawico.");
             }
         }     
                            
-
         /// <summary>
         /// Populates products associated and notassociated with a supplier listBoxes 
         /// </summary>
@@ -1347,7 +1736,6 @@ namespace TravelExpertsDatabaseManager
                 }
             }
         }
-
         
     }
 }
