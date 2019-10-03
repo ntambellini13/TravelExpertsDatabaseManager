@@ -130,7 +130,18 @@ namespace TravelExpertsDatabaseManager
         {
             try
             {
-                DialogResult = DialogResult.OK;//all fields are valid so set the dialog response to ok and close the form
+                // Check that a value was entered
+                if (!Validation.IsNotEmptyOrNull(addEditTextBox))
+                {
+                    TawicoMessageBox messageBox = new TawicoMessageBox();
+                    messageBox.Text = "Error";
+                    String message = "Please enter a value before submitting.";
+                    messageBox.Show(message, Color.Black);
+                }
+                else
+                {
+                    DialogResult = DialogResult.OK;// Text was entered into the field, accept the result
+                }
             }
             catch (Exception ex)
             {
