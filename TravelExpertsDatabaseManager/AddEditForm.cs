@@ -131,7 +131,7 @@ namespace TravelExpertsDatabaseManager
             try
             {
                 // Check that a value was entered
-                if (String.IsNullOrEmpty(addEditTextBox.Text.Trim()))
+                if (!Validation.IsNotEmptyOrNull(addEditTextBox))
                 {
                     TawicoMessageBox messageBox = new TawicoMessageBox();
                     messageBox.Text = "Error";
